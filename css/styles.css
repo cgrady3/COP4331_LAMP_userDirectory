@@ -17,6 +17,23 @@ body{
     margin-top: 10%;
 }
 
+#main-signup{
+    margin-top: 5%;
+}
+
 #signUp {
     margin-top: 7px;
+}
+
+label{
+    margin: .5rem 0 0 0;
+
+}
+
+.form-group{
+    margin-bottom: 0;;
+}
+
+#passwordVal{
+    margin-bottom: 8px;
 }
