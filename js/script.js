@@ -76,7 +76,7 @@ function readCookie()
 	userId = -1;
 	var data = document.cookie;
 	var splits = data.split(",");
-	for(var i = 0; i < splits.length; i++) 
+	for(let i = 0; i < splits.length; i++) 
 	{
 		var thisOne = splits[i].trim();
 		var tokens = thisOne.split("=");
@@ -113,7 +113,6 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-
 $("#addContact").on("click", function(event){
 	event.preventDefault();
 	
@@ -134,7 +133,7 @@ $("#addContact").on("click", function(event){
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				console.log("user info valid");
-				console.log("Name:" + FirstName + " " + LastName "Email: " + email + " Phone: " + Phone);
+				console.log("Name:" + FirstName + " " + LastName + "Email: " + email + " Phone: " + Phone);
 				
 				saveCookie();
 				
@@ -149,38 +148,8 @@ $("#addContact").on("click", function(event){
 	{
 		document.getElementById("contactResult").innerHTML = err.message;
 	}
-}
-}
+});
 
-
-function addContact()
-{
-	var newContact = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
-	
-	var jsonPayload = '{"color" : "' + newColor + '", "userId" : ' + userId + '}';
-	var url = urlBase + '/AddColor.' + extension;
-	
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
-	}
-	
-}
 
 // TODO: Reformat to search Contact
 function searchColor()
