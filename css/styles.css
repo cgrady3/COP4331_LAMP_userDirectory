@@ -1,0 +1,39 @@
+body{
+    background-image: url(../images/pexels-pixabay-45238.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.card{
+    background-color: rgba(250,251,237,0);
+    border: none;
+}
+
+.container{
+    margin-left: -8%;
+}
+
+#main-signin{
+    margin-top: 10%;
+}
+
+#main-signup{
+    margin-top: 5%;
+}
+
+#signUp {
+    margin-top: 7px;
+}
+
+label{
+    margin: .5rem 0 0 0;
+
+}
+
+.form-group{
+    margin-bottom: 0;;
+}
+
+#passwordVal{
+    margin-bottom: 8px;
+}
