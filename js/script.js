@@ -113,10 +113,49 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-// TODO: Reformat to addContact function
-function addColor()
+
+$("#addContact").on("click", function(event){
+	event.preventDefault();
+	
+	var newContact = {
+		FirstName: $("#first-name").val().trim(),
+		LastName: $("#last-name").val().trim(),
+		Email: $("#user-email").val().trim(),
+		Phone: $("#number").val().trim()
+	}
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				console.log("user info valid");
+				console.log("Name:" + FirstName + " " + LastName "Email: " + email + " Phone: " + Phone);
+				
+				saveCookie();
+				
+				window.location.href = "index.html";
+				
+			}
+		};
+		xhr.send(newContact);
+		console.log("Login info sent");
+	}
+	catch(err)
+	{
+		document.getElementById("contactResult").innerHTML = err.message;
+	}
+}
+}
+
+
+function addContact()
 {
-	var newColor = document.getElementById("colorText").value;
+	var newContact = document.getElementById("colorText").value;
 	document.getElementById("colorAddResult").innerHTML = "";
 	
 	var jsonPayload = '{"color" : "' + newColor + '", "userId" : ' + userId + '}';
