@@ -1,20 +1,20 @@
 <?php
 	$inData = getRequestInfo();
-	
+
 	$firstName = $inData["FirstName"];
 	$lastName = $inData["LastName"];
 	$email = $inData["Email"];
 	$phone = $inData["Phone"];
 
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error) 
+	if ($conn->connect_error)
 	{
 		returnWithError( $conn->connect_error );
-	} 
+	}
 	else
 	{
 		$stmt = $conn->prepare("INSERT into Contacts (FirstName,LastName,Email,Phone) VALUES(?,?,?,?)");
-		$stmt->bind_param("ss", $userId, $color);
+		$stmt->bind_param("ss", $firstName, $lastName, $email, $phone);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
@@ -31,11 +31,11 @@
 		header('Content-type: application/json');
 		echo $obj;
 	}
-	
+
 	function returnWithError( $err )
 	{
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
-	
+
 ?>
