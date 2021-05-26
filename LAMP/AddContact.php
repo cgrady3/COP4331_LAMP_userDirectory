@@ -8,8 +8,8 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("INSERT into Contacts (FirstName,LastName,Email,Phone) VALUES(?, ?, ?, ?)");
-		$stmt->bind_param("sssd", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"]);
+		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES(?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssi", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"]);
 		$stmt->execute();
 		returnWithError($stmt->affected_rows);
 		$stmt->close();
