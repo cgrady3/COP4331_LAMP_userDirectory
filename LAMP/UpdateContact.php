@@ -2,14 +2,14 @@
 	$inData = getRequestInfo();
 
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error) 
+	if ($conn->connect_error)
 	{
 		returnWithError( $conn->connect_error );
-	} 
+	}
 	else
 	{
-		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES(?, ?, ?, ?, ?)");
-		$stmt->bind_param("ssssi", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"]);
+		$stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Email=?, Phone=? WHERE ContactID=?");
+		$stmt->bind_param("ssssd", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData['ContactID']);
 		$stmt->execute();
 		returnWithError($stmt->affected_rows);
 		$stmt->close();
@@ -27,11 +27,11 @@
 		header('Content-type: application/json');
 		echo $obj;
 	}
-	
+
 	function returnWithError( $err )
 	{
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
-	
+
 ?>
