@@ -1,11 +1,6 @@
 <?php
 	$inData = getRequestInfo();
 
-	$firstName = "";
-	$lastName = "";
-	$email = "";
-	$phone = "";
-
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($conn->connect_error)
 	{
@@ -13,12 +8,13 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("INSERT into Contacts (FirstName,LastName,Email,Phone) VALUES(?,?,?,?)");
-		$stmt->bind_param("ss", $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"]);
+		$stmt = $conn->prepare("INSERT into Contacts (FirstName,LastName,Email,Phone) VALUES(?, ?, ?, ?)");
+		$stmt->bind_param("sssd", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"]);
 		$stmt->execute();
+		returnWithError($stmt->affected_rows);
 		$stmt->close();
 		$conn->close();
-		returnWithError($inData["firstName"]. $inData["lastName"]. $inData["email"] . $inData["phone"]);
+
 	}
 
 	function getRequestInfo()
