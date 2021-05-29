@@ -37,3 +37,59 @@ label{
 #passwordVal{
     margin-bottom: 8px;
 }
+
+/*--------contacts page styles--------*/
+#bodyStyle{
+    background-image: none;
+    background-color: #f0efd9;
+}
+
+#navbar{
+    margin-top: 65px;
+}
+
+#searchBox{
+    width: 450px;
+}
+
+/*inverts bootstrap's button colors when hovering(if the id is set)*/
+#primaryBtn:hover{
+    color: #007BFF;
+    background-color: #FFF;
+    border-color: rgb(20, 20, 20);
+}
+
+#successBtn:hover{
+    color: #218838;
+    background-color: #FFF;
+    border-color:rgb(20, 20, 20);
+}
+
+#secondaryBtn:hover{
+    color: #5a6268;
+    background-color: #FFF;
+    border-color:rgb(20, 20, 20);
+}
+
+#dangerBtn:hover{
+    color: #c82333;
+    background-color: #FFF;
+    border-color: rgb(20, 20, 20);
+}
+/* ----------------------------------------------*/
+
+#wholeModal{
+    background-color: #f0efd9;
+}
+
+#headModal{
+    background-color: #98a8cc;
+}
+
+#modalBtn{
+    margin-top: 500px;
+}
+
+#addModalLabel{
+    margin: auto;
+}
