@@ -4,9 +4,10 @@
 <head>
     <title>Contacts Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <link href="../css/styles.css" rel="stylesheet"/>
+    <link href="../css/contacts.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer type="text/javascript" src="../js/script.js"> </script>
+    <script defer type="text/javascript" src="../js/contacts.js"> </script>
 </head>
 
 <body id="bodyStyle">
@@ -26,7 +27,31 @@
                 <div class="col-xs offset-1"> <button class="btn btn-success" type="button"  data-bs-toggle="modal" data-bs-target="#addModal" id="successBtn">Add</button> </div>
             </form>
         </div>
-    </nav>  
+    </nav>
+
+    <div id="navSpacer"></div>
+
+    <div class="container" id="contacts">
+        <div class="row" id="row-1">
+        </div>
+    </div>
+
+    <template id="contactCard">
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+            <div class="card-header">
+                Tyler Pearson
+            </div>        
+            <ul class="list-group list-group-flush">
+                <li class="card-id" hidden></li>
+                <li class="list-group-item">Email: </li>
+                <li class="list-group-item">Phone #: </li>
+                <li class="list-group-item">Address: </li>
+                <li class="list-group-item">Date Created: </li>
+            </ul>
+            </div>
+        </div>
+    </template>
 
     <div class="modal" tabindex="-1" id="addModal">
         <div class="modal-dialog">
