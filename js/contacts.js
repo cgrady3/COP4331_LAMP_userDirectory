@@ -24,8 +24,8 @@ function addCard(num){
     body[1].textContent += "asdasd@asdasd.com";
     body[2].textContent += "asasdasdasd";
     body[3].textContent += "1235646565";
-    var today = new Date();
-    body[4].textContent += ("" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds);
+    var date = new Date();
+    body[4].textContent += (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear(); 
 
     clone.addEventListener('click', clickHandler);
 
