@@ -9,7 +9,7 @@
 	else
 	{
 		$stmt = $conn->prepare("DELETE FROM Contacts WHERE UserID =? AND ContactID =?");
-		$stmt->bind_param("s", $inData["UserID"], $inData["ContactID"]);
+		$stmt->bind_param("ss", $inData["UserID"], $inData["ContactID"]);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
