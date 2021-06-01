@@ -2,29 +2,25 @@
 
 	$inData = getRequestInfo();
 
-	$searchResults = "";
-	$searchCount = 0;
-
 	// include database connection file
 	include_once "dbConfig.php";
+ 
 
-	$output = ""; 
-
-	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName LIKE ? or LastName LIKE ? AND UserID=?");
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName LIKE ? OR LastName LIKE ? AND UserID=?");
 	$name = $inData["search"] . "%";
 	$stmt->bind_param("sss", $name, $name, $inData["userId"]);
 	$stmt->execute();
 
 	$result = $stmt->get_result();
 
-	$output = '<ul class="list-unstyled">';		
+	$output .= '<ul class="list-unstyled">';		
 
   	if ($result->num_rows > 0) {
   		while ($row = $result->fetch_array()) {
-  			$output .= '<li class="result" data-ID='+$row->ContactID+'.>ucwords($['+$row->FirstName+'], " ", $['+$row->LastName+']).</li>';
+  			$output .= '<li class="result" data-ID=' . $row["ContactID"] . '>' . ucwords($row["FirstName"] .  " " .  $row["LastName"]) . '</li>';
   		}
   	}
-    else{
+    else {
 		$output .= '<li> Contact Not Found</li>';
   	}
   		
@@ -34,7 +30,6 @@
 	$stmt->close();
 	$conn->close();
 	
-
 	function getRequestInfo()
 	{
 		return json_decode(file_get_contents('php://input'), true);

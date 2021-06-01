@@ -2,14 +2,14 @@
 
 	$inData = getRequestInfo();
 
-	$searchResult = "";
-
 	// include database connection file
 	include_once "dbConfig.php";
 
 	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE ContactID=? AND UserID=?");
 	$stmt->bind_param("ss", $inData["ContactID", "UserID"]);
 	$stmt->execute();
+
+	header('Content-type: application/json')
 
 	returnWithInfo($stmt->get_result());
 

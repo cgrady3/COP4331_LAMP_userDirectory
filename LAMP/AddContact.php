@@ -7,7 +7,7 @@
 	$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES (?, ?, ?, ?, ?)");
 	$stmt->bind_param("ssssi", $inData["FirstName", "LastName", "Email", "Phone", "UserID"]);
 	$stmt->execute();
-	returnWithError($stmt->affected_rows);
+	returnWithInfo($stmt->affected_rows);
 	$stmt->close();
 	$conn->close();
 
@@ -28,4 +28,9 @@
 		sendResultInfoAsJson( $retValue );
 	}
 	
+	function returnWithInfo( $searchResults )
+	{
+		$retValue = '{"results":[' . $searchResults . '],"error":""}';
+		sendResultInfoAsJson( $retValue );
+	}
 ?>

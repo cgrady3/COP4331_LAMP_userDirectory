@@ -37,3 +37,18 @@ label{
 #passwordVal{
     margin-bottom: 8px;
 }
+
+#searchBy{
+    padding: 2.4px 2px;
+    margin-left: 5%;
+    margin-right: -5px;
+    border-color: none;
+}
+
+#searchContacts{
+    width: 300px;
+}
+
+#homeTitle{
+    margin-left: 5%;
+}

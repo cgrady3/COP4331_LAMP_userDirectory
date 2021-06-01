@@ -1,27 +1,27 @@
 var urlBase = "http://contactfulDelivery.club/LAMPAPI";
 var extension = ".php";
 
-var userId = 0;
+var UserID = 0;
 var firstName = "";
 var lastName = "";
 var selection = searchBy.value;
 
 function loginUser() {
   console.log("User details recieved");
-  userId = 0;
+  UserID = 0;
   firstName = "";
   lastName = "";
 
   var login = document.getElementById("user-email").value;
   var password = document.getElementById("user-password").value;
-  //	var hash = md5( password );
+  var hash = md5(password);
 
   console.log("Login: " + login + "    Password: " + password);
 
   document.getElementById("errorMessage").innerHTML = "Logged in";
 
   var jsonPayload =
-    '{"login" : "' + login + '", "password" : "' + password + '"}';
+    '{"login" : "' + login + '", "password" : "' + hash + '"}';
   var url = urlBase + "/Login" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -33,9 +33,9 @@ function loginUser() {
         console.log("Login info valid");
         console.log("Login:" + login + "    password: " + password);
         var jsonObject = JSON.parse(xhr.responseText);
-        userId = jsonObject.id;
+        UserID = jsonObject.UserID;
 
-        if (userId < 1) {
+        if (UserID < 1) {
           document.getElementById("loginResult").innerHTML =
             "User/Password combination incorrect";
           return;
@@ -57,6 +57,9 @@ function loginUser() {
   }
 }
 
+// create user
+// delete user
+
 $("#addContact").on("click", function (event) {
   event.preventDefault();
 
@@ -67,8 +70,7 @@ $("#addContact").on("click", function (event) {
     Phone: $("#number").val().trim().toLowerCase(),
   };
 
-  // where to redirect for url???
-  var url = urlBase + "/addContact" + extension;
+  var url = urlBase + "/AddContact" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -100,25 +102,13 @@ $("#addContact").on("click", function (event) {
 $("#searchContacts").input(function (event) {
   event.preventDefault();
 
-  if (!selection)
-    alert("Choose to Search By First or Last Name Before Continuing");
-
   var input = $this.val().toLowerCase();
-  var url = urlBase + "/search" + extension;
+  var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
   readCookie();
 
-  xhr.open(
-    "GET",
-    "/LAMPAPI/search.php?name=" +
-      input +
-      "&UserID=" +
-      userId +
-      "&selection=" +
-      selection,
-    true
-  );
+  xhr.open("GET", url + "?name=" + input + "&UserID=" + UserID, true);
 
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
@@ -136,15 +126,13 @@ $("#searchContacts").input(function (event) {
   }
 });
 
+// rework for Tylers Modals
 $(".result").on("click", function (event) {
   event.preventDefault();
 
+  var url = urlBase + "/DisplayContact" + extension;
   var xhr = new XMLHttpRequest();
-  xhr.open(
-    "GET",
-    "/LAMPAPI/search.php?ContactID=" + $(this).attr("data-ID"),
-    true
-  );
+  xhr.open("GET", url + "?ContactID=" + $(this).attr("data-ID") + "&UserID=" + UserID, true);
 
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
@@ -153,8 +141,8 @@ $(".result").on("click", function (event) {
         console.log("retrieving selected contact");
         var jsonObject = JSON.parse(xhr.responseText);
 
-        $("#info").text(jsonObject.firstName);
-        $("#info").text(jsonObject.lastName);
+        $("#info").text(jsonObject.FirstName);
+        $("#info").text(jsonObject.LastName);
         $("#info").text(jsonObject.Phone);
         $("#info").text(jsonObject.Email);
       }
@@ -168,7 +156,6 @@ $(".result").on("click", function (event) {
   }
 });
 
-
 function saveCookie() {
   var minutes = 20;
   var date = new Date();
@@ -178,14 +165,14 @@ function saveCookie() {
     firstName +
     ",lastName=" +
     lastName +
-    ",userId=" +
-    userId +
+    ",UserID=" +
+    UserID +
     ";expires=" +
     date.toGMTString();
 }
 
 function readCookie() {
-  userId = -1;
+  UserID = -1;
   var data = document.cookie;
   var splits = data.split(",");
   for (let i = 0; i < splits.length; i++) {
@@ -195,12 +182,12 @@ function readCookie() {
       firstName = tokens[1];
     } else if (tokens[0] == "lastName") {
       lastName = tokens[1];
-    } else if (tokens[0] == "userId") {
-      userId = parseInt(tokens[1].trim());
+    } else if (tokens[0] == "UserID") {
+      UserID = parseInt(tokens[1].trim());
     }
   }
 
-  if (userId < 0) {
+  if (UserID < 0) {
     window.location.href = "index.html";
   } else {
     document.getElementById("userName").innerHTML =
@@ -209,7 +196,7 @@ function readCookie() {
 }
 
 function doLogout() {
-  userId = 0;
+  UserID = 0;
   firstName = "";
   lastName = "";
   document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
