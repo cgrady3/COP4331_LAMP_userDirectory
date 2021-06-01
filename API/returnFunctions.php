@@ -1,16 +1,4 @@
 <?php
-	$inData = getRequestInfo();
-
-	// include database connection file
-	include_once "dbConfig.php";
-
-	$stmt = $conn->prepare("DELETE FROM Contacts WHERE UserID =? AND ContactID =?");
-	$stmt->bind_param("ss", $inData["UserID", "ContactID"]);
-	$stmt->execute();
-	$stmt->close();
-	$conn->close();
-	returnWithError("");
-
 	function getRequestInfo()
 	{
 		return json_decode(file_get_contents('php://input'), true);
@@ -21,11 +9,16 @@
 		header('Content-type: application/json');
 		echo $obj;
 	}
-
+	
 	function returnWithError( $err )
 	{
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
-
+	
+	function returnWithInfo( $searchResults )
+	{
+		$retValue = '{"results":[' . $searchResults . '],"error":""}';
+		sendResultInfoAsJson( $retValue );
+	}
 ?>
