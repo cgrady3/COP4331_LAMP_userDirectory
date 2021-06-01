@@ -1,16 +1,16 @@
-var urlBase = "http://contactfulDelivery.club/LAMPAPI";
+var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 
 var UserID = 0;
-var firstName = "";
-var lastName = "";
+var FirstName = "";
+var LastName = "";
 var selection = searchBy.value;
 
 function loginUser() {
   console.log("User details recieved");
   UserID = 0;
-  firstName = "";
-  lastName = "";
+  FirstName = "";
+  LastName = "";
 
   var login = document.getElementById("user-email").value;
   var password = document.getElementById("user-password").value;
@@ -41,8 +41,8 @@ function loginUser() {
           return;
         }
 
-        firstName = jsonObject.firstName;
-        lastName = jsonObject.lastName;
+        FirstName = jsonObject.FirstName;
+        LastName = jsonObject.LastName;
 
         saveCookie();
 
@@ -161,10 +161,10 @@ function saveCookie() {
   var date = new Date();
   date.setTime(date.getTime() + minutes * 60 * 1000);
   document.cookie =
-    "firstName=" +
-    firstName +
-    ",lastName=" +
-    lastName +
+    "FirstName=" +
+    FirstName +
+    ",LastName=" +
+    LastName +
     ",UserID=" +
     UserID +
     ";expires=" +
@@ -178,10 +178,10 @@ function readCookie() {
   for (let i = 0; i < splits.length; i++) {
     var thisOne = splits[i].trim();
     var tokens = thisOne.split("=");
-    if (tokens[0] == "firstName") {
-      firstName = tokens[1];
-    } else if (tokens[0] == "lastName") {
-      lastName = tokens[1];
+    if (tokens[0] == "FirstName") {
+      FirstName = tokens[1];
+    } else if (tokens[0] == "LastName") {
+      LastName = tokens[1];
     } else if (tokens[0] == "UserID") {
       UserID = parseInt(tokens[1].trim());
     }
@@ -191,14 +191,14 @@ function readCookie() {
     window.location.href = "index.html";
   } else {
     document.getElementById("userName").innerHTML =
-      "Logged in as " + firstName + " " + lastName;
+      "Logged in as " + FirstName + " " + LastName;
   }
 }
 
 function doLogout() {
   UserID = 0;
-  firstName = "";
-  lastName = "";
-  document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+  FirstName = "";
+  LastName = "";
+  document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
   window.location.href = "index.html";
 }
