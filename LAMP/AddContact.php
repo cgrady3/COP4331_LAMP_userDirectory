@@ -1,21 +1,15 @@
 <?php
 	$inData = getRequestInfo();
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error) 
-	{
-		returnWithError( $conn->connect_error );
-	} 
-	else
-	{
-		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES(?, ?, ?, ?, ?)");
-		$stmt->bind_param("ssssi", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"]);
-		$stmt->execute();
-		returnWithError($stmt->affected_rows);
-		$stmt->close();
-		$conn->close();
-
-	}
+	// include database connection file
+	include_once "dbConfig.php";
+		
+	$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES (?, ?, ?, ?, ?)");
+	$stmt->bind_param("ssssi", $inData["FirstName", "LastName", "Email", "Phone", "UserID"]);
+	$stmt->execute();
+	returnWithError($stmt->affected_rows);
+	$stmt->close();
+	$conn->close();
 
 	function getRequestInfo()
 	{

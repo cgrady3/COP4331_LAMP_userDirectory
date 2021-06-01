@@ -1,4 +1,3 @@
-
 <?php
 
 	$inData = getRequestInfo();
@@ -7,21 +6,19 @@
 	$firstName = "";
 	$lastName = "";
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331"); 	
-	if( $conn->connect_error )
+	// include database connection file
+	include_once "dbConfig.php";
+	
+	function loginUser()
 	{
-		returnWithError( $conn->connect_error );
-	}
-	else
-	{
-		$stmt = $conn->prepare("SELECT UserID,firstName,lastName FROM Users WHERE Email=? AND Password =?");
-		$stmt->bind_param("ss", $inData["email"], $inData["password"]);
+		$stmt = $conn->prepare("SELECT UserID,firstName,lastName FROM Users WHERE Login=? AND Password =?");
+		$stmt->bind_param("ss", $inData["login"], $inData["password"]);
 		$stmt->execute();
 		$result = $stmt->get_result();
 
 		if( $row = $result->fetch_assoc()  )
 		{
-			returnWithInfo( $row['firstName'], $row['lastName'], $row['UserID'] );
+			returnWithInfo( $row['firstName'], $row['lastName'], $row['ID'] );
 		}
 		else
 		{

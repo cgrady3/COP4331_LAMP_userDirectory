@@ -5,42 +5,35 @@
 	$searchResults = "";
 	$searchCount = 0;
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error)
-	{
-		returnWithError( $conn->connect_error );
-	}
-	else
-	{
-		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName LIKE ? AND UserID=?");
-		$FirstName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ss", $contactName, $inData["userId"]);
-		$stmt->execute();
+	// include database connection file
+	include_once "dbConfig.php";
 
-		$result = $stmt->get_result();
+	$output = ""; 
 
-		while($row = $result->fetch_assoc())
-		{
-			if( $searchCount > 0 )
-			{
-				$searchResults .= ",";
-			}
-			$searchCount++;
-			$searchResults .= '"' . $row["FirstName"] . '"';
-		}
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName LIKE ? or LastName LIKE ? AND UserID=?");
+	$name = $inData["search"] . "%";
+	$stmt->bind_param("sss", $name, $name, $inData["userId"]);
+	$stmt->execute();
 
-		if( $searchCount == 0 )
-		{
-			returnWithError( "No Records Found" );
-		}
-		else
-		{
-			returnWithInfo( $searchResults );
-		}
+	$result = $stmt->get_result();
 
-		$stmt->close();
-		$conn->close();
-	}
+	$output = '<ul class="list-unstyled">';		
+
+  	if ($result->num_rows > 0) {
+  		while ($row = $result->fetch_array()) {
+  			$output .= '<li class="result" data-ID='+$row->ContactID+'.>ucwords($['+$row->FirstName+'], " ", $['+$row->LastName+']).</li>';
+  		}
+  	}
+    else{
+		$output .= '<li> Contact Not Found</li>';
+  	}
+  		
+	$output .= '</ul>';
+	echo $output;
+
+	$stmt->close();
+	$conn->close();
+	
 
 	function getRequestInfo()
 	{

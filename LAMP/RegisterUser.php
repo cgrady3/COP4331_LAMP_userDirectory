@@ -1,12 +1,10 @@
 <?php
 	$inData = getRequestInfo();
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error) 
-	{
-		returnWithError( $conn->connect_error );
-	} 
-	else
+	// include database connection file
+	include_once "dbConfig.php";
+
+	function registerUser()
 	{
 		$stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Email, Password) VALUES(?, ?, ?, ?)");
 		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"]);
@@ -14,7 +12,6 @@
 		returnWithError($stmt->affected_rows);
 		$stmt->close();
 		$conn->close();
-
 	}
 
 	function getRequestInfo()
