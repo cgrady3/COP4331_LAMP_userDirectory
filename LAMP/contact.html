@@ -4,13 +4,13 @@
 <head>
     <title>Contacts Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <link href="../css/contacts.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/contacts.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer type="text/javascript" src="../js/script.js"> </script>
     <script defer type="text/javascript" src="../js/contacts.js"> </script>
 </head>
 
-<body id="bodyStyle">
+<body>
 
     <nav class="navbar fixed-top" id="navbar">
         <div class="container-fluid">
@@ -39,15 +39,15 @@
         <div class="col-sm-3 mb-3">
             <div class="card" data-bs-toggle="modal" data-bs-target="#editModal">
             <div class="card-header">
-                Tyler Pearson
             </div>        
             <ul class="list-group list-group-flush">
                 <li class="card-id" hidden></li>
                 <li class="list-group-item">Email: </li>
                 <li class="list-group-item">Phone #: </li>
-                <li class="list-group-item">Address: </li>
-                <li class="list-group-item">Date Created: </li>
             </ul>
+            <div class="card-footer text-muted">
+                Date Created: 
+            </div>
             </div>
         </div>
     </template>
@@ -71,12 +71,12 @@
                             <input id="modal-email" type="email" name="email" class="form-control" placeholder="Email" required>
                         <label for="modal-number">Phone Number</label>
                             <input id="modal-number" type="text" class="form-control" placeholder="1234567890" required>
-                        </div>
+                    </div>
                 </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" id="secondaryBtn">Cancel</button>
-                            <button class="btn btn-primary" type="submit" onclick="test2()" id="primaryBtn">Add</button>
-                        </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" id="secondaryBtn">Cancel</button>
+                    <button class="btn btn-primary" type="submit" onclick="test2()" id="primaryBtn">Create</button>
+                </div>
                 </form>
             </div>
           </div>
@@ -94,8 +94,8 @@
                     <div class="form-group">
                         <label for="modal-name">Name</label>
                             <div class="row justify-content-around">
-                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control" value="Tyler"> </div>
-                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control" value="Pearson"> </div>
+                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control" value="John"> </div>
+                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control" value="Doe"> </div>
                             </div>
                         <label for="modal-email">Email</label>
                             <input id="modal-email" type="email" name="email" class="form-control" value="asdasd@asdasd.com">

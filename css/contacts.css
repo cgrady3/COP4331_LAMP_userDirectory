@@ -1,6 +1,10 @@
-#bodyStyle{
-    background-image: none;
-    background-color: #fcfcf0;
+/*--------contacts page styles--------*/
+body{
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient(150deg, #FCFCF0,  #f3f6d9, #cfca90);
 }
 
 #navbar{
@@ -29,13 +33,19 @@
     margin: 6rem auto;
 }
 
-.list-group-item{
+.list-group-item, .card-footer{
     background-color: #f8e1c5;
 }
 
 .card-header{
-    background-color: #d4a87e;
+    background-color: #d09f74;
     font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.card-footer{
+    border: none;
+    font-size: 0.8rem;
     font-weight: 600;
 }
 
@@ -81,7 +91,7 @@
 /* ----------------------------------------------*/
 
 #wholeModal{
-    background-color: #f0efd9;
+    background-color: #f8e1c5;
 }
 
 #headModal{
