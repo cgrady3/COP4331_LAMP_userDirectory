@@ -4,13 +4,13 @@
 <head>
     <title>Contacts Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <link href="../css/contacts.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/contacts.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer type="text/javascript" src="../js/script.js"> </script>
     <script defer type="text/javascript" src="../js/contacts.js"> </script>
 </head>
 
-<body id="bodyStyle">
+<body>
     
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -21,7 +21,7 @@
 
     <nav class="navbar fixed-top" id="navbar">
         <div class="container-fluid">
-            <form id="search-form" class="d-flex m-auto"> 
+            <form id="search-form" class="d-flex m-auto">
                 <div class="col-xs"> <input class="form-control me-2" type="search" placeholder="Search contacts" id="searchBox"> </div>
                 <div class="col-xs"> <button class="btn btn-primary" type="submit" onclick="test1()" id="primaryBtn">Search</button> </div>
                 <div class="col-xs offset-1"> <button class="btn btn-success" type="button"  data-bs-toggle="modal" data-bs-target="#addModal" id="successBtn">Add</button> </div>
@@ -38,17 +38,17 @@
 
     <template id="contactCard">
         <div class="col-sm-3 mb-3">
-            <div class="card">
+            <div class="card" data-bs-toggle="modal" data-bs-target="#addModal">
             <div class="card-header">
-                Tyler Pearson
             </div>        
             <ul class="list-group list-group-flush">
                 <li class="card-id" hidden></li>
                 <li class="list-group-item">Email: </li>
                 <li class="list-group-item">Phone #: </li>
-                <li class="list-group-item">Address: </li>
-                <li class="list-group-item">Date Created: </li>
             </ul>
+            <div class="card-footer text-muted">
+                Date Created: 
+            </div>
             </div>
         </div>
     </template>
@@ -76,7 +76,7 @@
                 </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" id="secondaryBtn">Cancel</button>
-                            <button class="btn btn-primary" type="submit" onclick="test2()" id="primaryBtn">Save changes</button>
+                            <button class="btn btn-primary" type="submit" onclick="test2()" id="primaryBtn">Create</button>
                         </div>
                 </form>
             </div>

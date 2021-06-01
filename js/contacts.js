@@ -1,37 +1,70 @@
-const input = document.getElementById('searchBox');
-const log = document.getElementById('log');
+const input = document.getElementById("searchBox");
+const createContactBtn = document.getElementById("primaryBtn");
+const row = document.getElementById("row-1");
 
-let num = 0;
+var contactCards = [];
 
-input.addEventListener('input', updateValue);
+input.addEventListener("input", updateSearch);
+createContactBtn.addEventListener("click", createContact);
 
-function updateValue(e) {
-  //log.textContent = e.target.value;
-  addCard(num);
-  num++;
+var contact = {firstName:"John", lastName:"Doe", email:"asdasdasd@asdasdasdasd.com", phone:"12323534234", dateCreated:"10-2-2021"};
+
+addCard(contact);
+addCard(contact);
+addCard(contact);
+addCard(contact);
+addCard(contact);
+addCard(contact);
+addCard(contact);
+
+
+function updateSearch(e) {
+  deleteCards();
 }
 
-function addCard(num){
-    // Instantiate the table with the existing HTML tbody
-    // and the row with the template
-    var row = document.getElementById("row-1");
-    var template = document.getElementById('contactCard');
+function createContact(){
+  // Get information from modal
+    // UserID
+    // First name
+    // Last name
+    // Email
+    // Phone number
+    // Date created
 
-    // Clone the new row and insert it into the table
-    var clone = template.content.firstElementChild.cloneNode(true);
-    var body = clone.querySelectorAll("li");
-    body[0].textContent += num;
-    body[1].textContent += "asdasd@asdasd.com";
-    body[2].textContent += "asasdasdasd";
-    body[3].textContent += "1235646565";
-    var date = new Date();
-    body[4].textContent += (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear(); 
-
-    clone.addEventListener('click', clickHandler);
-
-    row.appendChild(clone);
+  // Send information to api
+  
+  // Close modal
 }
 
-function clickHandler(){
-  console.log(this.querySelectorAll("li")[0].innerText);
+function addCard(contact){
+  var template = document.getElementById("contactCard");
+
+  // Clone the new row and insert it into the table
+  var clone = template.content.firstElementChild.cloneNode(true);
+  var header = clone.getElementsByClassName("card-header");
+  header[0].innerText = contact.firstName + " " + contact.lastName;
+
+  var body = clone.querySelectorAll("li");
+  body[0].textContent += contact.id;
+  body[1].textContent += contact.email;
+  body[2].textContent += contact.phone;
+
+  var footer = clone.getElementsByClassName("card-footer");
+  footer[0].innerText = "Date Created: " + contact.dateCreated;
+
+  clone.addEventListener("click", editCard);
+
+  contactCards.push(clone);
+  row.appendChild(clone);
+}
+
+function deleteCards(){
+  var length = contactCards.length;
+  for (var i = 0; i < length; i++){
+    row.removeChild(contactCards.shift());
+  }
+}
+
+function editCard(){
+  
 }
