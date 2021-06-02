@@ -13,7 +13,7 @@
 	$result = $stmt->get_result();		
 
   	if ($result->num_rows > 0) {
-		returnWithInfo($result);
+		returnWithInfo($result->fetch_assoc());
   	}
     else {
 		returnWithError("No Contact Found");

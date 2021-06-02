@@ -5,7 +5,7 @@
 
 	$inData = getRequestInfo();
 	
-	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName=?, LastName=?, Email=?, Phone=?, UserID=?");
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName=? AND LastName=? AND Email=? AND Phone=? AND UserID=?");
 	$stmt->bind_param("ssssi", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"]);
 	$stmt->execute();
 

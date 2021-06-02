@@ -9,7 +9,8 @@
 	$stmt->bind_param("ss", $inData["ContactID"], $inData["UserID"]);
 	$stmt->execute();
 
-	returnWithInfo($stmt->get_result());
+	$row = $stmt->get_result();
+	returnWithInfo($row->fetch_assoc());
 
 	$stmt->close();
 	$conn->close();
