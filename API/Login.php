@@ -4,10 +4,10 @@
 	include "returnFunctions.php";
 
 	$inData = getRequestInfo();
-	
+
 	function loginUser()
 	{
-		$stmt = $conn->prepare("SELECT Email, Password FROM Users WHERE Email=? AND Password=?");
+		$stmt = $conn->prepare("SELECT UserID FROM Users WHERE Email=? AND Password=?");
 		$stmt->bind_param("ss", $inData["Email"], $inData["Password"]);
 		$stmt->execute();
 
@@ -15,7 +15,7 @@
 
 		if($row = $result->fetch_assoc())
 		{
-			returnWithInfo( $row['firstName'], $row['lastName'], $row['ID'] );
+			returnWithInfo( $row['UserID'] );
 		}
 		else
 		{
