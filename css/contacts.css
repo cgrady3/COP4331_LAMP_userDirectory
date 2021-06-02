@@ -12,10 +12,10 @@ body{
 }
 
 #searchBox{
-    width: 375px;
+    width: 400px;
 }
 
-.btn-cutsom{
+.btn-custom{
     color: white;
     background-color: #6F9EFF;
     border: 2px dashed #FFF;
@@ -64,7 +64,7 @@ body{
 }
 
 /*inverts button colors when hovering(if the id is set)*/
-#primaryBtn:hover{
+.btn-primary:hover{
     color: #007BFF;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
@@ -82,7 +82,7 @@ body{
     border-color: rgb(20, 20, 20);
 }
 
-#customBtn:hover{
+.btn-custom:hover{
     color: #6F9EFF;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
@@ -90,18 +90,15 @@ body{
 }
 /* ----------------------------------------------*/
 
-#wholeModal{
-    background-color: #f8e1c5;
-}
-
-#headModal{
+.modal-header{
     background-color: #D09f74;
 }
 
-#modalBtn{
-    margin-top: 500px;
+.modal-title{
+    margin-right: -25px;
 }
 
-#addModalLabel{
-    margin: auto;
+.modal-body, .modal-footer{
+    background-color: #f8e1c5;
+    border: none;
 }

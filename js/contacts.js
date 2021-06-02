@@ -1,5 +1,5 @@
 const input = document.getElementById("searchBox");
-const createContactBtn = document.getElementById("primaryBtn");
+const createContactBtn = document.getElementById("create-contact-btn");
 const row = document.getElementById("row-1");
 
 var contactCards = [];
@@ -9,17 +9,8 @@ createContactBtn.addEventListener("click", createContact);
 
 var contact = {firstName:"John", lastName:"Doe", email:"asdasdasd@asdasdasdasd.com", phone:"12323534234", dateCreated:"10-2-2021"};
 
-addCard(contact);
-addCard(contact);
-addCard(contact);
-addCard(contact);
-addCard(contact);
-addCard(contact);
-addCard(contact);
-
-
 function updateSearch(e) {
-  deleteCards();
+  addCard(contact);
 }
 
 function createContact(){
