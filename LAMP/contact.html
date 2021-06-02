@@ -18,7 +18,7 @@
             <form id="search-form" class="d-flex m-auto"> 
                 <div class="col-xs"> <input class="form-control me-2" type="search" placeholder="Search contacts" id="searchBox"> </div>
                 <div class="col-xs"> <button class="btn btn-customPrimary" type="button" id="primaryBtn">Search</button> </div>
-                <div class="col-xs offset-1"> <button class="btn btn-cutsom" type="button"  data-bs-toggle="modal" data-bs-target="#addModal" id="customBtn"> 
+                <div class="col-xs offset-1"> <button class="btn btn-add" type="button"  data-bs-toggle="modal" data-bs-target="#addModal" id="addBtn"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
                         <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                         <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
@@ -57,7 +57,11 @@
             <div class="modal-content" id="wholeModal">
                 <div class="modal-header" id="headModal">
                     <h5 class="modal-title" id="addModalLabel">Add Contact</h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button class="btn" type="button" data-bs-dismiss="modal" aria-label="Close" id="exitBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-body">                    
                 <form id="add-form" action="../js/script.js" method="POST">
@@ -67,46 +71,54 @@
                                 <div class="col-xs"> <input id="modal-name" type="text" class="form-control" placeholder="First" required> </div>
                                 <div class="col-xs"> <input id="modal-name" type="text" class="form-control" placeholder="Last" required> </div>
                             </div>
-                        <label for="modal-email">Email</label>
+                        <label class="modalPad" for="modal-email">Email</label>
                             <input id="modal-email" type="email" name="email" class="form-control" placeholder="Email" required>
-                        <label for="modal-number">Phone Number</label>
+                        <label class="modalPad" for="modal-number">Phone Number</label>
                             <input id="modal-number" type="text" class="form-control" placeholder="1234567890" required>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" id="secondaryBtn">Cancel</button>
-                    <button class="btn btn-primary" type="submit" onclick="test2()" id="primaryBtn">Create</button>
+                <div class="modal-footer" id="modalFooter">
+                    <div class="container-fluid">
+                        <div class="row justify-content-around">
+                            <div class="col-xs">  <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" id="secondaryBtn">Cancel</button> </div>
+                            <div class="col-xs"> <button class="btn btn-primary" type="submit" onclick="test2()" id="primaryBtn">Create</button> </div>                           
+                        </div>
+                    </div>
                 </div>
                 </form>
             </div>
-          </div>
-      </div>
+        </div>
+    </div>
 
       <div class="modal" tabindex="-1" id="editModal">
         <div class="modal-dialog">
             <div class="modal-content" id="wholeModal">
                 <div class="modal-header" id="headModal">
-                    <h5 class="modal-title" id="addModalLabel">Edit Contact</h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="addModalLabel">Edit Contact</h5>                   
+                    <button class="btn" type="button" data-bs-dismiss="modal" aria-label="Close" id="exitBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                        </svg>
+                    </button>
                 </div>
                 <div class="modal-body">                    
                 <form id="edit-form" action="../js/script.js" method="POST">
                     <div class="form-group">
                         <label for="modal-name">Name</label>
                             <div class="row justify-content-around">
-                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control" value="John"> </div>
-                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control" value="Doe"> </div>
+                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control textField" value="John"> </div>
+                                <div class="col-xs"> <input id="modal-name" type="text" class="form-control textField" value="Doe"> </div>
                             </div>
-                        <label for="modal-email">Email</label>
-                            <input id="modal-email" type="email" name="email" class="form-control" value="asdasd@asdasd.com">
-                        <label for="modal-number">Phone Number</label>
-                            <input id="modal-number" type="text" class="form-control" value="1234567890">
+                        <label class="modalPad" for="modal-email">Email</label>
+                            <input id="modal-email" type="email" name="email" class="form-control textField" value="asdasd@asdasd.com">
+                        <label class="modalPad" for="modal-number">Phone Number</label>
+                            <input id="modal-number" type="text" class="form-control textField" value="1234567890">
                         </div>
                 </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="modalFooter">
                             <div class="container-fluid">
                                 <div class="row justify-content-around">
-                                    <div class="col-xs"> <button class="btn btn-danger" type="submit" data-bs-dismiss="modal" id="dangerBtn">
+                                    <div class="col-xs"> <button class="btn btn-danger" type="submit" id="dangerBtn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                             <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
