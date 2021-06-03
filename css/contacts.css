@@ -76,7 +76,7 @@ body{
     border-color:rgb(20, 20, 20);
 }
 
-#dangerBtn:hover{
+.btn-danger:hover{
     color: #c82333;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
