@@ -15,6 +15,10 @@ body{
     width: 400px;
 }
 
+#contacts{
+    max-width:70%;
+}
+
 .btn-custom{
     color: white;
     background-color: #6F9EFF;
