@@ -4,7 +4,7 @@ var extension = ".php";
 var UserID = 0;
 var FirstName = "";
 var LastName = "";
-var selection = searchBy.value;
+var selection = searchContacts.value;
 
 function loginUser() {
   console.log("User details recieved");
@@ -14,14 +14,14 @@ function loginUser() {
 
   var login = document.getElementById("user-email").value;
   var password = document.getElementById("user-password").value;
-  var hash = md5(password);
+  //var hash = md5(password);
 
   console.log("Login: " + login + "    Password: " + password);
 
-  document.getElementById("errorMessage").innerHTML = "Logged in";
+  //document.getElementById("errorMessage").innerHTML = "Logged in";
 
   var jsonPayload =
-    '{"login" : "' + login + '", "password" : "' + hash + '"}';
+      '{"login" : "' + login + '", "password" : "' + password + '"}';
   var url = urlBase + "/Login" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -29,15 +29,15 @@ function loginUser() {
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
     xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState === 4 && this.status === 200) {
         console.log("Login info valid");
         console.log("Login:" + login + "    password: " + password);
-        var jsonObject = JSON.parse(xhr.responseText);
+        var jsonObject = JSON.stringify(xhr.responseText);
         UserID = jsonObject.UserID;
 
         if (UserID < 1) {
           document.getElementById("loginResult").innerHTML =
-            "User/Password combination incorrect";
+              "User/Password combination incorrect";
           return;
         }
 
@@ -47,7 +47,7 @@ function loginUser() {
         saveCookie();
 
         // TODO: Update to actual contact page for logged in user
-        window.location.href = "contacts.html";
+        window.location.href = "/pages/contact.html";
       }
     };
     xhr.send(jsonPayload);
@@ -76,10 +76,10 @@ $("#addContact").on("click", function (event) {
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
     xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState === 4 && this.status === 200) {
         console.log("Contact Added");
         console.log(
-          "Name: " +
+            "Name: " +
             FirstName +
             " " +
             LastName +
@@ -113,7 +113,7 @@ $("#searchContacts").input(function (event) {
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
     xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState === 4 && this.status === 200) {
         console.log("retrieving");
       }
 
@@ -137,7 +137,7 @@ $(".result").on("click", function (event) {
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
     xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState === 4 && this.status === 200) {
         console.log("retrieving selected contact");
         var jsonObject = JSON.parse(xhr.responseText);
 
@@ -161,14 +161,14 @@ function saveCookie() {
   var date = new Date();
   date.setTime(date.getTime() + minutes * 60 * 1000);
   document.cookie =
-    "FirstName=" +
-    FirstName +
-    ",LastName=" +
-    LastName +
-    ",UserID=" +
-    UserID +
-    ";expires=" +
-    date.toGMTString();
+      "FirstName=" +
+      FirstName +
+      ",LastName=" +
+      LastName +
+      ",UserID=" +
+      UserID +
+      ";expires=" +
+      date.toGMTString();
 }
 
 function readCookie() {
@@ -178,11 +178,11 @@ function readCookie() {
   for (let i = 0; i < splits.length; i++) {
     var thisOne = splits[i].trim();
     var tokens = thisOne.split("=");
-    if (tokens[0] == "FirstName") {
+    if (tokens[0] === "FirstName") {
       FirstName = tokens[1];
-    } else if (tokens[0] == "LastName") {
+    } else if (tokens[0] === "LastName") {
       LastName = tokens[1];
-    } else if (tokens[0] == "UserID") {
+    } else if (tokens[0] === "UserID") {
       UserID = parseInt(tokens[1].trim());
     }
   }
@@ -191,7 +191,7 @@ function readCookie() {
     window.location.href = "index.html";
   } else {
     document.getElementById("userName").innerHTML =
-      "Logged in as " + FirstName + " " + LastName;
+        "Logged in as " + FirstName + " " + LastName;
   }
 }
 
@@ -200,5 +200,5 @@ function doLogout() {
   FirstName = "";
   LastName = "";
   document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 }
