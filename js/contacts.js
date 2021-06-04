@@ -6,6 +6,7 @@ const signOutBtn = document.getElementById("signOut-Btn")
 const row = document.getElementById("row-1");
 
 var contactCards = [];
+var currentContactCard;
 
 input.addEventListener("input", updateSearch);
 addContactBtn.addEventListener("click", addContact);
@@ -17,6 +18,10 @@ var contact = {firstName:"John", lastName:"Doe", email:"frontendUI@project.com",
 
 function updateSearch(e) {
   addCard(contact);
+
+  // for (var i = 0; i < contacts.length; i++){
+  //   addCard(contact[i]);
+  // }
 }
 
 function addContact(){
@@ -27,6 +32,7 @@ function addContact(){
 
   const contact = {
     UserId: 0,
+    contactId: 0,
     firstName: firstName,
     lastName : lastName,
     email: email,
@@ -35,14 +41,15 @@ function addContact(){
 
   console.log(contact);
   addCard(contact);
-  $('#addModal').modal('hide');
 
   // Send information to api
   
   // Close modal
+  $('#addModal').modal('hide');
 }
 
 function editContact(){
+  const contactId = this.getElementById("contact-id").innerText;
   const firstName = document.getElementById("edit-contact-firstName").value;
   const lastName = document.getElementById("edit-contact-lastName").value;
   const email = document.getElementById("edit-contact-email").value;
@@ -50,6 +57,7 @@ function editContact(){
 
   const contact = {
     UserId: 0,
+    contactId: contactId,
     firstName: firstName,
     lastName : lastName,
     email: email,
@@ -63,13 +71,15 @@ function editContact(){
 }
 
 function deleteContact(){
-
+  if(confirm("Are you sure you want to delete this person from your contacts?")){
+    // delete contact
+    // send request to api
+  }
 }
 
 function addCard(contact){
   var template = document.getElementById("contactCard");
 
-  // Clone the new row and insert it into the table
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
   header[0].innerText = contact.firstName + " " + contact.lastName;
@@ -97,6 +107,7 @@ function deleteCards(){
 }
 
 function updateEditModal(){
+  currentContactCard = this;
   var header = this.getElementsByClassName("card-header");
   var body = this.querySelectorAll("li");
 
