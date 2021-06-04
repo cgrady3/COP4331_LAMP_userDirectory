@@ -14,7 +14,7 @@ function loginUser() {
 
   var login = document.getElementById("user-email").value;
   var password = document.getElementById("user-password").value;
-  //var hash = md5(password);
+  var hash = md5(password);
 
   console.log("Login: " + login + "    Password: " + password);
 
@@ -48,6 +48,64 @@ function loginUser() {
 
         // TODO: Update to actual contact page for logged in user
         window.location.href = "/pages/contact.html";
+      }
+    };
+    xhr.send(jsonPayload);
+    console.log("Login info sent");
+  } catch (err) {
+    document.getElementById("loginResult").innerHTML = err.message;
+  }
+}
+
+
+function signUp() {
+  console.log("User details recieved");
+  FirstName = "";
+  LastName = "";
+  Email = "";
+
+
+  var email = document.getElementById("user-email").value;
+  var password = document.getElementById("user-password").value;
+  var firstName = document.getElementById('first-name').value;
+  var lastName = document.getElementById('last-name').value;
+
+
+  var hash = md5(password);
+
+  console.log("Login: " + email + "    Password: " + password + "   First:" + firstName + "    Last: " + lastName );
+
+  //document.getElementById("errorMessage").innerHTML = "Logged in";
+
+  var jsonPayload =
+      '{"Email" : "' + email + '", "Password" : "' + password +'", "FirstName" : "' + password + '", "LastName" : "' + password +'"}';
+  var url = urlBase + "/RegisterUser" + extension;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log("SignUp Info Valid");
+        console.log("Login:" + email + "    password: " + password);
+        var jsonObject = JSON.stringify(xhr.responseText);
+        UserID = jsonObject.UserID;
+
+        if (UserID < 1) {
+          document.getElementById("loginResult").innerHTML =
+              "User/Password combination incorrect";
+          return;
+        }
+
+        FirstName = jsonObject.FirstName;
+        LastName = jsonObject.LastName;
+
+        saveCookie();
+
+        // TODO: Update to actual contact page for logged in user
+        window.location.href = "../index.html";
       }
     };
     xhr.send(jsonPayload);
