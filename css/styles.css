@@ -38,7 +38,21 @@ label{
     margin-bottom: 8px;
 }
 
-/*--------contacts page styles--------*/
+#searchBy{
+    padding: 2.4px 2px;
+    margin-left: 5%;
+    margin-right: -5px;
+    border-color: none;
+}
+
+#searchContacts{
+    width: 300px;
+}
+
+#homeTitle{
+    margin-left: 5%;
+}
+
 #bodyStyle{
     background-image: none;
     background-color: #fcfcf0;
@@ -100,7 +114,6 @@ label{
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
 }
-/* ----------------------------------------------*/
 
 #wholeModal{
     background-color: #f0efd9;
@@ -116,4 +129,5 @@ label{
 
 #addModalLabel{
     margin: auto;
+
 }
