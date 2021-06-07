@@ -14,7 +14,7 @@ function loginUser() {
 
   var login = document.getElementById("user-email").value;
   var password = document.getElementById("user-password").value;
-  var hash = md5(password);
+  password = md5(password);
 
   console.log("Login: " + login + "    Password: " + password);
 
@@ -71,14 +71,14 @@ function signUp() {
   var lastName = document.getElementById('last-name').value;
 
 
-  var hash = md5(password);
+  password = md5(password);
 
   console.log("Login: " + email + "    Password: " + password + "   First:" + firstName + "    Last: " + lastName );
 
   //document.getElementById("errorMessage").innerHTML = "Logged in";
 
   var jsonPayload =
-      '{"Email" : "' + email + '", "Password" : "' + password +'", "FirstName" : "' + password + '", "LastName" : "' + password +'"}';
+      '{"Email" : "' + email + '", "Password" : "' + password +'", "FirstName" : "' + firstName + '", "LastName" : "' + lastName +'"}';
   var url = urlBase + "/RegisterUser" + extension;
 
   var xhr = new XMLHttpRequest();
