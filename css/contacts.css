@@ -1,28 +1,55 @@
 /*--------contacts page styles--------*/
-#bodyStyle{
-    background-image: none;
-    background-color: #fcfcf0;
+body{
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: linear-gradient(150deg, #FCFCF0,  #f3f6d9, #cfca90);
 }
 
 #navbar{
-    margin-top: 65px;
+    background-color: #D09f74;
 }
 
 #searchBox{
-    width: 450px;
+    width: 400px;
+}
+
+#contacts{
+    max-width:70%;
+}
+
+.btn-custom{
+    color: white;
+    background-color: #6F9EFF;
+    border: 2px dashed #FFF;
+    border-radius: 5px;
+}
+
+.btn-customPrimary{
+    color: white;
+    background-color: #007BFF;
+    border: 2px dashed #FFF;
+    border-radius: 5px;
 }
 
 #navSpacer{
     margin: 6rem auto;
 }
 
-.list-group-item{
+.list-group-item, .card-footer{
     background-color: #f8e1c5;
 }
 
 .card-header{
-    background-color: #d4a87e;
+    background-color: #d09f74;
     font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.card-footer{
+    border: none;
+    font-size: 0.8rem;
     font-weight: 600;
 }
 
@@ -40,17 +67,11 @@
 
 }
 
-/*inverts bootstrap's button colors when hovering(if the id is set)*/
-#primaryBtn:hover{
+/*inverts button colors when hovering(if the id is set)*/
+.btn-primary:hover{
     color: #007BFF;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
-}
-
-#successBtn:hover{
-    color: #218838;
-    background-color: #FFF;
-    border-color:rgb(20, 20, 20);
 }
 
 #secondaryBtn:hover{
@@ -59,25 +80,29 @@
     border-color:rgb(20, 20, 20);
 }
 
-#dangerBtn:hover{
+.btn-danger:hover{
     color: #c82333;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
 }
+
+.btn-custom:hover{
+    color: #6F9EFF;
+    background-color: #FFF;
+    border-color: rgb(20, 20, 20);
+
+}
 /* ----------------------------------------------*/
 
-#wholeModal{
-    background-color: #f0efd9;
+.modal-header{
+    background-color: #D09f74;
 }
 
-#headModal{
-    background-color: #98a8cc;
+.modal-title{
+    margin-right: -25px;
 }
 
-#modalBtn{
-    margin-top: 500px;
-}
-
-#addModalLabel{
-    margin: auto;
+.modal-body, .modal-footer{
+    background-color: #f8e1c5;
+    border: none;
 }
