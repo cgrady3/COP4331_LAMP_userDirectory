@@ -3,6 +3,10 @@
 <html lang="en">
 
 <head>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Contactful Delivery - Login</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
 	<link href="../css/styles.css" rel="stylesheet">
@@ -23,7 +27,9 @@
 							<div class="form-group">
 								<label for="userName">Username</label>
 								<input id="user-email" type="email" name="email" class="form-control"
+
 									placeholder="Email" required>
+
 							</div>
 							<div class="form-group">
 								<label for="inputPassword">Password</label>
@@ -32,12 +38,11 @@
 								<small id="passwordVal" class="form-text text-muted">Password must be 8-15 characters
 									long</small>
 							</div>
-							<button type="submit" class="btn btn-primary btn-sm login" onclick="loginUser();">
+							<button type="submit" class="btn btn-primary btn-sm login" onclick=loginUser()>
 								Login
 							</button>
 						</form>
-						<button type="submit" class="btn btn-sm btn-outline-secondary" id="signUp"
-							onclick="signUp();">Create account</button>
+						<a class="btn btn-sm btn-outline-secondary" id="signUp" href="/LAMP/regsterUser.html">Create Account</a>
 					</div>
 				</div>
 			</div>
@@ -45,3 +50,4 @@
 </body>
 
 </html>
+

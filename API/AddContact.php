@@ -1,37 +1,27 @@
 <?php
-	$inData = getRequestInfo();
+	// include database connection file
+	include "dbConfig.php";
+	include "returnFunctions.php";
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error) 
-	{
-		returnWithError( $conn->connect_error );
-	} 
-	else
-	{
-		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES(?, ?, ?, ?, ?)");
+	$inData = getRequestInfo();
+	
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName=? AND LastName=? AND Email=? AND Phone=? AND UserID=?");
+	$stmt->bind_param("ssssi", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"]);
+	$stmt->execute();
+
+	$result = $stmt->get_result();
+
+	if ($result->num_rows > 0){
+		returnWithError("Contact Already Exists");
+	}
+	else{
+		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID) VALUES (?, ?, ?, ?, ?)");
 		$stmt->bind_param("ssssi", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"]);
 		$stmt->execute();
-		returnWithError($stmt->affected_rows);
-		$stmt->close();
-		$conn->close();
 
-	}
-
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
-
-	function sendResultInfoAsJson( $obj )
-	{
-		header('Content-type: application/json');
-		echo $obj;
+		returnWithInfo($stmt->affected_rows);
 	}
 	
-	function returnWithError( $err )
-	{
-		$retValue = '{"error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
-	}
-	
+	$stmt->close();
+	$conn->close();
 ?>

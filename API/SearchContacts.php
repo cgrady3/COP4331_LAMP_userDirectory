@@ -1,68 +1,24 @@
 <?php
+	// include database connection file
+	include "dbConfig.php";
+	include "returnFunctions.php";
 
 	$inData = getRequestInfo();
+ 
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName LIKE ? OR LastName LIKE ? AND UserID=?");
+	$name = $inData["search"] . "%";
+	$stmt->bind_param("sss", $name, $name, $inData["UserID"]);
+	$stmt->execute();
 
-	$searchResults = "";
-	$searchCount = 0;
+	$result = $stmt->get_result();		
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($conn->connect_error)
-	{
-		returnWithError( $conn->connect_error );
-	}
-	else
-	{
-		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName LIKE ? AND UserID=?");
-		$FirstName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ss", $contactName, $inData["userId"]);
-		$stmt->execute();
+  	if ($result->num_rows > 0) {
+		returnWithInfo($result->fetch_assoc());
+  	}
+    else {
+		returnWithError("No Contact Found");
+  	}
 
-		$result = $stmt->get_result();
-
-		while($row = $result->fetch_assoc())
-		{
-			if( $searchCount > 0 )
-			{
-				$searchResults .= ",";
-			}
-			$searchCount++;
-			$searchResults .= '"' . $row["FirstName"] . '"';
-		}
-
-		if( $searchCount == 0 )
-		{
-			returnWithError( "No Records Found" );
-		}
-		else
-		{
-			returnWithInfo( $searchResults );
-		}
-
-		$stmt->close();
-		$conn->close();
-	}
-
-	function getRequestInfo()
-	{
-		return json_decode(file_get_contents('php://input'), true);
-	}
-
-	function sendResultInfoAsJson( $obj )
-	{
-		header('Content-type: application/json');
-		echo $obj;
-	}
-
-	function returnWithError( $err )
-	{
-		$retValue = '{"id":0,"FirstName":"","LastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
-	}
-
-	function returnWithInfo( $searchResults )
-	{
-		$retValue = '{"results":[' . $searchResults . '],"error":""}';
-		sendResultInfoAsJson( $retValue );
-	}
-
+	$stmt->close();
+	$conn->close();
 ?>
