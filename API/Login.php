@@ -12,14 +12,15 @@
 		$stmt->execute();
 
 		$result = $stmt->get_result();
+		$row = $result->fetch_assoc();
 
-		if($row = $result->fetch_assoc())
+		if(!is_null($row))
 		{
 			returnWithInfo( $row['UserID'] );
 		}
 		else
 		{
-			returnWithError("User Not Found");
+			returnWithError("User Name / Password do not match OR user does not exist");
 		}
 
 		$stmt->close();

@@ -15,11 +15,11 @@
     <script defer type="text/javascript" src="../js/contacts.js"> </script>
 </head>
 
-<body>
+<body onload="validUser()">
     <nav class="navbar fixed-top" id="navbar">
         <h3>Contactful Delivery</h3>
         <form class="form-inline"> 
-            <input class="form-control mr-sm-2" type="search" placeholder="Search contacts" id="searchBox">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Contacts" id="searchBox">
             <button class="btn btn-custom my-2 my-sm-0" type="button" id="searchBtn">Search</button>
             <button class="btn btn-custom mx-5" type="button" data-bs-toggle="modal" data-bs-target="#addModal"> 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
