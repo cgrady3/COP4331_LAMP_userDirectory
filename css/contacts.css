@@ -26,13 +26,6 @@ body{
     border-radius: 5px;
 }
 
-.btn-customPrimary{
-    color: white;
-    background-color: #007BFF;
-    border: 2px dashed #FFF;
-    border-radius: 5px;
-}
-
 #navSpacer{
     margin: 6rem auto;
 }
@@ -73,19 +66,16 @@ body{
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
 }
-
-#secondaryBtn:hover{
+.btn-secondary:hover{
     color: #5a6268;
     background-color: #FFF;
     border-color:rgb(20, 20, 20);
 }
-
 .btn-danger:hover{
     color: #c82333;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
 }
-
 .btn-custom:hover{
     color: #6F9EFF;
     background-color: #FFF;
@@ -93,6 +83,10 @@ body{
 
 }
 /* ----------------------------------------------*/
+
+.modal-dialog{
+    margin: 7.5rem auto;
+}
 
 .modal-header{
     background-color: #D09f74;
@@ -105,4 +99,8 @@ body{
 .modal-body, .modal-footer{
     background-color: #f8e1c5;
     border: none;
+}
+
+.inputPad{
+    padding-top: 13px;
 }

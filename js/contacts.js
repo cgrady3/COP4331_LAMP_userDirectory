@@ -73,6 +73,7 @@ function editContact(){
 function deleteContact(){
   if(confirm("Are you sure you want to delete this person from your contacts?")){
     // delete contact
+    
     // send request to api
   }
 }
@@ -113,7 +114,7 @@ function updateEditModal(){
 
   var name = header[0].innerText.split(" ");
 
-  contactId = this.getElementById("contactId").innerText;
+  //contactId = this.getElementById("contactId").innerText;
   document.getElementById("edit-contact-firstName").value = name[0];
   document.getElementById("edit-contact-lastName").value = name[1];
   document.getElementById("edit-contact-email").value = body[1].innerText.split(" ")[1];
