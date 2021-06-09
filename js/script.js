@@ -1,7 +1,7 @@
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
-
-var UserID = 0;
+var hrefBase = "";
+var UserID = 1;
 var FirstName = "";
 var LastName = "";
 
@@ -11,16 +11,16 @@ function loginUser() {
   FirstName = "";
   LastName = "";
 
-  var login = document.getElementById("user-email").value;
-  var password = document.getElementById("user-password").value;
-  password = md5(password);
-
-  console.log("Login: " + login + "    Password: " + password);
-
-  //document.getElementById("errorMessage").innerHTML = "Logged in";
+  var form = document.getElementById("login-form");
+  function handleForm(event) { event.preventDefault(); } 
+  form.addEventListener('submit', handleForm);
+  var login = $("#user-email").val().trim().toLowerCase();
+  var Password = $("#user-password").val().trim();
+  // hashing password
+  Password = md5(Password);
 
   var jsonPayload =
-      '{"login" : "' + login + '", "password" : "' + password + '"}';
+    '{"Email" : "' + login + '", "Password" : "' + Password + '"}';
   var url = urlBase + "/Login" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -29,55 +29,73 @@ function loginUser() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        console.log("Login info valid");
-        console.log("Login:" + login + "    password: " + password);
-        var jsonObject = JSON.stringify(xhr.responseText);
+        var jsonObject = JSON.parse(xhr.responseText);
         UserID = jsonObject.UserID;
 
-        if (UserID < 1) {
-          document.getElementById("loginResult").innerHTML =
-              "User/Password combination incorrect";
+        if (jsonObject.error === "User Name / Password do not match OR user does not exist") {
+          alert("Invalid Email/Password");
+          location.reload();
           return;
         }
-
-        FirstName = jsonObject.FirstName;
-        LastName = jsonObject.LastName;
-
         saveCookie();
-
-        // TODO: Update to actual contact page for logged in user
         window.location.href = "/pages/contact.html";
       }
     };
     xhr.send(jsonPayload);
     console.log("Login info sent");
   } catch (err) {
-    document.getElementById("loginResult").innerHTML = err.message;
+      alert(err.message);
   }
 }
-
 
 function signUp() {
   console.log("User details recieved");
   FirstName = "";
   LastName = "";
   Email = "";
+  var error = false;
 
+  var Email = $("#user-email").val().trim().toLowerCase();
+  var Password = $("#user-password").val().trim();
+  FirstName = $("#first-name").val().trim().toLowerCase();
+  LastName = $("#last-name").val().trim().toLowerCase();
+  var form = document.getElementById("login-form");
+  function handleForm(event) { event.preventDefault(); } 
+  form.addEventListener('submit', handleForm);
+  // validating password length
+  if (Password.length < 8 || Password.length > 15) {
+    alert("Password must be 8-15 characters long");
+    error= true;
+  }
 
-  var email = document.getElementById("user-email").value;
-  var password = document.getElementById("user-password").value;
-  var firstName = document.getElementById('first-name').value;
-  var lastName = document.getElementById('last-name').value;
+  // hashing password
+  Password = md5(Password);
 
+  // validate email format
+  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
 
-  password = md5(password);
+  if (!regex.test(Email)) {
+    alert("Please Enter Valid Email Address");
+    error = true;
+  }
 
-  console.log("Login: " + email + "    Password: " + password + "   First:" + firstName + "    Last: " + lastName );
-
-  //document.getElementById("errorMessage").innerHTML = "Logged in";
+  // if validation error reload the page and exit
+  // this function before API call starts
+  if (error){
+     location.reload();
+     return;
+  }
 
   var jsonPayload =
-      '{"Email" : "' + email + '", "Password" : "' + password +'", "FirstName" : "' + firstName + '", "LastName" : "' + lastName +'"}';
+    '{"Email" : "' +
+    Email +
+    '", "Password" : "' +
+    Password +
+    '", "FirstName" : "' +
+    FirstName +
+    '", "LastName" : "' +
+    LastName +
+    '"}';
   var url = urlBase + "/RegisterUser" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -87,48 +105,39 @@ function signUp() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        console.log("SignUp Info Valid");
-        console.log("Login:" + email + "    password: " + password);
-        var jsonObject = JSON.stringify(xhr.responseText);
-        UserID = jsonObject.UserID;
-
-        if (UserID < 1) {
-          document.getElementById("loginResult").innerHTML =
-              "User/Password combination incorrect";
+        var jsonObject = JSON.parse(xhr.responseText);
+        if (jsonObject.error === "User Already Exists")
+        {
+          alert(jsonObject.error);
+          location.reload();
           return;
         }
-
-        FirstName = jsonObject.FirstName;
-        LastName = jsonObject.LastName;
+        UserID = jsonObject.UserID;
 
         saveCookie();
 
-        // TODO: Update to actual contact page for logged in user
-        window.location.href = "../index.html";
+        window.location.href = "contact.html"
       }
     };
     xhr.send(jsonPayload);
-    console.log("Login info sent");
   } catch (err) {
-    document.getElementById("loginResult").innerHTML = err.message;
+    // what is this displaying???
+    alert(err);
+    location.reload();
   }
 }
 
 // create user
 // delete user
 
-
-
 $("#searchContacts").input(function (event) {
   event.preventDefault();
 
-  var input = $this.val().toLowerCase();
+  var input = $(this).val().toLowerCase();
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
-  readCookie();
-
-  xhr.open("GET", url + "?name=" + input + "&UserID=" + UserID, true);
+  xhr.open("GET", url + "?search=" + input + "&UserID=" + UserID, true);
 
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
@@ -137,22 +146,25 @@ $("#searchContacts").input(function (event) {
         console.log("retrieving");
       }
 
-      window.location.href = "home.html";
+      window.location.href = "contacts.html";
     };
 
     xhr.send();
   } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
+    $("#contactResult").innerHTML = err.message;
   }
 });
 
-// rework for Tylers Modals
 $(".result").on("click", function (event) {
   event.preventDefault();
 
   var url = urlBase + "/DisplayContact" + extension;
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", url + "?ContactID=" + $(this).attr("data-ID") + "&UserID=" + UserID, true);
+  xhr.open(
+    "GET",
+    url + "?ContactID=" + $(this).attr("data-ID") + "&UserID=" + UserID,
+    true
+  );
 
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
@@ -167,12 +179,12 @@ $(".result").on("click", function (event) {
         $("#info").text(jsonObject.Email);
       }
 
-      window.location.href = "home.html";
+      window.location.href = "contacts.html";
     };
 
     xhr.send();
   } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
+     $("#info").text(err.message);
   }
 });
 
@@ -181,14 +193,14 @@ function saveCookie() {
   var date = new Date();
   date.setTime(date.getTime() + minutes * 60 * 1000);
   document.cookie =
-      "FirstName=" +
-      FirstName +
-      ",LastName=" +
-      LastName +
-      ",UserID=" +
-      UserID +
-      ";expires=" +
-      date.toGMTString();
+    "FirstName=" +
+    FirstName +
+    ",LastName=" +
+    LastName +
+    ",UserID=" +
+    UserID +
+    ";expires=" +
+    date.toGMTString();
 }
 
 function readCookie() {
@@ -207,11 +219,10 @@ function readCookie() {
     }
   }
 
-  if (UserID < 0) {
+  if (UserID <= 0) {
     window.location.href = "index.html";
   } else {
-    document.getElementById("userName").innerHTML =
-        "Logged in as " + FirstName + " " + LastName;
+    $("userName").innerHTML = "Logged in as " + FirstName + " " + LastName;
   }
 }
 
