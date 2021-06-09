@@ -103,6 +103,10 @@ $("#add-contact-btn").on("click", function (event) {
   }
 
   addCard(contact);
+  $("#add-contact-email").val("");
+  $("#add-contact-number").val("");
+  $("#add-contact-firstName").val("");
+  $("#add-contact-lastName").val("");
   $('#addModal').modal('hide');
 });
 
