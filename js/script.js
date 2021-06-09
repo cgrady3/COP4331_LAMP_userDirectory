@@ -2,8 +2,6 @@ var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 var hrefBase = "";
 var UserID = 0;
-var FirstName = "";
-var LastName = "";
 
 function loginUser() {
   console.log("User details recieved");
@@ -12,7 +10,7 @@ function loginUser() {
   LastName = "";
 
   var form = document.getElementById("login-form");
-  function handleForm(event) { event.preventDefault(); } 
+  function handleForm(event) { event.preventDefault(); }
   form.addEventListener('submit', handleForm);
   var login = $("#user-email").val().trim().toLowerCase();
   var Password = $("#user-password").val().trim();
@@ -20,7 +18,7 @@ function loginUser() {
   Password = md5(Password);
 
   var jsonPayload =
-    '{"Email" : "' + login + '", "Password" : "' + Password + '"}';
+      '{"Email" : "' + login + '", "Password" : "' + Password + '"}';
   var url = urlBase + "/Login" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -30,7 +28,8 @@ function loginUser() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        UserID = jsonObject.UserID;
+        UserID = jsonObject.results[0];
+
 
         if (jsonObject.error === "User Name / Password do not match OR user does not exist") {
           alert("Invalid Email/Password");
@@ -44,7 +43,7 @@ function loginUser() {
     xhr.send(jsonPayload);
     console.log("Login info sent");
   } catch (err) {
-      alert(err.message);
+    alert(err.message);
   }
 }
 
@@ -60,7 +59,7 @@ function signUp() {
   FirstName = $("#first-name").val().trim().toLowerCase();
   LastName = $("#last-name").val().trim().toLowerCase();
   var form = document.getElementById("login-form");
-  function handleForm(event) { event.preventDefault(); } 
+  function handleForm(event) { event.preventDefault(); }
   form.addEventListener('submit', handleForm);
   // validating password length
   if (Password.length < 8 || Password.length > 15) {
@@ -82,20 +81,20 @@ function signUp() {
   // if validation error reload the page and exit
   // this function before API call starts
   if (error){
-     location.reload();
-     return;
+    location.reload();
+    return;
   }
 
   var jsonPayload =
-    '{"Email" : "' +
-    Email +
-    '", "Password" : "' +
-    Password +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Password" : "' +
+      Password +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '"}';
   var url = urlBase + "/RegisterUser" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -132,14 +131,11 @@ function saveCookie() {
   var date = new Date();
   date.setTime(date.getTime() + minutes * 60 * 1000);
   document.cookie =
-    "FirstName=" +
-    FirstName +
-    ",LastName=" +
-    LastName +
-    ",UserID=" +
-    UserID +
-    ";expires=" +
-    date.toGMTString();
+      "UserID=" +
+      UserID +
+      ";expires=" +
+      date.toGMTString();
+  console.log(document.cookie);
 }
 
 function readCookie() {
@@ -149,11 +145,7 @@ function readCookie() {
   for (let i = 0; i < splits.length; i++) {
     var thisOne = splits[i].trim();
     var tokens = thisOne.split("=");
-    if (tokens[0] === "FirstName") {
-      FirstName = tokens[1];
-    } else if (tokens[0] === "LastName") {
-      LastName = tokens[1];
-    } else if (tokens[0] === "UserID") {
+    if (tokens[0] === "UserID") {
       UserID = parseInt(tokens[1].trim());
     }
   }
