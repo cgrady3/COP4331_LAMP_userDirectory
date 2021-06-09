@@ -19,7 +19,7 @@
     <nav class="navbar fixed-top" id="navbar">
         <h3>Contactful Delivery</h3>
         <form class="form-inline"> 
-            <input class="form-control mr-sm-2" type="search" placeholder="Search contacts" id="searchBox">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Contacts" id="searchBox">
             <button class="btn btn-custom my-2 my-sm-0" type="button" id="searchBtn">Search</button>
             <button class="btn btn-custom mx-5" type="button" data-bs-toggle="modal" data-bs-target="#addModal"> 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
@@ -28,6 +28,7 @@
                 </svg>
             </button>
         </form>
+        <p id="userName"></p>
         <button class="btn btn-danger" type="button" id="signOut-Btn">Sign Out</button>
 
     </nav>
@@ -43,10 +44,8 @@
 <template id="contactCard">
     <div class="col-sm-3 mb-3">
         <div class="card" data-bs-toggle="modal" data-bs-target="#editModal">
-        <div class="card-header">
-        </div>        
+        <div class="card-header"></div>
         <ul class="list-group list-group-flush">
-            <li class="contact-id" hidden></li>
             <li class="list-group-item">Email: </li>
             <li class="list-group-item">Phone #: </li>
         </ul>
@@ -69,8 +68,8 @@
             <div class="modal-body">                    
                 <label for="add-contact-firstName">Name</label>
                 <div class="row mx-auto">
-                    <div class="col-xs mr-5"> <input id="add-contact-firstName" type="text" name="firstName" class="form-control" placeholder="First" required> </div>
-                    <div class="col-xs ml-3"> <input id="add-contact-lastName" type="text" name="lastName" class="form-control" placeholder="Last" required> </div>
+                    <div class="col-xs mr-3"> <input id="add-contact-firstName" type="text" name="firstName" size="23" class="form-control" placeholder="First" required> </div>
+                    <div class="col-xs ml-2"> <input id="add-contact-lastName" type="text" name="lastName" size="23" class="form-control" placeholder="Last" required> </div>
                 </div>
                 <label for="add-contact-email">Email</label>
                 <input id="add-contact-email" type="email" name="email" class="form-control" placeholder="Email" required>
@@ -78,6 +77,7 @@
                 <input id="add-contact-number" type="text" name="number" class="form-control" placeholder="Phone #" required>
             </div>
             <div class="modal-footer">
+                <p id="add-error-message"></p>
                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
                 <button class="btn btn-primary" type="submit" id="add-contact-btn">Create</button>
             </div>

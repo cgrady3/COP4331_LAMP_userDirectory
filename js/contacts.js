@@ -5,8 +5,8 @@ const deleteContactBtn = $("#delete-contact-btn");
 const signOutBtn = $("#signOut-Btn")
 const row = $("#row-1");
 
+
 var contactCards = [];
-var currentContactCard;
 
 deleteContactBtn.addEventListener("click", deleteContact);
 signOutBtn.addEventListener("click", doLogout);
@@ -80,7 +80,8 @@ $("#add-contact-btn").on("click", function (event) {
   var error = false;
   var Email = $("#add-contact-email").val().trim().toLowerCase();
   var Phone = $("#add-contact-number").val().trim().toLowerCase();
-  
+
+
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
     alert("Please Enter Only Numbers for Contact Phone Number");
@@ -203,12 +204,12 @@ $("#edit-contact-btn").on("click", function (event) {
     };
     xhr.send(contact);
     console.log("Contact info sent");
+    addCard(newContact);
+    // Close modal
+    $('#addModal').modal('hide');
   } catch (err) {
     document.getElementById("contactResult").innerHTML = err.message;
   }
-
-  console.log(contact);
-  $('#editModal').modal('hide');
 });
 
 function deleteContact(){
@@ -223,14 +224,14 @@ function addCard(contact){
 
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
-  header[0].innerText = contact.firstName + " " + contact.lastName;
+  header[0].innerText = contact.FirstName + " " + contact.LastName;
 
   var body = clone.querySelectorAll("li");
-  body[1].textContent += contact.email;
-  body[2].textContent += contact.phone;
+  body[0].textContent += contact.Email;
+  body[1].textContent += contact.Phone;
 
   var footer = clone.getElementsByClassName("card-footer");
-  footer[0].innerText = "Date Created: " + contact.dateCreated;
+  footer[0].innerText = "Date Created: " + contact.DateCreated;
 
   clone.addEventListener("click", updateEditModal);
 
@@ -239,24 +240,21 @@ function addCard(contact){
   row.appendChild(clone);
 }
 
-function deleteCards(){
-  var length = contactCards.length;
-  for (var i = 0; i < length; i++){
-    row.removeChild(contactCards.shift());
-    numContacts--;
-  }
+function deleteCard(){
+  // Find way to delete specific contact/card
 }
 
 function updateEditModal(){
-  currentContactCard = this;
   var header = this.getElementsByClassName("card-header");
   var body = this.querySelectorAll("li");
 
   var name = header[0].innerText.split(" ");
 
-  contactId = this.getElementById("contactId").innerText;
+
+  contactId = $(this).attr("contactId");
   $("#edit-contact-firstName").value = name[0];
   $("#edit-contact-lastName").value = name[1];
   $("#edit-contact-email").value = body[1].innerText.split(" ")[1];
   $("#edit-contact-number").value = body[2].innerText.split(" ")[2];
+
 }
