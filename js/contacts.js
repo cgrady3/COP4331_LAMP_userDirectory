@@ -170,7 +170,7 @@ $("#edit-contact-btn").on("click", function (event) {
     LastName: $("#edit-contact-lastName").val().trim().toLowerCase(),
     Email: Email,
     Phone: Phone,
-    ContactID = $(this).attr("data-ID")
+    ContactID: $(this).attr("data-ID")
   };
 
   var url = urlBase + "/UpdateContact" + extension;
