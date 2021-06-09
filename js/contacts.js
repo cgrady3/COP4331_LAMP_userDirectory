@@ -1,11 +1,13 @@
-window.onload = function(){readCookie();}
+window.onload = function () {
+  readCookie();
+};
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 var UserID = 0;
 var contactCards = [];
 const row = $("#row-1");
 
-$("#searchBox").on("input",function (event) {
+$("#searchBox").on("input", function (event) {
   event.preventDefault();
 
   var input = $(this).val().toLowerCase();
@@ -39,11 +41,10 @@ $("#searchBox").on("input",function (event) {
 
 $("#add-contact-btn").on("click", function (event) {
   event.preventDefault();
-  
+
   var error = false;
   var Email = $("#add-contact-email").val().trim().toLowerCase();
   var Phone = $("#add-contact-number").val().trim();
-
 
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
@@ -61,7 +62,7 @@ $("#add-contact-btn").on("click", function (event) {
 
   // if validation error reload the page and exit
   // this function before API call starts
-  if (error){
+  if (error) {
     location.reload();
     return;
   }
@@ -71,7 +72,7 @@ $("#add-contact-btn").on("click", function (event) {
     FirstName: $("#add-contact-firstName").val().trim().toLowerCase(),
     LastName: $("#add-contact-lastName").val().trim().toLowerCase(),
     Email: Email,
-    Phone: Phone
+    Phone: Phone,
   };
 
   var url = urlBase + "/AddContact" + extension;
@@ -83,7 +84,7 @@ $("#add-contact-btn").on("click", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         console.log("Contact Added");
         console.log(
-            "Name: " +
+          "Name: " +
             FirstName +
             " " +
             LastName +
@@ -98,25 +99,24 @@ $("#add-contact-btn").on("click", function (event) {
     };
     xhr.send(contact);
     console.log("Contact info sent");
+    addCard(contact);
+    $("#add-contact-email").val("");
+    $("#add-contact-number").val("");
+    $("#add-contact-firstName").val("");
+    $("#add-contact-lastName").val("");
+    $("#addModal").modal("hide");
   } catch (err) {
     document.getElementById("contactResult").innerHTML = err.message;
   }
-
-  addCard(contact);
-  $("#add-contact-email").val("");
-  $("#add-contact-number").val("");
-  $("#add-contact-firstName").val("");
-  $("#add-contact-lastName").val("");
-  $('#addModal').modal('hide');
 });
 
 $("#edit-contact-btn").on("click", function (event) {
   event.preventDefault();
-  
+
   var error = false;
   var Email = $("#edit-contact-email").val().trim().toLowerCase();
   var Phone = $("#edit-contact-number").val().trim();
-  
+
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
     alert("Please Enter Only Numbers for Contact Phone Number");
@@ -133,7 +133,7 @@ $("#edit-contact-btn").on("click", function (event) {
 
   // if validation error reload the page and exit
   // this function before API call starts
-  if (error){
+  if (error) {
     location.reload();
     return;
   }
@@ -144,7 +144,7 @@ $("#edit-contact-btn").on("click", function (event) {
     LastName: $("#edit-contact-lastName").val().trim().toLowerCase(),
     Email: Email,
     Phone: Phone,
-    ContactID: $(this).attr("data-ID")
+    ContactID: $(this).attr("data-ID"),
   };
 
   var url = urlBase + "/UpdateContact" + extension;
@@ -156,7 +156,7 @@ $("#edit-contact-btn").on("click", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         console.log("Contact Updated");
         console.log(
-            "Name: " +
+          "Name: " +
             FirstName +
             " " +
             LastName +
@@ -165,19 +165,18 @@ $("#edit-contact-btn").on("click", function (event) {
             " Phone: " +
             Phone
         );
-
+        console.log("Contact info sent");
+        $("#edit-contact-email").val("");
+        $("#edit-contact-number").val("");
+        $("#edit-contact-firstName").val("");
+        $("#edit-contact-lastName").val("");
+        addCard(newContact);
+        // Close modal
+        $("#editModal").modal("hide");
         window.location.href = "contact.html";
       }
     };
     xhr.send(contact);
-    console.log("Contact info sent");
-    $("#edit-contact-email").val("");
-    $("#edit-contact-number").val("");
-    $("#edit-contact-firstName").val("");
-    $("#edit-contact-lastName").val("");
-    addCard(newContact);
-    // Close modal
-    $('#editModal').modal('hide');
   } catch (err) {
     document.getElementById("contactResult").innerHTML = err.message;
   }
@@ -185,7 +184,9 @@ $("#edit-contact-btn").on("click", function (event) {
 
 $("#delete-contact-btn").on("click", function (event) {
   event.preventDefault();
-  if(confirm("Are you sure you want to delete this person from your contacts?")){
+  if (
+    confirm("Are you sure you want to delete this person from your contacts?")
+  ) {
     // delete contact
     // send request to api
   }
@@ -200,7 +201,7 @@ $("#signOut-Btn").on("click", function (event) {
   window.location.href = "../index.html";
 });
 
-function addCard(contact){
+function addCard(contact) {
   var template = $("#contactCard");
 
   var clone = template.content.firstElementChild.cloneNode(true);
@@ -217,27 +218,25 @@ function addCard(contact){
   clone.addEventListener("click", updateEditModal);
 
   contactCards.push(clone);
-  contacts.push
+  contacts.push;
   row.appendChild(clone);
 }
 
-function deleteCard(){
+function deleteCard() {
   // Find way to delete specific contact/card
 }
 
-function updateEditModal(){
+function updateEditModal() {
   var header = this.getElementsByClassName("card-header");
   var body = this.querySelectorAll("li");
 
   var name = header[0].innerText.split(" ");
-
 
   contactId = $(this).attr("contactId");
   $("#edit-contact-firstName").value = name[0];
   $("#edit-contact-lastName").value = name[1];
   $("#edit-contact-email").value = body[1].innerText.split(" ")[1];
   $("#edit-contact-number").value = body[2].innerText.split(" ")[2];
-
 }
 
 function readCookie() {
