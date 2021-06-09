@@ -173,4 +173,7 @@ function doLogout() {
   window.location.href = "../index.html";
 }
 
-export{urlBase, extension, UserID, readCookie, doLogout};
+
+
+const id = {UserID: UserID};
+export{urlBase, extension, id, readCookie, doLogout};

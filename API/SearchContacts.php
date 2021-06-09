@@ -11,9 +11,13 @@
 	$stmt->execute();
 
 	$result = $stmt->get_result();		
+	$rows = array();
 
   	if ($result->num_rows > 0) {
-		returnWithInfo($result->fetch_assoc());
+		while($row = $result->fetch_assoc()){
+			$rows = $row;
+		}
+		echo json_encode($rows);
   	}
     else {
 		returnWithError("No Contact Found");
