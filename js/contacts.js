@@ -1,5 +1,7 @@
 import {urlBase, extension, UserID, readCookie} from '../js/script.js';
 
+window.onload = readCookie();
+
 const row = $("#row-1");
 
 var contactCards = [];
