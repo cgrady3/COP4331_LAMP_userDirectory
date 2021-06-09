@@ -1,20 +1,17 @@
-const input = document.getElementById("searchBox");
-const addContactBtn = document.getElementById("add-contact-btn");
-const editContactBtn = document.getElementById("edit-contact-btn");
-const deleteContactBtn = document.getElementById("delete-contact-btn");
-const signOutBtn = document.getElementById("signOut-Btn")
-const row = document.getElementById("row-1");
+import {urlBase, extension, UserID, doLogout} from '../js/script';
+
+const input = $("#searchBox");
+const addContactBtn = $("#add-contact-btn");
+const deleteContactBtn = $("#delete-contact-btn");
+const signOutBtn = $("#signOut-Btn")
+const row = $("#row-1");
 
 var contactCards = [];
 var currentContactCard;
 
 input.addEventListener("input", updateSearch);
-addContactBtn.addEventListener("click", addContact);
-editContactBtn.addEventListener("click", editContact);
 deleteContactBtn.addEventListener("click", deleteContact);
 signOutBtn.addEventListener("click", doLogout);
-
-var contact = {firstName:"John", lastName:"Doe", email:"frontendUI@project.com", phone:"812-123-1231", dateCreated:"10-2-2021"};
 
 function updateSearch(e) {
   addCard(contact);
@@ -24,51 +21,142 @@ function updateSearch(e) {
   // }
 }
 
-function addContact(){
-  const firstName = document.getElementById("add-contact-firstName").value;
-  const lastName = document.getElementById("add-contact-lastName").value;
-  const email = document.getElementById("add-contact-email").value;
-  const number = document.getElementById("add-contact-number").value;
-
-  const contact = {
-    UserId: 0,
-    contactId: 0,
-    firstName: firstName,
-    lastName : lastName,
-    email: email,
-    phone : number,
+$("#add-contact-btn").on("click", function (event) {
+  event.preventDefault();
+  
+  var error = false;
+  var Email = $("#add-contact-email").val().trim().toLowerCase();
+  var Phone = $("#add-contact-number").val().trim().toLowerCase();
+  
+  // allow only numbers for phone number (not (123)345-3453 format)
+  if (!$.isNumeric(Phone)) {
+    alert("Please Enter Only Numbers for Contact Phone Number");
+    error = true;
   }
 
-  console.log(contact);
+  // validate email format
+  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
+
+  if (!regex.test(Email)) {
+    alert("Please Enter Valid Email Address");
+    error = true;
+  }
+
+  // if validation error reload the page and exit
+  // this function before API call starts
+  if (error){
+    location.reload();
+    return;
+  }
+
+  var contact = {
+    UserID: UserID,
+    FirstName: $("#add-contact-firstName").val().trim().toLowerCase(),
+    LastName: $("#add-contact-lastName").val().trim().toLowerCase(),
+    Email: Email,
+    Phone: Phone
+  };
+
+  var url = urlBase + "/AddContact" + extension;
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log("Contact Added");
+        console.log(
+            "Name: " +
+            FirstName +
+            " " +
+            LastName +
+            " Email: " +
+            Email +
+            " Phone: " +
+            Phone
+        );
+
+        window.location.href = "contact.html";
+      }
+    };
+    xhr.send(contact);
+    console.log("Contact info sent");
+  } catch (err) {
+    document.getElementById("contactResult").innerHTML = err.message;
+  }
+
   addCard(contact);
-
-  // Send information to api
-  
-  // Close modal
   $('#addModal').modal('hide');
-}
+});
 
-function editContact(){
-  const contactId = this.getElementById("contact-id").innerText;
-  const firstName = document.getElementById("edit-contact-firstName").value;
-  const lastName = document.getElementById("edit-contact-lastName").value;
-  const email = document.getElementById("edit-contact-email").value;
-  const number = document.getElementById("edit-contact-number").value;
+$("#edit-contact-btn").on("click", function (event) {
+  event.preventDefault();
+  
+  var error = false;
+  var Email = $("#edit-contact-email").val().trim().toLowerCase();
+  var Phone = $("#edit-contact-number").val().trim().toLowerCase();
+  
+  // allow only numbers for phone number (not (123)345-3453 format)
+  if (!$.isNumeric(Phone)) {
+    alert("Please Enter Only Numbers for Contact Phone Number");
+    error = true;
+  }
 
-  const contact = {
-    UserId: 0,
-    contactId: contactId,
-    firstName: firstName,
-    lastName : lastName,
-    email: email,
-    phone : number,
+  // validate email format
+  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
+
+  if (!regex.test(Email)) {
+    alert("Please Enter Valid Email Address");
+    error = true;
+  }
+
+  // if validation error reload the page and exit
+  // this function before API call starts
+  if (error){
+    location.reload();
+    return;
+  }
+
+  var contact = {
+    UserID: UserID,
+    FirstName: $("#edit-contact-firstName").val().trim().toLowerCase(),
+    LastName: $("#edit-contact-lastName").val().trim().toLowerCase(),
+    Email: Email,
+    Phone: Phone,
+    ContactID = $(this).attr("data-ID")
+  };
+
+  var url = urlBase + "/UpdateContact" + extension;
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log("Contact Updated");
+        console.log(
+            "Name: " +
+            FirstName +
+            " " +
+            LastName +
+            " Email: " +
+            Email +
+            " Phone: " +
+            Phone
+        );
+
+        window.location.href = "contact.html";
+      }
+    };
+    xhr.send(contact);
+    console.log("Contact info sent");
+  } catch (err) {
+    document.getElementById("contactResult").innerHTML = err.message;
   }
 
   console.log(contact);
   $('#editModal').modal('hide');
-
-  // Turn contact object into JSON and send to api
-}
+});
 
 function deleteContact(){
   if(confirm("Are you sure you want to delete this person from your contacts?")){
@@ -78,7 +166,7 @@ function deleteContact(){
 }
 
 function addCard(contact){
-  var template = document.getElementById("contactCard");
+  var template = $("#contactCard");
 
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
@@ -114,8 +202,8 @@ function updateEditModal(){
   var name = header[0].innerText.split(" ");
 
   contactId = this.getElementById("contactId").innerText;
-  document.getElementById("edit-contact-firstName").value = name[0];
-  document.getElementById("edit-contact-lastName").value = name[1];
-  document.getElementById("edit-contact-email").value = body[1].innerText.split(" ")[1];
-  document.getElementById("edit-contact-number").value = body[2].innerText.split(" ")[2];
+  $("#edit-contact-firstName").value = name[0];
+  $("#edit-contact-lastName").value = name[1];
+  $("#edit-contact-email").value = body[1].innerText.split(" ")[1];
+  $("#edit-contact-number").value = body[2].innerText.split(" ")[2];
 }

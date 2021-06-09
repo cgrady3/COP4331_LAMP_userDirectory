@@ -4,7 +4,6 @@ var extension = ".php";
 var UserID = 0;
 var FirstName = "";
 var LastName = "";
-var selection = searchContacts.value;
 
 function loginUser() {
   console.log("User details recieved");
@@ -118,44 +117,7 @@ function signUp() {
 // create user
 // delete user
 
-$("#addContact").on("click", function (event) {
-  event.preventDefault();
 
-  var newContact = {
-    FirstName: $("#first-name").val().trim().toLowerCase(),
-    LastName: $("#last-name").val().trim().toLowerCase(),
-    Email: $("#user-email").val().trim().toLowerCase(),
-    Phone: $("#number").val().trim().toLowerCase(),
-  };
-
-  var url = urlBase + "/AddContact" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("Contact Added");
-        console.log(
-            "Name: " +
-            FirstName +
-            " " +
-            LastName +
-            " Email: " +
-            Email +
-            " Phone: " +
-            Phone
-        );
-
-        window.location.href = "home.html";
-      }
-    };
-    xhr.send(newContact);
-    console.log("Contact info sent");
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
 
 $("#searchContacts").input(function (event) {
   event.preventDefault();
@@ -260,3 +222,5 @@ function doLogout() {
   document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
   window.location.href = "../index.html";
 }
+
+export{urlBase, extension, UserID, readCookie, doLogout};
