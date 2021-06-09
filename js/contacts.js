@@ -103,6 +103,10 @@ $("#add-contact-btn").on("click", function (event) {
   }
 
   addCard(contact);
+  $("#add-contact-email").val("");
+  $("#add-contact-number").val("");
+  $("#add-contact-firstName").val("");
+  $("#add-contact-lastName").val("");
   $('#addModal').modal('hide');
 });
 
@@ -167,9 +171,13 @@ $("#edit-contact-btn").on("click", function (event) {
     };
     xhr.send(contact);
     console.log("Contact info sent");
+    $("#edit-contact-email").val("");
+    $("#edit-contact-number").val("");
+    $("#edit-contact-firstName").val("");
+    $("#edit-contact-lastName").val("");
     addCard(newContact);
     // Close modal
-    $('#addModal').modal('hide');
+    $('#editModal').modal('hide');
   } catch (err) {
     document.getElementById("contactResult").innerHTML = err.message;
   }
