@@ -1,4 +1,4 @@
-import {urlBase, extension, UserID, readCookie} from '../js/script';
+import {urlBase, extension, UserID, readCookie} from '../js/script.js';
 
 const row = $("#row-1");
 
