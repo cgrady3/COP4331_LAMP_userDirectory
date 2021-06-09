@@ -1,7 +1,7 @@
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 var hrefBase = "";
-var UserID = 0;
+var UserID = 1;
 var FirstName = "";
 var LastName = "";
 
@@ -249,10 +249,6 @@ $(".result").on("click", function (event) {
      $("#info").text(err.message);
   }
 });
-
-function validUser(){
-  readCookie();
-}
 
 function saveCookie() {
   var minutes = 20;
