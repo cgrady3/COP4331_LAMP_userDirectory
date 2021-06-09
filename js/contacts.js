@@ -1,11 +1,9 @@
-import {urlBase, extension, id, readCookie} from '../js/script.js';
-
-window.onload = readCookie();
-
-const row = $("#row-1");
-var UserID = id;
-
+window.onload = function(){readCookie();}
+var urlBase = "http://contactfulDelivery.club/API";
+var extension = ".php";
+var UserID = 0;
 var contactCards = [];
+const row = $("#row-1");
 
 $("#searchBox").on("input",function (event) {
   event.preventDefault();
@@ -30,7 +28,7 @@ $("#searchBox").on("input",function (event) {
         $("#info").text(jsonObject.Email);
       }
 
-      window.location.href = "contact.html";
+      window.location.href = " contact.html";
     };
 
     xhr.send();
@@ -232,4 +230,35 @@ function updateEditModal(){
   $("#edit-contact-email").value = body[1].innerText.split(" ")[1];
   $("#edit-contact-number").value = body[2].innerText.split(" ")[2];
 
+}
+
+function readCookie() {
+  UserID = -1;
+  var data = document.cookie;
+  var splits = data.split(",");
+  for (let i = 0; i < splits.length; i++) {
+    var thisOne = splits[i].trim();
+    var tokens = thisOne.split("=");
+    if (tokens[0] === "FirstName") {
+      FirstName = tokens[1];
+    } else if (tokens[0] === "LastName") {
+      LastName = tokens[1];
+    } else if (tokens[0] === "UserID") {
+      UserID = parseInt(tokens[1].trim());
+    }
+  }
+
+  if (UserID <= 0) {
+    window.location.href = "index.html";
+  } else {
+    $("userName").innerHTML = "Logged in as " + FirstName + " " + LastName;
+  }
+}
+
+function doLogout() {
+  UserID = 0;
+  FirstName = "";
+  LastName = "";
+  document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+  window.location.href = "../index.html";
 }
