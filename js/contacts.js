@@ -3,7 +3,7 @@ import {urlBase, extension, id, readCookie} from '../js/script.js';
 window.onload = readCookie();
 
 const row = $("#row-1");
-var UserID = id.UserID;
+var UserID = id;
 
 var contactCards = [];
 
