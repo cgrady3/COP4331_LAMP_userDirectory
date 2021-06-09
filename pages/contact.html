@@ -15,7 +15,7 @@
     <script defer type="text/javascript" src="../js/contacts.js"> </script>
 </head>
 
-<body onload="validUser()">
+<body>
     <nav class="navbar fixed-top" id="navbar">
         <h3>Contactful Delivery</h3>
         <form class="form-inline"> 
@@ -43,10 +43,8 @@
 <template id="contactCard">
     <div class="col-sm-3 mb-3">
         <div class="card" data-bs-toggle="modal" data-bs-target="#editModal">
-        <div class="card-header">
-        </div>        
+        <div class="card-header"></div>
         <ul class="list-group list-group-flush">
-            <li class="contact-id" hidden></li>
             <li class="list-group-item">Email: </li>
             <li class="list-group-item">Phone #: </li>
         </ul>

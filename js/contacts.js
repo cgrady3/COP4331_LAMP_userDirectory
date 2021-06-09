@@ -18,17 +18,17 @@ var contact = {firstName:"John", lastName:"Doe", email:"frontendUI@project.com",
 
 function updateSearch(e) {
   addCard(contact);
-
-  // for (var i = 0; i < contacts.length; i++){
-  //   addCard(contact[i]);
-  // }
 }
 
 function addContact(){
   const firstName = document.getElementById("add-contact-firstName").value;
+  document.getElementById("add-contact-firstName").value = "";
   const lastName = document.getElementById("add-contact-lastName").value;
+  document.getElementById("add-contact-lastName").value = "";
   const email = document.getElementById("add-contact-email").value;
+  document.getElementById("add-contact-email").value = "";
   const number = document.getElementById("add-contact-number").value;
+  document.getElementById("add-contact-number").value = "";
 
   const contact = {
     UserId: 0,
@@ -98,24 +98,18 @@ function addCard(contact){
   row.appendChild(clone);
 }
 
-function deleteCards(){
-  var length = contactCards.length;
-  for (var i = 0; i < length; i++){
-    row.removeChild(contactCards.shift());
-    numContacts--;
-  }
+function deleteCard(){
+  // Find way to delete specific contact/card
 }
 
 function updateEditModal(){
-  currentContactCard = this;
   var header = this.getElementsByClassName("card-header");
   var body = this.querySelectorAll("li");
 
   var name = header[0].innerText.split(" ");
 
-  contactId = this.getElementById("contactId").innerText;
   document.getElementById("edit-contact-firstName").value = name[0];
   document.getElementById("edit-contact-lastName").value = name[1];
-  document.getElementById("edit-contact-email").value = body[1].innerText.split(" ")[1];
-  document.getElementById("edit-contact-number").value = body[2].innerText.split(" ")[2];
+  document.getElementById("edit-contact-email").value = body[0].innerText.split(" ")[1];
+  document.getElementById("edit-contact-number").value = body[1].innerText.split(" ")[2];
 }
