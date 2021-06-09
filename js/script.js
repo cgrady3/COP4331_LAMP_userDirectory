@@ -130,68 +130,6 @@ function signUp() {
 // create user
 // delete user
 
-$("#addContact").on("click", function (event) {
-  event.preventDefault();
-
-  var Phone = $("#number").val().trim();
-  var Email = $("#user-Email").val().trim().toLowerCase();
-  var error = false;
-
-  // allow only numbers for phone number (not (123)345-3453 format)
-  if (!$.isNumeric(Phone)) {
-    alert("Please Enter Only Numbers for Contact Phone Number");
-    error = true;
-  }
-
-  // validate email format
-  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
-
-  if (!regex.test(Email)) {
-    alert("Please Enter Valid Email Address");
-    error = true;
-  }
-
-  // if validation error reload the page and exit
-  // this function before API call starts
-  if (error){
-    location.reload();
-    return;
-  }
-
-  var newContact = {
-    FirstName: $("#first-name").val().trim().toLowerCase(),
-    LastName: $("#last-name").val().trim().toLowerCase(),
-    Email: Email,
-    Phone: Phone,
-  };
-
-  var url = urlBase + "/AddContact" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("Contact Added");
-        console.log(
-          "Name: " +
-            FirstName +
-            " " +
-            LastName +
-            " Email: " +
-            Email +
-            " Phone: " +
-            Phone
-        );
-      }
-    };
-    xhr.send(newContact);
-    console.log("Contact info sent");
-  } catch (err) {
-      alert(err.message);
-  }
-});
-
 $("#searchContacts").input(function (event) {
   event.preventDefault();
 
@@ -295,3 +233,5 @@ function doLogout() {
   document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
   window.location.href = "../index.html";
 }
+
+export{urlBase, extension, UserID, readCookie, doLogout};
