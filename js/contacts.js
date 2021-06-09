@@ -42,7 +42,7 @@ $("#add-contact-btn").on("click", function (event) {
   
   var error = false;
   var Email = $("#add-contact-email").val().trim().toLowerCase();
-  var Phone = $("#add-contact-number").val().trim().toLowerCase();
+  var Phone = $("#add-contact-number").val().trim();
 
 
   // allow only numbers for phone number (not (123)345-3453 format)
@@ -115,7 +115,7 @@ $("#edit-contact-btn").on("click", function (event) {
   
   var error = false;
   var Email = $("#edit-contact-email").val().trim().toLowerCase();
-  var Phone = $("#edit-contact-number").val().trim().toLowerCase();
+  var Phone = $("#edit-contact-number").val().trim();
   
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
