@@ -1,21 +1,20 @@
-import {urlBase, extension, UserID, readCookie} from '../js/script.js';
+import {urlBase, extension, id, readCookie} from '../js/script.js';
 
 window.onload = readCookie();
 
 const row = $("#row-1");
+var UserID = id.UserID;
 
 var contactCards = [];
 
-$("#searchBox").input(function (event) {
+$("#searchBox").on("input",function (event) {
   event.preventDefault();
 
   var input = $(this).val().toLowerCase();
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
-  readCookie();
-
-  xhr.open("GET", url + "?search=" + input + "&UserID=" + UserID, true);
+  xhr.open("PUT", url, true);
 
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
@@ -32,35 +31,6 @@ $("#searchBox").input(function (event) {
       }
 
       window.location.href = "contact.html";
-    };
-
-    xhr.send();
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
-
-$(".result").on("click", function (event) {
-  event.preventDefault();
-
-  var url = urlBase + "/DisplayContact" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url + "?ContactID=" + $(this).attr("data-ID") + "&UserID=" + UserID, true);
-
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("retrieving selected contact");
-        var jsonObject = JSON.parse(xhr.responseText);
-
-        $("#info").text(jsonObject.FirstName);
-        $("#info").text(jsonObject.LastName);
-        $("#info").text(jsonObject.Phone);
-        $("#info").text(jsonObject.Email);
-      }
-
-      window.location.href = "home.html";
     };
 
     xhr.send();
