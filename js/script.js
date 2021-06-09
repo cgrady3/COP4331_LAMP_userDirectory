@@ -56,7 +56,6 @@ function loginUser() {
   }
 }
 
-
 function signUp() {
   console.log("User details recieved");
   FirstName = "";
@@ -113,68 +112,6 @@ function signUp() {
     document.getElementById("loginResult").innerHTML = err.message;
   }
 }
-
-// create user
-// delete user
-
-
-
-$("#searchContacts").input(function (event) {
-  event.preventDefault();
-
-  var input = $this.val().toLowerCase();
-  var url = urlBase + "/SearchContacts" + extension;
-  var xhr = new XMLHttpRequest();
-
-  readCookie();
-
-  xhr.open("GET", url + "?name=" + input + "&UserID=" + UserID, true);
-
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("retrieving");
-      }
-
-      window.location.href = "home.html";
-    };
-
-    xhr.send();
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
-
-// rework for Tylers Modals
-$(".result").on("click", function (event) {
-  event.preventDefault();
-
-  var url = urlBase + "/DisplayContact" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url + "?ContactID=" + $(this).attr("data-ID") + "&UserID=" + UserID, true);
-
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("retrieving selected contact");
-        var jsonObject = JSON.parse(xhr.responseText);
-
-        $("#info").text(jsonObject.FirstName);
-        $("#info").text(jsonObject.LastName);
-        $("#info").text(jsonObject.Phone);
-        $("#info").text(jsonObject.Email);
-      }
-
-      window.location.href = "home.html";
-    };
-
-    xhr.send();
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
 
 function saveCookie() {
   var minutes = 20;

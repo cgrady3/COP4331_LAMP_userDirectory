@@ -1,6 +1,5 @@
 import {urlBase, extension, UserID, doLogout} from '../js/script';
 
-const input = $("#searchBox");
 const addContactBtn = $("#add-contact-btn");
 const deleteContactBtn = $("#delete-contact-btn");
 const signOutBtn = $("#signOut-Btn")
@@ -9,17 +8,71 @@ const row = $("#row-1");
 var contactCards = [];
 var currentContactCard;
 
-input.addEventListener("input", updateSearch);
 deleteContactBtn.addEventListener("click", deleteContact);
 signOutBtn.addEventListener("click", doLogout);
 
-function updateSearch(e) {
-  addCard(contact);
+$("#searchBox").input(function (event) {
+  event.preventDefault();
 
-  // for (var i = 0; i < contacts.length; i++){
-  //   addCard(contact[i]);
-  // }
-}
+  var input = $(this).val().toLowerCase();
+  var url = urlBase + "/SearchContacts" + extension;
+  var xhr = new XMLHttpRequest();
+
+  readCookie();
+
+  xhr.open("GET", url + "?search=" + input + "&UserID=" + UserID, true);
+
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log("Searching: " + input);
+
+        var jsonObject = JSON.parse(xhr.responseText);
+
+        $("#info").text(jsonObject.FirstName);
+        $("#info").text(jsonObject.LastName);
+        $("#info").text(jsonObject.Phone);
+        $("#info").text(jsonObject.Email);
+      }
+
+      window.location.href = "contact.html";
+    };
+
+    xhr.send();
+  } catch (err) {
+    document.getElementById("contactResult").innerHTML = err.message;
+  }
+});
+
+$(".result").on("click", function (event) {
+  event.preventDefault();
+
+  var url = urlBase + "/DisplayContact" + extension;
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url + "?ContactID=" + $(this).attr("data-ID") + "&UserID=" + UserID, true);
+
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        console.log("retrieving selected contact");
+        var jsonObject = JSON.parse(xhr.responseText);
+
+        $("#info").text(jsonObject.FirstName);
+        $("#info").text(jsonObject.LastName);
+        $("#info").text(jsonObject.Phone);
+        $("#info").text(jsonObject.Email);
+      }
+
+      window.location.href = "home.html";
+    };
+
+    xhr.send();
+  } catch (err) {
+    document.getElementById("contactResult").innerHTML = err.message;
+  }
+});
 
 $("#add-contact-btn").on("click", function (event) {
   event.preventDefault();
