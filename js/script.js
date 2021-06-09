@@ -165,15 +165,5 @@ function readCookie() {
   }
 }
 
-function doLogout() {
-  UserID = 0;
-  FirstName = "";
-  LastName = "";
-  document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-  window.location.href = "../index.html";
-}
 
 
-
-const id = {UserID: UserID};
-export{urlBase, extension, id, readCookie, doLogout};
