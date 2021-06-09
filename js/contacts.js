@@ -1,9 +1,17 @@
+var UserID = 0;
+
 window.onload = function () {
-  readCookie();
+  validateUser();
 };
+
+function validateUser(){
+  readCookie();
+  if (UserID <= 0) doLogout();
+}
+
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
-var UserID = 0;
+
 var contactCards = [];
 const row = $("#row-1");
 
@@ -85,13 +93,13 @@ $("#add-contact-btn").on("click", function (event) {
         console.log("Contact Added");
         console.log(
           "Name: " +
-            FirstName +
+            contact.FirstName +
             " " +
-            LastName +
+            contact.LastName +
             " Email: " +
-            Email +
+            contact.Email +
             " Phone: " +
-            Phone
+            contact.Phone
         );
 
         window.location.href = "contact.html";
@@ -157,13 +165,13 @@ $("#edit-contact-btn").on("click", function (event) {
         console.log("Contact Updated");
         console.log(
           "Name: " +
-            FirstName +
+            contact.FirstName +
             " " +
-            LastName +
+            contact.LastName +
             " Email: " +
-            Email +
+            contact.Email +
             " Phone: " +
-            Phone
+            contact.Phone
         );
         console.log("Contact info sent");
         $("#edit-contact-email").val("");
@@ -232,7 +240,7 @@ function updateEditModal() {
 
   var name = header[0].innerText.split(" ");
 
-  contactId = $(this).attr("contactId");
+  var contactId = $(this).attr("contactId");
   $("#edit-contact-firstName").value = name[0];
   $("#edit-contact-lastName").value = name[1];
   $("#edit-contact-email").value = body[1].innerText.split(" ")[1];
