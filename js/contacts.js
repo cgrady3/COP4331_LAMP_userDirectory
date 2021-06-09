@@ -1,15 +1,8 @@
-import {urlBase, extension, UserID, doLogout} from '../js/script';
+import {urlBase, extension, UserID, readCookie} from '../js/script';
 
-const addContactBtn = $("#add-contact-btn");
-const deleteContactBtn = $("#delete-contact-btn");
-const signOutBtn = $("#signOut-Btn")
 const row = $("#row-1");
 
-
 var contactCards = [];
-
-deleteContactBtn.addEventListener("click", deleteContact);
-signOutBtn.addEventListener("click", doLogout);
 
 $("#searchBox").input(function (event) {
   event.preventDefault();
@@ -212,12 +205,22 @@ $("#edit-contact-btn").on("click", function (event) {
   }
 });
 
-function deleteContact(){
+$("#delete-contact-btn").on("click", function (event) {
+  event.preventDefault();
   if(confirm("Are you sure you want to delete this person from your contacts?")){
     // delete contact
     // send request to api
   }
-}
+});
+
+$("#signOut-Btn").on("click", function (event) {
+  event.preventDefault();
+  UserID = 0;
+  FirstName = "";
+  LastName = "";
+  document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+  window.location.href = "../index.html";
+});
 
 function addCard(contact){
   var template = $("#contactCard");
