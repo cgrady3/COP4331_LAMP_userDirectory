@@ -195,29 +195,6 @@ $("#signOut-Btn").on("click", function (event) {
   window.location.href = "../index.html";
 });
 
-function populateContact(contact) {
-  // create token elements to go into the div
-  console.log(contact.FirstName + " " + contact.Phone);
-  var cardDiv = $(
-    '<div class="card" data-bs-toggle="modal" data-bs-target="#editModal" id="contactCard" data-id = "' +
-      contact.contactID +
-      '">'
-  );
-  var cardHead = $('<div class="card-header">').text(
-    contact.FirstName + " " + contact.LastName
-  );
-  var cardBody = $("<ul>");
-  var cardEmail = $("li").text(contact.Email);
-  var cardPhone = $("li").text(contact.Phone);
-
-  $("#contacts")
-    .append(cardDiv)
-    .append(cardHead)
-    .append(cardBody)
-    .append(cardEmail)
-    .append(cardPhone);
-}
-
 function addCard(contact) {
   var template = document.getElementById('contactCard');
   console.log("AddCard: " + template);
