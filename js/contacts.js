@@ -20,6 +20,13 @@ $("#searchBox").on("input", function (event) {
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
+  var search =
+  '{"search" : "' +
+  input +
+  '", "UserID" : "' +
+  UserID +
+  '"}';
+
   xhr.open("PUT", url, true);
 
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -35,11 +42,9 @@ $("#searchBox").on("input", function (event) {
         $("#info").text(jsonObject.Phone);
         $("#info").text(jsonObject.Email);
       }
-
-      window.location.href = " contact.html";
     };
 
-    xhr.send();
+    xhr.send(search);
   } catch (err) {
     document.getElementById("contactResult").innerHTML = err.message;
   }
@@ -219,7 +224,7 @@ function populateContacts() {
             "</li></ul><div class='card-footer text-muted'>Date Created: " +
             jsonObject[i].DateCreated +
             "</div></div></div></div>";
-            
+
           $("#contacts").append(card);
         }
       }
