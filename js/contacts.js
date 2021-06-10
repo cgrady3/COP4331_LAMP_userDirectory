@@ -35,7 +35,7 @@ $("#searchBox").on("input", function (event) {
         console.log("# searched contacts: " + jsonObject.length);
         $("#contacts").empty();
         for (var i = 0; i < jsonObject.length; i++)
-          populateContact(jsonObject[i]);
+          addCard(jsonObject[i]);
       }
     };
 
