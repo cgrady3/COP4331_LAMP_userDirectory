@@ -2,7 +2,6 @@ var UserID = 0;
 
 window.onload = function () {
   validateUser();
-  populateContacts();
 };
 
 function validateUser() {
@@ -193,28 +192,6 @@ $("#signOut-Btn").on("click", function (event) {
   document.cookie = "UserID= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
   window.location.href = "../index.html";
 });
-
-function populateContacts() {
-  var jsonPayload = '{"UserID" : "' + UserID + '"}';
-  var url = urlBase + "/populateContacts" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        var jsonObject = JSON.parse(xhr.responseText);
-              console.log("# contacts: " + jsonObject.length);
-        for (var i = 0; i < jsonObject.length; i++) {
-          populateContact(jsonObject[i]);
-        }
-      }
-    };
-    xhr.send(jsonPayload);
-  } catch (err) {
-    alert("populate err");
-  }
-}
 
 function populateContact(contact) {
   // create token elements to go into the div
