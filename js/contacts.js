@@ -29,10 +29,8 @@ $("#searchBox").on("input", function (event) {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        console.log("Searching: " + input);
 
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log("# searched contacts: " + jsonObject.length);
         $("#row-1").empty();
         for (var i = 0; i < jsonObject.length; i++)
           addCard(jsonObject[i]);
@@ -76,17 +74,17 @@ $("#add-contact-btn").on("click", function (event) {
   }
 
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "UserID" : "' +
-    UserID +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "UserID" : "' +
+      UserID +
+      '"}';
   var url = urlBase + "/AddContact" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -96,7 +94,6 @@ $("#add-contact-btn").on("click", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
 
-        addCard(jsonObject);
         $("#addModal").modal("hide");
         $("#add-contact-email").val("");
         $("#add-contact-number").val("");
@@ -149,19 +146,19 @@ $("#edit-contact-btn").on("click", function (event) {
   };
 
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "UserID" : "' +
-    UserID +
-    '", "ContactID" : "' +
-    ContactID +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "UserID" : "' +
+      UserID +
+      '", "ContactID" : "' +
+      ContactID +
+      '"}';
 
   var url = urlBase + "/UpdateContact" + extension;
   var xhr = new XMLHttpRequest();
@@ -188,11 +185,8 @@ $("#delete-contact-btn").on("click", function (event) {
   event.preventDefault();
   if (confirm("Are you sure you want to delete this person from your contacts?")) {
     // get contact info
-    var payload = {
-      UserId: UserID,
-      ContactID: selectedContact.ContactID
-    };
-    console.log(JSON.stringify(payload));
+    var payload =
+        '{"UserID" : "' + UserID + '", "ContactID" : "' + selectedContact.ContactID + '"}';
     // send request to api
     var url = urlBase + "/DeleteContact" + extension;
     var xhr = new XMLHttpRequest();
@@ -204,7 +198,7 @@ $("#delete-contact-btn").on("click", function (event) {
           deleteCard(selectedCard);
         }
       };
-      xhr.send(JSON.stringify(payload));
+      xhr.send(payload);
     } catch (err) {
       document.getElementById("contactResult").innerHTML = err.message;
     }
@@ -222,7 +216,6 @@ $("#signOut-Btn").on("click", function (event) {
 
 function addCard(contact) {
   var template = document.getElementById('contactCard');
-  console.log("AddCard: " + template);
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
   header[0].innerText = contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
@@ -234,7 +227,7 @@ function addCard(contact) {
   var footer = clone.getElementsByClassName("card-footer");
   footer[0].innerText = "Date Created: " + contact.DateCreated;
 
-  $(clone).attr("data-id", 9);
+  $(clone).attr("data-id", contact.ContactID);
   clone.addEventListener("click", selectContact);
   row.appendChild(clone);
 }
