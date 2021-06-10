@@ -13,7 +13,7 @@ var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 
 var contactCards = [];
-const row = $("#row-1");
+const row = document.getElementById("row-1");
 
 $("#searchBox").on("input", function (event) {
   event.preventDefault();
@@ -21,27 +21,19 @@ $("#searchBox").on("input", function (event) {
   var input = $(this).val().toLowerCase();
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
-
   xhr.open("PUT", url, true);
-
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         console.log("Searching: " + input);
-
-        var jsonObject = JSON.parse(xhr.responseText);
-
-        $("#info").text(jsonObject.FirstName);
-        $("#info").text(jsonObject.LastName);
-        $("#info").text(jsonObject.Phone);
-        $("#info").text(jsonObject.Email);
+        var jsonObject = contacts;
+        for (var i = 0; i < jsonObject.length; i++){
+          addCard(jsonObject[i]);
+        }
       }
-
-      window.location.href = " contact.html";
-    };
-
-    xhr.send();
+  };
+  xhr.send();
   } catch (err) {
     document.getElementById("contactResult").innerHTML = err.message;
   }
@@ -202,8 +194,8 @@ $("#signOut-Btn").on("click", function (event) {
 });
 
 function addCard(contact) {
-  var template = $("#contactCard");
-
+  var template = document.getElementById('contactCard');
+  console.log("AddCard: " + template);
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
   header[0].innerText = contact.FirstName + " " + contact.LastName;
@@ -213,7 +205,7 @@ function addCard(contact) {
   body[1].textContent += contact.Phone;
 
   var footer = clone.getElementsByClassName("card-footer");
-  footer[0].innerText = "Date Created: " + contact.DateCreated;
+  footer[0].innerText = "Date Created: " + "10-20-2021";
 
   clone.addEventListener("click", updateEditModal);
 
@@ -232,7 +224,6 @@ function updateEditModal() {
 
   var name = header[0].innerText.split(" ");
 
-  var contactId = $(this).attr("contactId");
   $("#edit-contact-firstName").value = name[0];
   $("#edit-contact-lastName").value = name[1];
   $("#edit-contact-email").value = body[1].innerText.split(" ")[1];
@@ -250,14 +241,10 @@ function readCookie() {
       UserID = parseInt(tokens[1].trim());
     }
   }
-
-  if (UserID <= 0) {
-    window.location.href = "index.html";
-  }
 }
 
 function doLogout() {
   UserID = 0;
   document.cookie = "expires = Thu, 01 Jan 1970 00:00:00 GMT";
-  window.location.href = "../index.html";
+  //window.location.href = "../index.html";
 }
