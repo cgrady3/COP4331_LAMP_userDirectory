@@ -4,18 +4,18 @@
 	include "returnFunctions.php";
 
 	$inData = getRequestInfo();
- 
-	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE FirstName LIKE ? OR LastName LIKE ? OR Phone LIKE ? OR Email LIKE ? AND UserID=?");
+
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ? OR Phone LIKE ? OR Email LIKE ?) AND UserID=?");
 	$search = "%". $inData["search"] . "%";
 	$stmt->bind_param("sssss", $search, $search, $search, $search, $inData["UserID"]);
 	$stmt->execute();
 
-	$result = $stmt->get_result();		
+	$result = $stmt->get_result();
 	$rows = array();
 
   	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()){
-			$rows = $row;
+			$rows[] = $row;
 		}
 		echo json_encode($rows);
   	}
