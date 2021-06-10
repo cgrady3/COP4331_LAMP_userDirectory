@@ -4,7 +4,7 @@ window.onload = function () {
   validateUser();
 };
 
-function validateUser(){
+function validateUser() {
   readCookie();
   if (UserID <= 0) doLogout();
 }
@@ -12,15 +12,14 @@ function validateUser(){
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 
-var contactCards = [];
-const row = $("#row-1");
-
 $("#searchBox").on("input", function (event) {
   event.preventDefault();
 
   var input = $(this).val().toLowerCase();
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
+
+  var search = '{"search" : "' + input + '", "UserID" : "' + UserID + '"}';
 
   xhr.open("PUT", url, true);
 
@@ -31,17 +30,14 @@ $("#searchBox").on("input", function (event) {
         console.log("Searching: " + input);
 
         var jsonObject = JSON.parse(xhr.responseText);
-
-        $("#info").text(jsonObject.FirstName);
-        $("#info").text(jsonObject.LastName);
-        $("#info").text(jsonObject.Phone);
-        $("#info").text(jsonObject.Email);
+        console.log("# searched contacts: " + jsonObject.length);
+        $("#contacts").empty();
+        for (var i = 0; i < jsonObject.length; i++)
+          populateContact(jsonObject[i]);
       }
-
-      window.location.href = " contact.html";
     };
 
-    xhr.send();
+    xhr.send(search);
   } catch (err) {
     document.getElementById("contactResult").innerHTML = err.message;
   }
@@ -55,7 +51,6 @@ $("#add-contact-btn").on("click", function (event) {
   var Phone = $("#add-contact-number").val().trim();
   var FirstName = $("#add-contact-firstName").val().trim().toLowerCase();
   var LastName = $("#add-contact-lastName").val().trim().toLowerCase();
-
 
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
@@ -79,17 +74,17 @@ $("#add-contact-btn").on("click", function (event) {
   }
 
   var contact =
-      '{"Email" : "' +
-      Email +
-      '", "Phone" : "' +
-      Phone +
-      '", "FirstName" : "' +
-      FirstName +
-      '", "LastName" : "' +
-      LastName +
-      '", "UserID" : "' +
-      UserID +
-      '"}';
+    '{"Email" : "' +
+    Email +
+    '", "Phone" : "' +
+    Phone +
+    '", "FirstName" : "' +
+    FirstName +
+    '", "LastName" : "' +
+    LastName +
+    '", "UserID" : "' +
+    UserID +
+    '"}';
   var url = urlBase + "/AddContact" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -98,18 +93,17 @@ $("#add-contact-btn").on("click", function (event) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        //window.location.href = "contact.html";
+
+        addCard(jsonObject);
+        $("#add-contact-email").val("");
+        $("#add-contact-number").val("");
+        $("#add-contact-firstName").val("");
+        $("#add-contact-lastName").val("");
+        $("#addModal").modal("hide");
       }
     };
     xhr.send(contact);
-    //addCard(contact);
-    $("#add-contact-email").val("");
-    $("#add-contact-number").val("");
-    $("#add-contact-firstName").val("");
-    $("#add-contact-lastName").val("");
-    $("#addModal").modal("hide");
   } catch (err) {
-    //document.getElementById("contactResult").innerHTML = err.message;
     alert("oh no");
   }
 });
@@ -145,19 +139,19 @@ $("#edit-contact-btn").on("click", function (event) {
   }
 
   var contact =
-      '{"Email" : "' +
-      Email +
-      '", "Phone" : "' +
-      Phone +
-      '", "FirstName" : "' +
-      FirstName +
-      '", "LastName" : "' +
-      LastName +
-      '", "UserID" : "' +
-      UserID +
-      '", "ContactID" : "' +
-      ContactID +
-      '"}';
+    '{"Email" : "' +
+    Email +
+    '", "Phone" : "' +
+    Phone +
+    '", "FirstName" : "' +
+    FirstName +
+    '", "LastName" : "' +
+    LastName +
+    '", "UserID" : "' +
+    UserID +
+    '", "ContactID" : "' +
+    ContactID +
+    '"}';
 
   var url = urlBase + "/UpdateContact" + extension;
   var xhr = new XMLHttpRequest();
@@ -185,7 +179,7 @@ $("#edit-contact-btn").on("click", function (event) {
 $("#delete-contact-btn").on("click", function (event) {
   event.preventDefault();
   if (
-      confirm("Are you sure you want to delete this person from your contacts?")
+    confirm("Are you sure you want to delete this person from your contacts?")
   ) {
     // delete contact
     // send request to api
@@ -195,11 +189,32 @@ $("#delete-contact-btn").on("click", function (event) {
 $("#signOut-Btn").on("click", function (event) {
   event.preventDefault();
   UserID = 0;
-  FirstName = "";
-  LastName = "";
-  document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+  document.cookie = "UserID= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
   window.location.href = "../index.html";
 });
+
+function populateContact(contact) {
+  // create token elements to go into the div
+  console.log(contact.FirstName + " " + contact.Phone);
+  var cardDiv = $(
+    '<div class="card" data-bs-toggle="modal" data-bs-target="#editModal" id="contactCard" data-id = "' +
+      contact.contactID +
+      '">'
+  );
+  var cardHead = $('<div class="card-header">').text(
+    contact.FirstName + " " + contact.LastName
+  );
+  var cardBody = $("<ul>");
+  var cardEmail = $("li").text(contact.Email);
+  var cardPhone = $("li").text(contact.Phone);
+
+  $("#contacts")
+    .append(cardDiv)
+    .append(cardHead)
+    .append(cardBody)
+    .append(cardEmail)
+    .append(cardPhone);
+}
 
 function addCard(contact) {
   var template = $("#contactCard");
