@@ -6,7 +6,7 @@ window.onload = function () {
 
 function validateUser() {
   readCookie();
-  //if (UserID <= 0) doLogout();
+  if (UserID <= 0) doLogout();
 }
 
 var urlBase = "http://contactfulDelivery.club/API";
@@ -24,44 +24,25 @@ $("#searchBox").on("input", function (event) {
 
   var search = '{"search" : "' + input + '", "UserID" : "' + UserID + '"}';
 
-  var contacts = [{
-    FirstName: "tyler",
-    LastName: "pearson",
-    Email: "pearsonty9@email.com",
-    Phone: "123123123"
-  },
-  {
-    FirstName: "tyler",
-    LastName: "pear",
-    Email: "pearsonty9@email.com",
-    Phone: "123123123"
-  },
-  {
-    FirstName: "tiger",
-    LastName: "pearson",
-    Email: "pearsonty9@email.com",
-    Phone: "123123123"
-  }];
-
-  // xhr.open("PUT", url, true);
-  // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  // try {
-  //   xhr.onreadystatechange = function () {
-  //     if (this.readyState === 4 && this.status === 200) {
+  xhr.open("PUT", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
         console.log("Searching: " + input);
 
-        var jsonObject = contacts//JSON.parse(xhr.responseText);
+        var jsonObject = JSON.parse(xhr.responseText);
         console.log("# searched contacts: " + jsonObject.length);
         $("#row-1").empty();
         for (var i = 0; i < jsonObject.length; i++)
           addCard(jsonObject[i]);
-      // }
-    // };
+      }
+    };
 
-    // xhr.send(search);
-  // } catch (err) {
-  //   document.getElementById("contactResult").innerHTML = err.message;
-  // }
+    xhr.send(search);
+  } catch (err) {
+    document.getElementById("contactResult").innerHTML = err.message;
+  }
 });
 
 $("#add-contact-btn").on("click", function (event) {
@@ -311,7 +292,7 @@ function readCookie() {
 function doLogout() {
   UserID = 0;
   document.cookie = "expires = Thu, 01 Jan 1970 00:00:00 GMT";
-  //window.location.href = "../index.html";
+  window.location.href = "../index.html";
 }
 
 String.prototype.capitalize = function() {
