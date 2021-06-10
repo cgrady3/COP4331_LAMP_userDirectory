@@ -20,12 +20,7 @@ $("#searchBox").on("input", function (event) {
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
-  var search =
-  '{"search" : "' +
-  input +
-  '", "UserID" : "' +
-  UserID +
-  '"}';
+  var search = '{"search" : "' + input + '", "UserID" : "' + UserID + '"}';
 
   xhr.open("PUT", url, true);
 
@@ -36,11 +31,10 @@ $("#searchBox").on("input", function (event) {
         console.log("Searching: " + input);
 
         var jsonObject = JSON.parse(xhr.responseText);
-
-        $("#info").text(jsonObject.FirstName);
-        $("#info").text(jsonObject.LastName);
-        $("#info").text(jsonObject.Phone);
-        $("#info").text(jsonObject.Email);
+        console.log("# searched contacts: " + jsonObject.length);
+        $("#contacts").empty();
+        for (var i = 0; i < jsonObject.length; i++)
+          populateContact(jsonObject[i]);
       }
     };
 
@@ -210,22 +204,9 @@ function populateContacts() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-
+              console.log("# contacts: " + jsonObject.length);
         for (var i = 0; i < jsonObject.length; i++) {
-          var card =
-            "<div id='contactCard'><div class='col-sm-3 mb-3'><div class='card' data-bs-toggle='modal' data-bs-target='#editModal'><div class='card-header'></div><ul class='list-group list-group-flush'><li class='list-group-item'>Name: " +
-            jsonObject[i].FirstName +
-            " " +
-            jsonObject[i].LastName +
-            "</li><li class='list-group-item'>Email: " +
-            jsonObject[i].Email +
-            "</li><li class='list-group-item'>Phone #: " +
-            jsonObject[i].Phone +
-            "</li></ul><div class='card-footer text-muted'>Date Created: " +
-            jsonObject[i].DateCreated +
-            "</div></div></div></div>";
-
-          $("#contacts").append(card);
+          populateContact(jsonObject[i]);
         }
       }
     };
@@ -233,6 +214,29 @@ function populateContacts() {
   } catch (err) {
     alert("populate err");
   }
+}
+
+function populateContact(contact) {
+  // create token elements to go into the div
+  console.log(contact.FirstName + " " + contact.Phone);
+  var cardDiv = $(
+    '<div class="card" data-bs-toggle="modal" data-bs-target="#editModal" id="contactCard" data-id = "' +
+      contact.contactID +
+      '">'
+  );
+  var cardHead = $('<div class="card-header">').text(
+    contact.FirstName + " " + contact.LastName
+  );
+  var cardBody = $("<ul>");
+  var cardEmail = $("li").text(contact.Email);
+  var cardPhone = $("li").text(contact.Phone);
+
+  $("#contacts")
+    .append(cardDiv)
+    .append(cardHead)
+    .append(cardBody)
+    .append(cardEmail)
+    .append(cardPhone);
 }
 
 function addCard(contact) {
