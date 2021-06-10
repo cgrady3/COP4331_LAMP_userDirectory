@@ -12,7 +12,7 @@ function validateUser() {
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 
-var contactCards = [];
+var selectedContact, selectedCard;
 const row = document.getElementById("row-1");
 
 $("#searchBox").on("input", function (event) {
@@ -29,11 +29,9 @@ $("#searchBox").on("input", function (event) {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        console.log("Searching: " + input);
 
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log("# searched contacts: " + jsonObject.length);
-        $("#contacts").empty();
+        $("#row-1").empty();
         for (var i = 0; i < jsonObject.length; i++)
           addCard(jsonObject[i]);
       }
@@ -76,17 +74,17 @@ $("#add-contact-btn").on("click", function (event) {
   }
 
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "UserID" : "' +
-    UserID +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "UserID" : "' +
+      UserID +
+      '"}';
   var url = urlBase + "/AddContact" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -96,12 +94,11 @@ $("#add-contact-btn").on("click", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
 
-        addCard(jsonObject);
+        $("#addModal").modal("hide");
         $("#add-contact-email").val("");
         $("#add-contact-number").val("");
         $("#add-contact-firstName").val("");
         $("#add-contact-lastName").val("");
-        $("#addModal").modal("hide");
       }
     };
     xhr.send(contact);
@@ -118,7 +115,8 @@ $("#edit-contact-btn").on("click", function (event) {
   var Phone = $("#edit-contact-number").val().trim();
   var FirstName = $("#edit-contact-firstName").val().trim().toLowerCase();
   var LastName = $("#edit-contact-lastName").val().trim().toLowerCase();
-  var ContactID = $(this).attr("data-ID");
+  var ContactID = selectedContact.ContactID;
+
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
     alert("Please Enter Only Numbers for Contact Phone Number");
@@ -140,20 +138,27 @@ $("#edit-contact-btn").on("click", function (event) {
     return;
   }
 
+  selectedContact = {
+    FirstName: FirstName,
+    LastName: LastName,
+    Email: Email,
+    Phone: Phone
+  };
+
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "UserID" : "' +
-    UserID +
-    '", "ContactID" : "' +
-    ContactID +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "UserID" : "' +
+      UserID +
+      '", "ContactID" : "' +
+      ContactID +
+      '"}';
 
   var url = urlBase + "/UpdateContact" + extension;
   var xhr = new XMLHttpRequest();
@@ -162,14 +167,12 @@ $("#edit-contact-btn").on("click", function (event) {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
+        updateCard(selectedContact, selectedCard)
+        $("#editModal").modal("hide");
         $("#edit-contact-email").val("");
         $("#edit-contact-number").val("");
         $("#edit-contact-firstName").val("");
         $("#edit-contact-lastName").val("");
-        addCard(newContact);
-        // Close modal
-        $("#editModal").modal("hide");
-        window.location.href = "contact.html";
       }
     };
     xhr.send(contact);
@@ -180,11 +183,27 @@ $("#edit-contact-btn").on("click", function (event) {
 
 $("#delete-contact-btn").on("click", function (event) {
   event.preventDefault();
-  if (
-    confirm("Are you sure you want to delete this person from your contacts?")
-  ) {
-    // delete contact
+  if (confirm("Are you sure you want to delete this person from your contacts?")) {
+    // get contact info
+    var payload =
+        '{"UserID" : "' + UserID + '", "ContactID" : "' + selectedContact.ContactID + '"}';
     // send request to api
+    var url = urlBase + "/DeleteContact" + extension;
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+      xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+          deleteCard(selectedCard);
+        }
+      };
+      xhr.send(payload);
+    } catch (err) {
+      document.getElementById("contactResult").innerHTML = err.message;
+    }
+    // Close modal
+    $("#editModal").modal("hide");
   }
 });
 
@@ -197,39 +216,57 @@ $("#signOut-Btn").on("click", function (event) {
 
 function addCard(contact) {
   var template = document.getElementById('contactCard');
-  console.log("AddCard: " + template);
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
-  header[0].innerText = contact.FirstName + " " + contact.LastName;
+  header[0].innerText = contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
 
   var body = clone.querySelectorAll("li");
-  body[0].textContent += contact.Email;
-  body[1].textContent += contact.Phone;
+  body[0].textContent = "Email: " + contact.Email;
+  body[1].textContent = "Phone #: " + contact.Phone;
 
   var footer = clone.getElementsByClassName("card-footer");
-  footer[0].innerText = "Date Created: " + "10-20-2021";
+  footer[0].innerText = "Date Created: " + contact.DateCreated;
 
-  clone.addEventListener("click", updateEditModal);
-
-  contactCards.push(clone);
-  contacts.push;
+  $(clone).attr("data-id", contact.ContactID);
+  clone.addEventListener("click", selectContact);
   row.appendChild(clone);
 }
 
-function deleteCard() {
-  // Find way to delete specific contact/card
+function updateCard(contact, card){
+  var header = card.getElementsByClassName("card-header");
+  header[0].innerText = contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
+
+  var body = card.querySelectorAll("li");
+  body[0].textContent = "Email: " + contact.Email;
+  body[1].textContent = "Phone #: " + contact.Phone;
+
+  var footer = card.getElementsByClassName("card-footer");
+  footer[0].innerText = "Date Created: " + contact.DateCreated;
 }
 
-function updateEditModal() {
+function deleteCard(card) {
+  // Find way to delete specific contact/card
+  card.parentNode.removeChild(card);
+}
+
+function selectContact(){
   var header = this.getElementsByClassName("card-header");
   var body = this.querySelectorAll("li");
-
   var name = header[0].innerText.split(" ");
 
-  $("#edit-contact-firstName").value = name[0];
-  $("#edit-contact-lastName").value = name[1];
-  $("#edit-contact-email").value = body[1].innerText.split(" ")[1];
-  $("#edit-contact-number").value = body[2].innerText.split(" ")[2];
+  selectedContact = {
+    ContactID: $(this).attr("data-id"),
+    FirstName:  name[0],
+    LastName: name[1],
+    Email: body[0].innerText.split(" ")[1],
+    Phone: body[1].innerText.split(" ")[2]
+  };
+  selectedCard = this;
+
+  $("#edit-contact-firstName").val(selectedContact.FirstName);
+  $("#edit-contact-lastName").val(selectedContact.LastName);
+  $("#edit-contact-email").val(selectedContact.Email);
+  $("#edit-contact-number").val(selectedContact.Phone);
 }
 
 function readCookie() {
@@ -248,5 +285,9 @@ function readCookie() {
 function doLogout() {
   UserID = 0;
   document.cookie = "expires = Thu, 01 Jan 1970 00:00:00 GMT";
-  //window.location.href = "../index.html";
+  window.location.href = "../index.html";
+}
+
+String.prototype.capitalize = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1);
 }
