@@ -29,11 +29,9 @@ $("#searchBox").on("input", function (event) {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-
         var jsonObject = JSON.parse(xhr.responseText);
         $("#row-1").empty();
-        for (var i = 0; i < jsonObject.length; i++)
-          addCard(jsonObject[i]);
+        for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
       }
     };
 
@@ -51,7 +49,8 @@ $("#add-contact-btn").on("click", function (event) {
   var Phone = $("#add-contact-number").val().trim();
   var FirstName = $("#add-contact-firstName").val().trim().toLowerCase();
   var LastName = $("#add-contact-lastName").val().trim().toLowerCase();
-
+  var FullName = FirstName + " " + LastName;
+  
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
     alert("Please Enter Only Numbers for Contact Phone Number");
@@ -74,17 +73,19 @@ $("#add-contact-btn").on("click", function (event) {
   }
 
   var contact =
-      '{"Email" : "' +
-      Email +
-      '", "Phone" : "' +
-      Phone +
-      '", "FirstName" : "' +
-      FirstName +
-      '", "LastName" : "' +
-      LastName +
-      '", "UserID" : "' +
-      UserID +
-      '"}';
+    '{"Email" : "' +
+    Email +
+    '", "Phone" : "' +
+    Phone +
+    '", "FirstName" : "' +
+    FirstName +
+    '", "LastName" : "' +
+    LastName +
+    '", "FullName" : "' +
+    FullName +
+    '", "UserID" : "' +
+    UserID +
+    '"}';
   var url = urlBase + "/AddContact" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -115,6 +116,7 @@ $("#edit-contact-btn").on("click", function (event) {
   var Phone = $("#edit-contact-number").val().trim();
   var FirstName = $("#edit-contact-firstName").val().trim().toLowerCase();
   var LastName = $("#edit-contact-lastName").val().trim().toLowerCase();
+  var FullName = FirstName + " " + LastName;
   var ContactID = selectedContact.ContactID;
 
   // allow only numbers for phone number (not (123)345-3453 format)
@@ -142,23 +144,25 @@ $("#edit-contact-btn").on("click", function (event) {
     FirstName: FirstName,
     LastName: LastName,
     Email: Email,
-    Phone: Phone
+    Phone: Phone,
   };
 
   var contact =
-      '{"Email" : "' +
-      Email +
-      '", "Phone" : "' +
-      Phone +
-      '", "FirstName" : "' +
-      FirstName +
-      '", "LastName" : "' +
-      LastName +
-      '", "UserID" : "' +
-      UserID +
-      '", "ContactID" : "' +
-      ContactID +
-      '"}';
+    '{"Email" : "' +
+    Email +
+    '", "Phone" : "' +
+    Phone +
+    '", "FirstName" : "' +
+    FirstName +
+    '", "LastName" : "' +
+    LastName +
+    '", "FullName" : "' +
+    FullName +
+    '", "UserID" : "' +
+    UserID +
+    '", "ContactID" : "' +
+    ContactID +
+    '"}';
 
   var url = urlBase + "/UpdateContact" + extension;
   var xhr = new XMLHttpRequest();
@@ -167,7 +171,7 @@ $("#edit-contact-btn").on("click", function (event) {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        updateCard(selectedContact, selectedCard)
+        updateCard(selectedContact, selectedCard);
         $("#editModal").modal("hide");
         $("#edit-contact-email").val("");
         $("#edit-contact-number").val("");
@@ -183,10 +187,16 @@ $("#edit-contact-btn").on("click", function (event) {
 
 $("#delete-contact-btn").on("click", function (event) {
   event.preventDefault();
-  if (confirm("Are you sure you want to delete this person from your contacts?")) {
+  if (
+    confirm("Are you sure you want to delete this person from your contacts?")
+  ) {
     // get contact info
     var payload =
-        '{"UserID" : "' + UserID + '", "ContactID" : "' + selectedContact.ContactID + '"}';
+      '{"UserID" : "' +
+      UserID +
+      '", "ContactID" : "' +
+      selectedContact.ContactID +
+      '"}';
     // send request to api
     var url = urlBase + "/DeleteContact" + extension;
     var xhr = new XMLHttpRequest();
@@ -215,10 +225,11 @@ $("#signOut-Btn").on("click", function (event) {
 });
 
 function addCard(contact) {
-  var template = document.getElementById('contactCard');
+  var template = document.getElementById("contactCard");
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
-  header[0].innerText = contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
+  header[0].innerText =
+    contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
 
   var body = clone.querySelectorAll("li");
   body[0].textContent = "Email: " + contact.Email;
@@ -232,9 +243,10 @@ function addCard(contact) {
   row.appendChild(clone);
 }
 
-function updateCard(contact, card){
+function updateCard(contact, card) {
   var header = card.getElementsByClassName("card-header");
-  header[0].innerText = contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
+  header[0].innerText =
+    contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
 
   var body = card.querySelectorAll("li");
   body[0].textContent = "Email: " + contact.Email;
@@ -246,17 +258,17 @@ function deleteCard(card) {
   card.parentNode.removeChild(card);
 }
 
-function selectContact(){
+function selectContact() {
   var header = this.getElementsByClassName("card-header");
   var body = this.querySelectorAll("li");
   var name = header[0].innerText.split(" ");
 
   selectedContact = {
     ContactID: $(this).attr("data-id"),
-    FirstName:  name[0],
+    FirstName: name[0],
     LastName: name[1],
     Email: body[0].innerText.split(" ")[1],
-    Phone: body[1].innerText.split(" ")[2]
+    Phone: body[1].innerText.split(" ")[2],
   };
   selectedCard = this;
 
@@ -285,6 +297,6 @@ function doLogout() {
   window.location.href = "../index.html";
 }
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
