@@ -5,8 +5,8 @@
 
 	$inData = getRequestInfo();
 		
-	$stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Email=?, Phone=? WHERE ContactID=? AND UserID=?");
-	$stmt->bind_param("ssssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["ContactID"], $inData["UserID"]);
+	$stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Email=?, Phone=?, FullName=?, WHERE ContactID=? AND UserID=?");
+	$stmt->bind_param("sssssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["ContactID"], $inData["FullName"], $inData["UserID"]);
 	$stmt->execute();
 
 	returnWithInfo($stmt->affected_rows);
