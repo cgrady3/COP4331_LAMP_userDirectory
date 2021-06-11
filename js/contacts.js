@@ -31,7 +31,12 @@ $("#searchBox").on("input", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         $("#row-1").empty();
-        for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
+        if (jsonObject.error != "") {
+          alert("contact does not exist");
+          return;
+        } else {
+          for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
+        }
       }
     };
 
@@ -94,12 +99,16 @@ $("#add-contact-btn").on("click", function (event) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-
-        $("#addModal").modal("hide");
-        $("#add-contact-email").val("");
-        $("#add-contact-number").val("");
-        $("#add-contact-firstName").val("");
-        $("#add-contact-lastName").val("");
+        if (jsonObject.error != "") {
+          alert(jsonObject.error);
+          return;
+        } else {
+          $("#addModal").modal("hide");
+          $("#add-contact-email").val("");
+          $("#add-contact-number").val("");
+          $("#add-contact-firstName").val("");
+          $("#add-contact-lastName").val("");
+        }
       }
     };
     xhr.send(contact);
