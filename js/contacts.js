@@ -18,7 +18,7 @@ const row = document.getElementById("row-1");
 $("#searchBox").on("input", function (event) {
   event.preventDefault();
 
-  var input = $(this).val().toLowerCase();
+  var input = $(this).val().trim().toLowerCase();
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
@@ -50,7 +50,7 @@ $("#add-contact-btn").on("click", function (event) {
   var FirstName = $("#add-contact-firstName").val().trim().toLowerCase();
   var LastName = $("#add-contact-lastName").val().trim().toLowerCase();
   var FullName = FirstName + " " + LastName;
-  
+
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
     alert("Please Enter Only Numbers for Contact Phone Number");
