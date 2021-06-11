@@ -239,9 +239,6 @@ function updateCard(contact, card){
   var body = card.querySelectorAll("li");
   body[0].textContent = "Email: " + contact.Email;
   body[1].textContent = "Phone #: " + contact.Phone;
-
-  var footer = card.getElementsByClassName("card-footer");
-  footer[0].innerText = "Date Created: " + contact.DateCreated;
 }
 
 function deleteCard(card) {
