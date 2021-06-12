@@ -4,7 +4,6 @@ var hrefBase = "";
 var UserID = 0;
 
 function loginUser() {
-  console.log("User details recieved");
   UserID = 0;
   FirstName = "";
   LastName = "";
@@ -28,26 +27,24 @@ function loginUser() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        UserID = jsonObject.results[0];
 
-
-        if (jsonObject.error != "") {
+        if (jsonObject.error !== "") {
           alert(jsonObject.error);
           return;
         }
+
+        UserID = jsonObject.results[0];
         saveCookie();
         window.location.href = "/pages/contact.html";
       }
     };
     xhr.send(jsonPayload);
-    console.log("Login info sent");
   } catch (err) {
     alert(err.message);
   }
 }
 
 function signUp() {
-  console.log("User details recieved");
   FirstName = "";
   LastName = "";
   Email = "";
@@ -133,7 +130,6 @@ function saveCookie() {
       UserID +
       ";expires=" +
       date.toGMTString();
-  console.log(document.cookie);
 }
 
 function readCookie() {

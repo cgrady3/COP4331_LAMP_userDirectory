@@ -31,7 +31,7 @@ $("#searchBox").on("input", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         $("#row-1").empty();
-        if (jsonObject.error != "") {
+        if (jsonObject.length === undefined) {
           alert("contact does not exist");
           return;
         } else {
@@ -78,19 +78,19 @@ $("#add-contact-btn").on("click", function (event) {
   }
 
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "FullName" : "' +
-    FullName +
-    '", "UserID" : "' +
-    UserID +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "FullName" : "' +
+      FullName +
+      '", "UserID" : "' +
+      UserID +
+      '"}';
   var url = urlBase + "/AddContact" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -157,21 +157,21 @@ $("#edit-contact-btn").on("click", function (event) {
   };
 
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "FullName" : "' +
-    FullName +
-    '", "UserID" : "' +
-    UserID +
-    '", "ContactID" : "' +
-    ContactID +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "FullName" : "' +
+      FullName +
+      '", "UserID" : "' +
+      UserID +
+      '", "ContactID" : "' +
+      ContactID +
+      '"}';
 
   var url = urlBase + "/UpdateContact" + extension;
   var xhr = new XMLHttpRequest();
@@ -197,15 +197,15 @@ $("#edit-contact-btn").on("click", function (event) {
 $("#delete-contact-btn").on("click", function (event) {
   event.preventDefault();
   if (
-    confirm("Are you sure you want to delete this person from your contacts?")
+      confirm("Are you sure you want to delete this person from your contacts?")
   ) {
     // get contact info
     var payload =
-      '{"UserID" : "' +
-      UserID +
-      '", "ContactID" : "' +
-      selectedContact.ContactID +
-      '"}';
+        '{"UserID" : "' +
+        UserID +
+        '", "ContactID" : "' +
+        selectedContact.ContactID +
+        '"}';
     // send request to api
     var url = urlBase + "/DeleteContact" + extension;
     var xhr = new XMLHttpRequest();
@@ -238,7 +238,7 @@ function addCard(contact) {
   var clone = template.content.firstElementChild.cloneNode(true);
   var header = clone.getElementsByClassName("card-header");
   header[0].innerText =
-    contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
+      contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
 
   var body = clone.querySelectorAll("li");
   body[0].textContent = "Email: " + contact.Email;
@@ -255,7 +255,7 @@ function addCard(contact) {
 function updateCard(contact, card) {
   var header = card.getElementsByClassName("card-header");
   header[0].innerText =
-    contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
+      contact.FirstName.capitalize() + " " + contact.LastName.capitalize();
 
   var body = card.querySelectorAll("li");
   body[0].textContent = "Email: " + contact.Email;
