@@ -31,9 +31,8 @@ function loginUser() {
         UserID = jsonObject.results[0];
 
 
-        if (jsonObject.error === "User Name / Password do not match OR user does not exist") {
-          alert("Invalid Email/Password");
-          location.reload();
+        if (jsonObject.error != "") {
+          alert(jsonObject.error);
           return;
         }
         saveCookie();
@@ -105,10 +104,9 @@ function signUp() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        if (jsonObject.error === "User Already Exists")
+        if (jsonObject.error != "")
         {
           alert(jsonObject.error);
-          location.reload();
           return;
         }
         UserID = jsonObject.UserID;
