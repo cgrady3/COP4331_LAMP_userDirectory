@@ -56,6 +56,7 @@ $("#add-contact-btn").on("click", function (event) {
   var FirstName = $("#add-contact-firstName").val().trim().toLowerCase();
   var LastName = $("#add-contact-lastName").val().trim().toLowerCase();
   var FullName = FirstName + " " + LastName;
+  var Notes = $("#add-contact-Notes").val().trim();
 
   // allow only numbers for phone number (not (123)345-3453 format)
   if (!$.isNumeric(Phone)) {
@@ -89,6 +90,8 @@ $("#add-contact-btn").on("click", function (event) {
     LastName +
     '", "FullName" : "' +
     FullName +
+    '", "Notes" : "' +
+    Notes +
     '", "UserID" : "' +
     UserID +
     '"}';
@@ -127,6 +130,7 @@ $("#edit-contact-btn").on("click", function (event) {
   var FirstName = $("#edit-contact-firstName").val().trim().toLowerCase();
   var LastName = $("#edit-contact-lastName").val().trim().toLowerCase();
   var FullName = FirstName + " " + LastName;
+  var Notes = $("#edit-contact-Notes").val().trim();
   var ContactID = selectedContact.ContactID;
 
   // allow only numbers for phone number (not (123)345-3453 format)
@@ -155,6 +159,7 @@ $("#edit-contact-btn").on("click", function (event) {
     LastName: LastName,
     Email: Email,
     Phone: Phone,
+    Notes: Notes
   };
 
   var contact =
@@ -168,6 +173,8 @@ $("#edit-contact-btn").on("click", function (event) {
     LastName +
     '", "FullName" : "' +
     FullName +
+    '", "Notes" : "' +
+    Notes +
     '", "UserID" : "' +
     UserID +
     '", "ContactID" : "' +
@@ -187,6 +194,7 @@ $("#edit-contact-btn").on("click", function (event) {
         $("#edit-contact-number").val("");
         $("#edit-contact-firstName").val("");
         $("#edit-contact-lastName").val("");
+        $("#edit-contact-Notes").val("");
       }
     };
     xhr.send(contact);
