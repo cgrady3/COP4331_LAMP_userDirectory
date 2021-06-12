@@ -19,10 +19,11 @@ $("#searchBox").on("input", function (event) {
   event.preventDefault();
 
   var input = $(this).val().trim().toLowerCase();
+  var phone = input.replace(/[^0-9]/g,'');
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
-  var search = '{"search" : "' + input + '", "UserID" : "' + UserID + '"}';
+  var search = '{"search" : "' + input + '", "UserID" : "' + UserID + '", "Phone" : "' + phone + '"}';
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
