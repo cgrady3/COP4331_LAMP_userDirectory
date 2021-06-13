@@ -37,3 +37,9 @@ label{
     background-color: rgba(250,251,237,0);
     border: none;
 }
+
+.error-message{
+    color: red;
+    margin: 5px 0px;
+    font-size: 0.9rem;
+}

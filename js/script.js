@@ -3,6 +3,11 @@ var extension = ".php";
 var hrefBase = "";
 var UserID = 0;
 
+window.onload = function () {
+  $("#login-error").text("");
+  $("#signup-error").text("");
+};
+
 function loginUser() {
   UserID = 0;
   FirstName = "";
@@ -29,7 +34,7 @@ function loginUser() {
         var jsonObject = JSON.parse(xhr.responseText);
 
         if (jsonObject.error !== "") {
-          alert(jsonObject.error);
+          $("login-error").text("Invalid username/password");
           return;
         }
 
@@ -48,7 +53,7 @@ function signUp() {
   FirstName = "";
   LastName = "";
   Email = "";
-  var error = false;
+  var error = true;
 
   var Email = $("#user-email").val().trim().toLowerCase();
   var Password = $("#user-password").val().trim();
@@ -57,29 +62,33 @@ function signUp() {
   var form = document.getElementById("login-form");
   function handleForm(event) { event.preventDefault(); }
   form.addEventListener('submit', handleForm);
-  // validating password length
-  if (Password.length < 8 || Password.length > 15) {
-    alert("Password must be 8-15 characters long");
-    error= true;
-  }
-
-  // hashing password
-  Password = md5(Password);
 
   // validate email format
   var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
 
-  if (!regex.test(Email)) {
-    alert("Please Enter Valid Email Address");
-    error = true;
+  var errorMsg = "";
+  // validating password length
+  if (FirstName == "" || LastName == "" || Email == "" || Password == ""){
+    errorMsg = "";
+  }else if (!regex.test(Email)) {
+    errorMsg = "Invalid email";
+  }
+  else if (Password.length < 8 || Password.length > 15) {
+    errorMsg = "Invalid password";
+  }
+  else{
+    error = false;
   }
 
   // if validation error reload the page and exit
   // this function before API call starts
   if (error){
-    location.reload();
+    $("#signup-error").text(errorMsg);
     return;
   }
+
+  // hashing password
+  Password = md5(Password);
 
   var jsonPayload =
       '{"Email" : "' +
@@ -103,7 +112,7 @@ function signUp() {
         var jsonObject = JSON.parse(xhr.responseText);
         if (jsonObject.error != "")
         {
-          alert(jsonObject.error);
+          $("#signup-error").text("User already exists");
           return;
         }
         UserID = jsonObject.UserID;
