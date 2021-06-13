@@ -9,7 +9,8 @@
 	$stmt->bind_param("s", $inData["UserID"]);
 	$stmt->execute();
 
-	$user = $stmt->get_result()
+	$result = $stmt->get_result();
+	$user = $result->fetch_assoc();
 	echo encode_json($user);
 
 	$stmt->close();
