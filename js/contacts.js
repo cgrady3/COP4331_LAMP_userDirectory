@@ -56,16 +56,18 @@ $("#searchAll").on("click", function (event) {
   var url = urlBase + "/SearchAllContacts" + extension;
   var xhr = new XMLHttpRequest();
 
-  var search = '{"search" : "UserID" : "' + UserID + '"}';
-
+  var search = '{"UserID" : "' + UserID + '"}';
+  console.log(search);
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
+        $("#row-1").empty();
+        console.log(jsonObject);
         if (jsonObject.length === undefined) {
-          alert("no contacts exist");
+          $("#searchMsg").text("No contacts found");
           return;
         } else {
           for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
