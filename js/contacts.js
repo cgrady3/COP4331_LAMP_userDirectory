@@ -1,7 +1,9 @@
 var UserID = 0;
 
 window.onload = function () {
-  //validateUser();
+  validateUser();
+  $("#add-error-message").text("");
+  $("#edit-error-message").text("");
 };
 
 function validateUser() {
@@ -50,35 +52,46 @@ $("#searchBox").on("input", function (event) {
 
 $("#add-contact-btn").on("click", function (event) {
   event.preventDefault();
+  
+  var Email = $("#add-contact-email").val();
+  var Phone = $("#add-contact-number").val();
+  var FirstName = $("#add-contact-firstName").val();
+  var LastName = $("#add-contact-lastName").val();
+  var Notes = $("#add-contact-Notes").val();
 
-  var error = false;
-  var Email = $("#add-contact-email").val().trim().toLowerCase();
-  var Phone = $("#add-contact-number").val().trim();
-  var FirstName = $("#add-contact-firstName").val().trim().toLowerCase();
-  var LastName = $("#add-contact-lastName").val().trim().toLowerCase();
-  var FullName = FirstName + " " + LastName;
-  var Notes = $("#add-contact-Notes").val().trim();
-
-  // allow only numbers for phone number (not (123)345-3453 format)
-  if (!$.isNumeric(Phone)) {
-    alert("Please Enter Only Numbers for Contact Phone Number");
-    error = true;
-  }
+  var error = true;
 
   // validate email format
   var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
 
-  if (!regex.test(Email)) {
-    alert("Please Enter Valid Email Address");
-    error = true;
+  var errorMsg = "";
+  // validating password length
+  if (FirstName == "" || LastName == ""){
+    errorMsg = "Must enter a first and last name";
+  }else if (!regex.test(Email)) {
+    errorMsg = "Invalid email";
+  }else if (Phone == "") {
+    errorMsg = "Invalid phone #";
+  }else if (!$.isNumeric(Phone)) {  // allow only numbers for phone number (not (123)345-3453 format)
+    errorMsg = "Phone # must contain only numbers";
+  }
+  else{
+    error = false;
   }
 
   // if validation error reload the page and exit
   // this function before API call starts
   if (error) {
-    location.reload();
+    $("#add-error-message").text(errorMsg);
     return;
   }
+
+  Email = Email.trim().toLowerCase();
+  Phone = Phone.trim();
+  FirstName =  FirstName.trim().toLowerCase();
+  LastName = LastName.trim().toLowerCase();
+  var FullName = FirstName + " " + LastName;
+  Notes = Notes.trim();
 
   var contact =
     '{"Email" : "' +
@@ -106,7 +119,7 @@ $("#add-contact-btn").on("click", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         if (jsonObject.error != "") {
-          alert(jsonObject.error);
+          $("#add-error-message").text("Contact already exists");
           return;
         } else {
           $("#addModal").modal("hide");
@@ -114,6 +127,7 @@ $("#add-contact-btn").on("click", function (event) {
           $("#add-contact-number").val("");
           $("#add-contact-firstName").val("");
           $("#add-contact-lastName").val("");
+          $("#add-error-message").text("");
         }
       }
     };
@@ -126,35 +140,45 @@ $("#add-contact-btn").on("click", function (event) {
 $("#edit-contact-btn").on("click", function (event) {
   event.preventDefault();
 
-  var error = false;
-  var Email = $("#edit-contact-email").val().trim().toLowerCase();
-  var Phone = $("#edit-contact-number").val().trim();
-  var FirstName = $("#edit-contact-firstName").val().trim().toLowerCase();
-  var LastName = $("#edit-contact-lastName").val().trim().toLowerCase();
-  var FullName = FirstName + " " + LastName;
-  var Notes = $("#edit-contact-Notes").val().trim();
-  var ContactID = selectedContact.ContactID;
+  var Email = $("#add-contact-email").val();
+  var Phone = $("#add-contact-number").val();
+  var FirstName = $("#add-contact-firstName").val();
+  var LastName = $("#add-contact-lastName").val();
+  var Notes = $("#add-contact-Notes").val();
 
-  // allow only numbers for phone number (not (123)345-3453 format)
-  if (!$.isNumeric(Phone)) {
-    alert("Please Enter Only Numbers for Contact Phone Number");
-    error = true;
-  }
+  var error = true;
 
   // validate email format
   var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
 
-  if (!regex.test(Email)) {
-    alert("Please Enter Valid Email Address");
-    error = true;
+  var errorMsg = "";
+  // validating password length
+  if (FirstName == "" || LastName == ""){
+    errorMsg = "Must enter a first and last name";
+  }else if (!regex.test(Email)) {
+    errorMsg = "Invalid email";
+  }else if (Phone == "") {
+    errorMsg = "Invalid phone #";
+  }else if (!$.isNumeric(Phone)) {  // allow only numbers for phone number (not (123)345-3453 format)
+    errorMsg = "Phone # must contain only numbers";
+  }
+  else{
+    error = false;
   }
 
   // if validation error reload the page and exit
   // this function before API call starts
   if (error) {
-    location.reload();
+    $("#edit-error-message").text(errorMsg);
     return;
   }
+
+  Email = Email.trim().toLowerCase();
+  Phone = Phone.trim();
+  FirstName =  FirstName.trim().toLowerCase();
+  LastName = LastName.trim().toLowerCase();
+  var FullName = FirstName + " " + LastName;
+  Notes = Notes.trim();
 
   selectedContact = {
     FirstName: FirstName,
@@ -197,6 +221,7 @@ $("#edit-contact-btn").on("click", function (event) {
         $("#edit-contact-firstName").val("");
         $("#edit-contact-lastName").val("");
         $("#edit-contact-Notes").val("");
+        $("#edit-error-message").text("");
       }
     };
     xhr.send(contact);
@@ -296,6 +321,7 @@ function selectContact() {
   $("#edit-contact-lastName").val(selectedContact.LastName);
   $("#edit-contact-email").val(selectedContact.Email);
   $("#edit-contact-number").val(selectedContact.Phone);
+  $("#edit-error-message").text("");
 }
 
 function readCookie() {

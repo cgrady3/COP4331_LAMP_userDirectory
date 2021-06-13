@@ -82,9 +82,9 @@
                 <input id="add-contact-number" type="text" name="number" class="form-control" placeholder="Phone #" required>
                 <label for="add-contact-notes">Notes</label>
                 <textarea id="add-contact-notes" rows="4" cols="50" maxlength="200" placeholder="Contact Notes (max 200 char)"></textarea>
+                <p class="error-message" id="add-error-message">Invalid field</p>
             </div>
             <div class="modal-footer">
-                <p id="add-error-message"></p>
                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
                 <button class="btn btn-primary" type="submit" id="add-contact-btn">Create</button>
             </div>
@@ -113,6 +113,7 @@
                 <input id="edit-contact-number" type="text" name="number" class="form-control" placeholder="Phone #" required>
                 <label for="edit-contact-notes">Notes</label>
                 <textarea id="edit-contact-notes" rows="4" cols="50" maxlength="200" placeholder="Contact Notes (max 200 char)"></textarea>
+                <p class="error-message" id="edit-error-message">Invalid field</p>
             </div>
             <div class="modal-footer">
                 <div class="container-fluid">

@@ -25,6 +25,12 @@ body{
     font-weight: 500;
 }
 
+.error-message{
+    color: red;
+    margin: 5px 0px;
+    font-size: 0.9rem;
+}
+
 .btn-custom{
     color: white;
     background-color: #6F9EFF;
