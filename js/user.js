@@ -15,7 +15,7 @@ function validateUser() {
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 
-$("#edit-user-Btn").on("click", function (event) {
+$("#edit-user-btn").on("click", function (event) {
   event.preventDefault();
 
   var Email = $("#edit-user-email").val().trim().toLowerCase();
@@ -55,7 +55,7 @@ $("#edit-user-Btn").on("click", function (event) {
     '", "Password" : "' +
     Password +
     '"}';
-console.log("password: " + Password);
+
   var url = urlBase + "/UpdateUser" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
