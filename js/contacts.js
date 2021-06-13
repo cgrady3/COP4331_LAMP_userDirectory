@@ -47,6 +47,36 @@ $("#searchBox").on("input", function (event) {
   }
 });
 
+$("#searchAll").on("click", function (event) {
+  event.preventDefault();
+
+  var url = urlBase + "/SearchAllContacts" + extension;
+  var xhr = new XMLHttpRequest();
+
+  var search = '{"search" : "UserID" : "' + UserID + '"}';
+
+  xhr.open("PUT", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        var jsonObject = JSON.parse(xhr.responseText);
+        $("#row-1").empty();
+        if (jsonObject.length === undefined) {
+          alert("no contacts exist");
+          return;
+        } else {
+          for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
+        }
+      }
+    };
+
+    xhr.send(search);
+  } catch (err) {
+    document.getElementById("contactResult").innerHTML = err.message;
+  }
+});
+
 $("#add-contact-btn").on("click", function (event) {
   event.preventDefault();
 
