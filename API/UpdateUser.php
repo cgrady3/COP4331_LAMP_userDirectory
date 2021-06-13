@@ -14,7 +14,7 @@
 	if ($result->num_rows > 0){
 		returnWithError("User Email Already Registered");
 	}
-	else if ($inData["Password"] == "nopass"){
+	else if (!strcmp($inData["Password"], "nopass")){
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=? WHERE UserID=?");
 		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["UserID"]);
 		$stmt->execute();

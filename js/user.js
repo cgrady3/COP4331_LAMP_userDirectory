@@ -15,7 +15,7 @@ function validateUser() {
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
 
-$("#edit-user-Btn").on("click", function (event) {
+$("#edit-user-btn").on("click", function (event) {
   event.preventDefault();
 
   var Email = $("#edit-user-email").val().trim().toLowerCase();
@@ -63,9 +63,19 @@ $("#edit-user-Btn").on("click", function (event) {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        // something to let them know their info has been updated
-        alert("Your Account Information has been Successfully Updated");
-        updatePass = false;
+        var jsonObject = JSON.parse(xhr.responseText);
+        if (jsonObject.error != "") {        
+          $("#add-error-message").text("User email already exits");
+          updatePass = false;
+          return;
+        }
+        else if(jsonObject.results[0]){
+          $("#add-error-message").text("Your Account Information has been Successfully Updated");
+        }  
+        else {
+          $("#add-error-message").text("Could not update account");
+        }   
+        updatePass = false;  
       }
     };
     xhr.send(user);
@@ -116,7 +126,6 @@ $("#update-userBtn").on("click", function (event) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log(jsonObject);
 
         $("#edit-user-firstName").val(jsonObject.FirstName);
         $("#edit-user-lastName").val(jsonObject.LastName);
