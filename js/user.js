@@ -117,6 +117,7 @@ $("#update-userBtn").on("click", function (event) {
         $("#edit-user-firstName").val(jsonObject.FirstName);
         $("#edit-user-lastName").val(jsonObject.LastName);
         $("#edit-user-email").val(jsonObject.Email);
+        $("#update-pass").show();
         $("#edit-user-password").hide();
         $("#edit-error-message").text("");
       }
