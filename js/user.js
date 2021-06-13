@@ -3,7 +3,8 @@ var UserID = 0;
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
-  getNumContacts();
+  if (UserId > 0)
+    getNumContacts();
 };
 
 function validateUser() {
