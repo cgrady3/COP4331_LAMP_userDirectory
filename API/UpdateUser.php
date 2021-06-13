@@ -15,7 +15,7 @@
 		returnWithError("User Email Already Registered");
 	}
 	else {
-		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=?, Password=?, WHERE UserID=?");
+		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=?, Password=? WHERE UserID=?");
 		$stmt->bind_param("sssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"], $inData["UserID"]);
 		$stmt->execute();
 	}
