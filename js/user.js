@@ -1,6 +1,6 @@
 var UserID = 0;
 var updatePass = false;
-
+console.log("josh send me this: " + md5("nopass"));
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
