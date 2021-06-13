@@ -1,27 +1,28 @@
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
-
+var hrefBase = "";
 var UserID = 0;
-var FirstName = "";
-var LastName = "";
-var selection = searchContacts.value;
+
+window.onload = function () {
+  $("#login-error").text("");
+  $("#signup-error").text("");
+};
 
 function loginUser() {
-  console.log("User details recieved");
   UserID = 0;
   FirstName = "";
   LastName = "";
 
-  var login = document.getElementById("user-email").value;
-  var password = document.getElementById("user-password").value;
-  password = md5(password);
-
-  console.log("Login: " + login + "    Password: " + password);
-
-  //document.getElementById("errorMessage").innerHTML = "Logged in";
+  var form = document.getElementById("login-form");
+  function handleForm(event) { event.preventDefault(); }
+  form.addEventListener('submit', handleForm);
+  var login = $("#user-email").val().trim().toLowerCase();
+  var Password = $("#user-password").val().trim();
+  // hashing password
+  Password = md5(Password);
 
   var jsonPayload =
-      '{"login" : "' + login + '", "password" : "' + password + '"}';
+      '{"Email" : "' + login + '", "Password" : "' + Password + '"}';
   var url = urlBase + "/Login" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -30,55 +31,75 @@ function loginUser() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        console.log("Login info valid");
-        console.log("Login:" + login + "    password: " + password);
-        var jsonObject = JSON.stringify(xhr.responseText);
-        UserID = jsonObject.UserID;
+        var jsonObject = JSON.parse(xhr.responseText);
 
-        if (UserID < 1) {
-          document.getElementById("loginResult").innerHTML =
-              "User/Password combination incorrect";
+        if (jsonObject.error !== "") {
+          $("#login-error").text("Invalid username/password");
           return;
         }
 
-        FirstName = jsonObject.FirstName;
-        LastName = jsonObject.LastName;
-
+        UserID = jsonObject.results[0];
         saveCookie();
-
-        // TODO: Update to actual contact page for logged in user
         window.location.href = "/pages/contact.html";
       }
     };
     xhr.send(jsonPayload);
-    console.log("Login info sent");
   } catch (err) {
-    document.getElementById("loginResult").innerHTML = err.message;
+    alert(err.message);
   }
 }
 
-
 function signUp() {
-  console.log("User details recieved");
   FirstName = "";
   LastName = "";
   Email = "";
+  var error = true;
 
+  var Email = $("#user-email").val().trim().toLowerCase();
+  var Password = $("#user-password").val().trim();
+  FirstName = $("#first-name").val().trim().toLowerCase();
+  LastName = $("#last-name").val().trim().toLowerCase();
+  var form = document.getElementById("login-form");
+  function handleForm(event) { event.preventDefault(); }
+  form.addEventListener('submit', handleForm);
 
-  var email = document.getElementById("user-email").value;
-  var password = document.getElementById("user-password").value;
-  var firstName = document.getElementById('first-name').value;
-  var lastName = document.getElementById('last-name').value;
+  // validate email format
+  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
 
+  var errorMsg = "";
+  // validating password length
+  if (FirstName == "" || LastName == "" || Email == "" || Password == ""){
+    errorMsg = "";
+  }else if (!regex.test(Email)) {
+    errorMsg = "Invalid email";
+  }
+  else if (Password.length < 8 || Password.length > 15) {
+    errorMsg = "Invalid password";
+  }
+  else{
+    error = false;
+  }
 
-  password = md5(password);
+  // if validation error reload the page and exit
+  // this function before API call starts
+  if (error){
+    $("#signup-error").text(errorMsg);
+    return;
+  }
 
-  console.log("Login: " + email + "    Password: " + password + "   First:" + firstName + "    Last: " + lastName );
-
-  //document.getElementById("errorMessage").innerHTML = "Logged in";
+  // hashing password
+  Password = md5(Password);
 
   var jsonPayload =
-      '{"Email" : "' + email + '", "Password" : "' + password +'", "FirstName" : "' + firstName + '", "LastName" : "' + lastName +'"}';
+      '{"Email" : "' +
+      Email +
+      '", "Password" : "' +
+      Password +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '"}';
   var url = urlBase + "/RegisterUser" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -88,142 +109,33 @@ function signUp() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
-        console.log("SignUp Info Valid");
-        console.log("Login:" + email + "    password: " + password);
-        var jsonObject = JSON.stringify(xhr.responseText);
-        UserID = jsonObject.UserID;
-
-        if (UserID < 1) {
-          document.getElementById("loginResult").innerHTML =
-              "User/Password combination incorrect";
+        var jsonObject = JSON.parse(xhr.responseText);
+        if (jsonObject.error != "")
+        {
+          $("#signup-error").text("User already exists");
           return;
         }
-
-        FirstName = jsonObject.FirstName;
-        LastName = jsonObject.LastName;
+        UserID = jsonObject.UserID;
 
         saveCookie();
 
-        // TODO: Update to actual contact page for logged in user
-        window.location.href = "../index.html";
+        window.location.href = "contact.html"
       }
     };
     xhr.send(jsonPayload);
-    console.log("Login info sent");
   } catch (err) {
-    document.getElementById("loginResult").innerHTML = err.message;
+    // what is this displaying???
+    alert(err);
+    location.reload();
   }
 }
-
-// create user
-// delete user
-
-$("#addContact").on("click", function (event) {
-  event.preventDefault();
-
-  var newContact = {
-    FirstName: $("#first-name").val().trim().toLowerCase(),
-    LastName: $("#last-name").val().trim().toLowerCase(),
-    Email: $("#user-email").val().trim().toLowerCase(),
-    Phone: $("#number").val().trim().toLowerCase(),
-  };
-
-  var url = urlBase + "/AddContact" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("Contact Added");
-        console.log(
-            "Name: " +
-            FirstName +
-            " " +
-            LastName +
-            " Email: " +
-            Email +
-            " Phone: " +
-            Phone
-        );
-
-        window.location.href = "home.html";
-      }
-    };
-    xhr.send(newContact);
-    console.log("Contact info sent");
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
-
-$("#searchContacts").input(function (event) {
-  event.preventDefault();
-
-  var input = $this.val().toLowerCase();
-  var url = urlBase + "/SearchContacts" + extension;
-  var xhr = new XMLHttpRequest();
-
-  readCookie();
-
-  xhr.open("GET", url + "?name=" + input + "&UserID=" + UserID, true);
-
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("retrieving");
-      }
-
-      window.location.href = "home.html";
-    };
-
-    xhr.send();
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
-
-// rework for Tylers Modals
-$(".result").on("click", function (event) {
-  event.preventDefault();
-
-  var url = urlBase + "/DisplayContact" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", url + "?ContactID=" + $(this).attr("data-ID") + "&UserID=" + UserID, true);
-
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        console.log("retrieving selected contact");
-        var jsonObject = JSON.parse(xhr.responseText);
-
-        $("#info").text(jsonObject.FirstName);
-        $("#info").text(jsonObject.LastName);
-        $("#info").text(jsonObject.Phone);
-        $("#info").text(jsonObject.Email);
-      }
-
-      window.location.href = "home.html";
-    };
-
-    xhr.send();
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
 
 function saveCookie() {
   var minutes = 20;
   var date = new Date();
   date.setTime(date.getTime() + minutes * 60 * 1000);
   document.cookie =
-      "FirstName=" +
-      FirstName +
-      ",LastName=" +
-      LastName +
-      ",UserID=" +
+      "UserID=" +
       UserID +
       ";expires=" +
       date.toGMTString();
@@ -236,27 +148,17 @@ function readCookie() {
   for (let i = 0; i < splits.length; i++) {
     var thisOne = splits[i].trim();
     var tokens = thisOne.split("=");
-    if (tokens[0] === "FirstName") {
-      FirstName = tokens[1];
-    } else if (tokens[0] === "LastName") {
-      LastName = tokens[1];
-    } else if (tokens[0] === "UserID") {
+    if (tokens[0] === "UserID") {
       UserID = parseInt(tokens[1].trim());
     }
   }
 
-  if (UserID < 0) {
+  if (UserID <= 0) {
     window.location.href = "index.html";
   } else {
-    document.getElementById("userName").innerHTML =
-        "Logged in as " + FirstName + " " + LastName;
+    $("userName").innerHTML = "Logged in as " + FirstName + " " + LastName;
   }
 }
 
-function doLogout() {
-  UserID = 0;
-  FirstName = "";
-  LastName = "";
-  document.cookie = "FirstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-  window.location.href = "../index.html";
-}
+
+

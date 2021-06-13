@@ -19,6 +19,18 @@ body{
     max-width:70%;
 }
 
+#searchMsg{
+    margin-top: 5rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.error-message{
+    color: red;
+    margin: 5px 0px;
+    font-size: 0.9rem;
+}
+
 .btn-custom{
     color: white;
     background-color: #6F9EFF;
@@ -85,11 +97,12 @@ body{
 /* ----------------------------------------------*/
 
 .modal-dialog{
-    margin: 7.5rem auto;
+    margin: 5rem auto;
 }
 
 .modal-header{
     background-color: #D09f74;
+    border: none;
 }
 
 .modal-title{
@@ -102,5 +115,5 @@ body{
 }
 
 .inputPad{
-    padding-top: 13px;
+    padding-top: 15px;
 }
