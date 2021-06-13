@@ -5,12 +5,22 @@
 
 	$inData = getRequestInfo();
 
-	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE UserID=?");
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE UserID=? ORDER BY LastName");
 	$stmt->bind_param("s", $inData["UserID"]);
 	$stmt->execute();
 
-	$row = $stmt->get_result();
-	returnWithInfo($row->fetch_assoc());
+	$result = $stmt->get_result();
+	$rows = array();
+
+  	if ($result->num_rows > 0) {
+		while($row = $result->fetch_assoc()){
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+  	}
+    	else {
+		returnWithError("No Contact Found");
+  	}
 
 	$stmt->close();
 	$conn->close();

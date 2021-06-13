@@ -38,6 +38,23 @@ label{
     border: none;
 }
 
+/* inverts buttons colors */
+.btn-primary:hover{
+    color: #007BFF;
+    background-color: #FFF;
+    border-color: rgb(20, 20, 20);
+}
+
+.btn-secondary:hover{
+    color: #5a6268;
+    background-color: #FFF;
+    border-color:rgb(20, 20, 20);
+}
+
+.btn-outline-secondary{
+    border-color: rgb(20, 20, 20);
+}
+
 .error-message{
     color: red;
     margin: 5px 0px;
