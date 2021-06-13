@@ -64,18 +64,18 @@ $("#edit-user-btn").on("click", function (event) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        if (jsonObject.error != "") {        
+        if (jsonObject.error != "") {
           $("#add-error-message").text("User email already exits");
           updatePass = false;
           return;
-        }
-        else if(jsonObject.results[0]){
-          $("#add-error-message").text("Your Account Information has been Successfully Updated");
-        }  
-        else {
+        } else if (jsonObject.results[0]) {
+          $("#add-error-message").text(
+            "Your Account Information has been Successfully Updated"
+          );
+        } else {
           $("#add-error-message").text("Could not update account");
-        }   
-        updatePass = false;  
+        }
+        updatePass = false;
       }
     };
     xhr.send(user);
