@@ -15,14 +15,14 @@
 		returnWithError("User Email Already Registered");
 	}
 	//check if password was updated by email wasnt
-	else if (strcmp($inData["Password"], "false") && !strcmp($inData["Email"], "false")){
+	else if (!strcmp($inData["Password"], "false") && strcmp($inData["Email"], "false")){
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Password=? WHERE UserID=?");
 		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Password"], $inData["UserID"]);
 		$stmt->execute();
 		returnWithInfo($stmt->affected_rows);
 	}
 	// check if email was updated but password wasnt
-	else if (!strcmp($inData["Password"], "false") && strcmp($inData["Email"], "false")){
+	else if (strcmp($inData["Password"], "false") && !strcmp($inData["Email"], "false")){
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=? WHERE UserID=?");
 		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["UserID"]);
 		$stmt->execute();
