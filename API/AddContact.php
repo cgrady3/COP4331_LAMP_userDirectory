@@ -15,8 +15,8 @@
 		returnWithError("Contact Already Exists");
 	}
 	else{
-		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID, FullName) VALUES (?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("ssssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"], $inData["FullName"]);
+		$stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, Phone, UserID, FullName, Notes) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Phone"], $inData["UserID"], $inData["FullName"], $inData["Notes"]);
 		$stmt->execute();
 
 		returnWithInfo($stmt->affected_rows);
