@@ -1,7 +1,7 @@
 var UserID = 0;
 
 window.onload = function () {
-  validateUser();
+  //validateUser();
 };
 
 function validateUser() {
@@ -33,9 +33,10 @@ $("#searchBox").on("input", function (event) {
         var jsonObject = JSON.parse(xhr.responseText);
         $("#row-1").empty();
         if (jsonObject.length === undefined) {
-          alert("contact does not exist");
+          $("#searchMsg").text("No contacts found");
           return;
         } else {
+          $("#searchMsg").text("");
           for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
         }
       }
