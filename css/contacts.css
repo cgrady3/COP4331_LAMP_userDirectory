@@ -84,16 +84,6 @@ body{
 }
 
 /*inverts button colors when hovering(if the id is set)*/
-.btn-primary:hover{
-    color: #007BFF;
-    background-color: #FFF;
-    border-color: rgb(20, 20, 20);
-}
-.btn-secondary:hover{
-    color: #5a6268;
-    background-color: #FFF;
-    border-color:rgb(20, 20, 20);
-}
 .btn-danger:hover{
     color: #c82333;
     background-color: #FFF;
