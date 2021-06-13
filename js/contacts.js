@@ -56,7 +56,7 @@ $("#searchAll").on("click", function (event) {
   var url = urlBase + "/SearchAllContacts" + extension;
   var xhr = new XMLHttpRequest();
 
-  var search = '{"search" : "UserID" : "' + UserID + '"}';
+  var search = '{"UserID" : "' + UserID + '"}';
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -258,60 +258,6 @@ $("#edit-contact-btn").on("click", function (event) {
   }
 });
 
-$("#edit-user-Btn").on("click", function (event) {
-  event.preventDefault();
-
-  var error = false;
-  var Email = $("#edit-user-email").val().trim().toLowerCase();
-  var FirstName = $("#edit-user-firstName").val().trim().toLowerCase();
-  var LastName = $("#edit-user-lastName").val().trim().toLowerCase();
-  var Password = $("#edit-user-password").val().trim();
-
-  // validate email format
-  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
-
-  if (!regex.test(Email)) {
-    alert("Please Enter Valid Email Address");
-    error = true;
-  }
-
-  // if validation error reload the page and exit
-  // this function before API call starts
-  if (error) {
-    location.reload();
-    return;
-  }
-
-  var user =
-      '{"Email" : "' +
-      Email +
-      '", "FirstName" : "' +
-      FirstName +
-      '", "LastName" : "' +
-      LastName +
-      '", "UserID" : "' +
-      UserID +
-      '", "Password" : "' +
-      Password +
-      '"}';
-
-  var url = urlBase + "/UpdateUser" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        // something to let them know their info has been updated
-        alert("Your Account Information has been Successfully Updated")
-      }
-    };
-    xhr.send(user);
-  } catch (err) {
-    document.getElementById("contactResult").innerHTML = err.message;
-  }
-});
-
 $("#delete-contact-btn").on("click", function (event) {
   event.preventDefault();
   if (
@@ -341,36 +287,6 @@ $("#delete-contact-btn").on("click", function (event) {
     }
     // Close modal
     $("#editModal").modal("hide");
-  }
-});
-
-$("#delete-user-Btn").on("click", function (event) {
-  event.preventDefault();
-  if (
-      confirm("Are you sure you want to delete your account with Contactful Delivery?")
-  ) {
-    // get contact info
-    var payload =
-        '{"UserID" : "' +
-        UserID +
-        '"}';
-    // send request to api
-    var url = urlBase + "/DeleteUser" + extension;
-    var xhr = new XMLHttpRequest();
-    xhr.open("PUT", url, true);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    try {
-      xhr.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-          doLogout();
-        }
-      };
-      xhr.send(payload);
-    } catch (err) {
-      document.getElementById("contactResult").innerHTML = err.message;
-    }
-    // Close modal
-    $("#deleteModal").modal("hide");
   }
 });
 
