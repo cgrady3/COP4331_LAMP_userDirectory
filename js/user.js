@@ -166,6 +166,11 @@ function getNumContacts(){
   }
 }
 
+$("#signOut-Btn").on("click", function (event) {
+  event.preventDefault();
+  doLogout();
+});
+
 function readCookie() {
   UserID = -1;
   var data = document.cookie;
