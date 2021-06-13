@@ -22,7 +22,7 @@
 <body>
     <nav class="navbar fixed-top" id="navbar">
         <h3>Contactful Delivery</h3>
-        <form class="form-inline">
+        <form class="form-inline searchbar">
             <input class="form-control mr-sm-2" type="search" placeholder="Search Contacts" id="searchBox">
             <button class="btn btn-custom my-2 my-sm-0" type="button" id="searchAll">View All Contacts</button>
             <button class="btn btn-custom mx-5" type="button" data-bs-toggle="modal" data-bs-target="#addModal"> 
@@ -32,9 +32,10 @@
                 </svg>
             </button>
         </form>
-        <p id="userName"></p>
-        <button class="btn btn-danger" type="button" id="signOut-Btn">Sign Out</button>
-        <a id="toUserPage" href="user.html">View Account</a>
+        <div>
+            <a id="toUserPage" href="user.html">View Account</a>
+            <button class="btn btn-danger" type="button" id="signOut-Btn">Sign Out</button>
+        </div>
     </nav>
 
     <div id="navSpacer"></div>
@@ -82,13 +83,13 @@
                 <input id="add-contact-email" type="email" name="email" class="form-control" placeholder="Email" required>
                 <label class="inputPad" for="add-contact-number">Phone Number</label>
                 <input id="add-contact-number" type="text" name="number" class="form-control" placeholder="Phone #" required>
-                <label for="add-contact-notes">Notes</label><br>
+                <label class="inputPad" for="add-contact-notes ">Notes</label><br>
                 <textarea id="add-contact-notes" rows="4" cols="63" class="form-control" maxlength="200" placeholder="Contact Notes (max 200 char)"></textarea>
                 <p class="error-message" id="add-error-message">Invalid field</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit" id="add-contact-btn">Create</button>
+                <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-custom" type="submit" id="add-contact-btn">Create</button>
             </div>
         </div>
     </div>
@@ -113,7 +114,7 @@
                 <input id="edit-contact-email" type="email" name="email" class="form-control" placeholder="Email" required>
                 <label class="inputPad" for="edit-contact-number">Phone Number</label>
                 <input id="edit-contact-number" type="text" name="number" class="form-control" placeholder="Phone #" required>
-                <label for="edit-contact-notes">Notes</label><br>
+                <label class="inputPad" for="edit-contact-notes">Notes</label><br>
                 <textarea id="edit-contact-notes" rows="4" cols="63" class="form-control" maxlength="200" placeholder="Contact Notes (max 200 char)"></textarea>
                 <p class="error-message" id="edit-error-message">Invalid field</p>
             </div>
@@ -128,7 +129,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="col-xs"> <button class="btn btn-primary" type="submit" id="edit-contact-btn">Save changes</button> </div>
+                        <div class="col-xs"> <button class="btn btn-custom" type="submit" id="edit-contact-btn">Save changes</button> </div>
                     </div>
                 </div>
             </div>
