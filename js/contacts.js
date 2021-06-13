@@ -52,7 +52,7 @@ $("#searchBox").on("input", function (event) {
 
 $("#add-contact-btn").on("click", function (event) {
   event.preventDefault();
-  
+
   var Email = $("#add-contact-email").val();
   var Phone = $("#add-contact-number").val();
   var FirstName = $("#add-contact-firstName").val();
@@ -144,7 +144,7 @@ $("#edit-contact-btn").on("click", function (event) {
   var Phone = $("#add-contact-number").val();
   var FirstName = $("#add-contact-firstName").val();
   var LastName = $("#add-contact-lastName").val();
-  var Notes = $("#add-contact-Notes").val();
+  var Notes = $("#add-contact-notes").val();
 
   var error = true;
 

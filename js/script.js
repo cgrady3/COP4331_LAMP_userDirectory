@@ -34,7 +34,7 @@ function loginUser() {
         var jsonObject = JSON.parse(xhr.responseText);
 
         if (jsonObject.error !== "") {
-          $("login-error").text("Invalid username/password");
+          $("#login-error").text("Invalid username/password");
           return;
         }
 
