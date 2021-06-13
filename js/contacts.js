@@ -94,21 +94,21 @@ $("#add-contact-btn").on("click", function (event) {
   Notes = Notes.trim();
 
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "FullName" : "' +
-    FullName +
-    '", "Notes" : "' +
-    Notes +
-    '", "UserID" : "' +
-    UserID +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "FullName" : "' +
+      FullName +
+      '", "Notes" : "' +
+      Notes +
+      '", "UserID" : "' +
+      UserID +
+      '"}';
 
   var url = urlBase + "/AddContact" + extension;
   var xhr = new XMLHttpRequest();
@@ -140,12 +140,12 @@ $("#add-contact-btn").on("click", function (event) {
 $("#edit-contact-btn").on("click", function (event) {
   event.preventDefault();
 
-  var Email = $("#add-contact-email").val();
-  var Phone = $("#add-contact-number").val();
-  var FirstName = $("#add-contact-firstName").val();
-  var LastName = $("#add-contact-lastName").val();
-  var Notes = $("#add-contact-notes").val();
-
+  var Email = $("#edit-contact-email").val();
+  var Phone = $("#edit-contact-number").val();
+  var FirstName = $("#edit-contact-firstName").val();
+  var LastName = $("#edit-contact-lastName").val();
+  var Notes = $("#edit-contact-notes").val();
+  var ContactID = selectedContact.ContactID;
   var error = true;
 
   // validate email format
@@ -179,7 +179,6 @@ $("#edit-contact-btn").on("click", function (event) {
   LastName = LastName.trim().toLowerCase();
   var FullName = FirstName + " " + LastName;
   Notes = Notes.trim();
-  var ContactID = selectedContact.ContactID;
 
   selectedContact = {
     FirstName: FirstName,
@@ -190,24 +189,23 @@ $("#edit-contact-btn").on("click", function (event) {
   };
 
   var contact =
-    '{"Email" : "' +
-    Email +
-    '", "Phone" : "' +
-    Phone +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "FullName" : "' +
-    FullName +
-    '", "Notes" : "' +
-    Notes +
-    '", "UserID" : "' +
-    UserID +
-    '", "ContactID" : "' +
-    ContactID +
-    '"}';
-
+      '{"Email" : "' +
+      Email +
+      '", "Phone" : "' +
+      Phone +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "FullName" : "' +
+      FullName +
+      '", "Notes" : "' +
+      Notes +
+      '", "UserID" : "' +
+      UserID +
+      '", "ContactID" : "' +
+      ContactID +
+      '"}';
   var url = urlBase + "/UpdateContact" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
@@ -221,7 +219,7 @@ $("#edit-contact-btn").on("click", function (event) {
         $("#edit-contact-number").val("");
         $("#edit-contact-firstName").val("");
         $("#edit-contact-lastName").val("");
-        $("#edit-contact-Notes").val("");
+        $("#edit-contact-notes").val("");
         $("#edit-error-message").text("");
       }
     };
@@ -256,17 +254,17 @@ $("#edit-user-Btn").on("click", function (event) {
   }
 
   var user =
-    '{"Email" : "' +
-    Email +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "UserID" : "' +
-    UserID +
-    '", "Password" : "' +
-    Password +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '", "UserID" : "' +
+      UserID +
+      '", "Password" : "' +
+      Password +
+      '"}';
 
   var url = urlBase + "/UpdateUser" + extension;
   var xhr = new XMLHttpRequest();
@@ -320,13 +318,13 @@ $("#delete-contact-btn").on("click", function (event) {
 $("#delete-user-Btn").on("click", function (event) {
   event.preventDefault();
   if (
-    confirm("Are you sure you want to delete your account with Contactful Delivery?")
+      confirm("Are you sure you want to delete your account with Contactful Delivery?")
   ) {
     // get contact info
     var payload =
-      '{"UserID" : "' +
-      UserID +
-      '"}';
+        '{"UserID" : "' +
+        UserID +
+        '"}';
     // send request to api
     var url = urlBase + "/DeleteUser" + extension;
     var xhr = new XMLHttpRequest();
@@ -365,7 +363,6 @@ function addCard(contact) {
 
   var footer = clone.getElementsByClassName("card-footer");
   footer[0].innerText = "Date Created: " + contact.DateCreated;
-
   $(clone).attr("data-id", contact.ContactID);
   clone.addEventListener("click", selectContact);
   row.appendChild(clone);
