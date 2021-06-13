@@ -19,14 +19,12 @@ body{
 .btn-custom{
     color: white;
     background-color: #6F9EFF;
-    border: 2px dashed #FFF;
     border-radius: 5px;
 }
 
 .btn-customPrimary{
     color: white;
     background-color: #007BFF;
-    border: 2px dashed #FFF;
     border-radius: 5px;
 }
 
