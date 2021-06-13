@@ -16,7 +16,7 @@
 	}
 	else if ($inData["Password"] == ""){
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=? WHERE UserID=?");
-		$stmt->bind_param("sssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["UserID"]);
+		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["UserID"]);
 		$stmt->execute();
 	}
 	else{
