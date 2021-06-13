@@ -4,8 +4,7 @@ var updatePass = false;
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
-  if (UserID > 0)
-    getNumContacts();
+  if (UserID > 0) getNumContacts();
 };
 
 function validateUser() {
@@ -32,13 +31,15 @@ $("#edit-user-Btn").on("click", function (event) {
     return;
   }
 
-  if (updatePass){
-    if (Password.length < 8 || Password.length > 15){
+  if (updatePass) {
+    if (Password.length < 8 || Password.length > 15) {
       $("#edit-error-message").append("<br><p>Invalid password length</p>");
       return;
+    } else {
+      // hashing password
+      Password = md5(Password);
     }
-  }
-  else{
+  } else {
     Password = "nopass";
   }
 
@@ -139,8 +140,7 @@ $("#update-pass").on("click", function (event) {
   updatePass = true;
 });
 
-function getNumContacts(){
-
+function getNumContacts() {
   var url = urlBase + "/SearchAllContacts" + extension;
   var xhr = new XMLHttpRequest();
 
@@ -159,7 +159,6 @@ function getNumContacts(){
         } else {
           $("#numContacts").text("Number of Contacts: " + jsonObject.length);
         }
-       
       }
     };
 
