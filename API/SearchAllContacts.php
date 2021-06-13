@@ -18,7 +18,7 @@
 		}
 		echo json_encode($rows);
   	}
-    else {
+    	else {
 		returnWithError("No Contact Found");
   	}
 
