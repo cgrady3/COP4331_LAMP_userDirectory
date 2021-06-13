@@ -5,7 +5,7 @@
 
 	$inData = getRequestInfo();
 
-	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE UserID=?");
+	$stmt = $conn->prepare("SELECT * FROM Contacts WHERE UserID=? ORDER BY LastName");
 	$stmt->bind_param("s", $inData["UserID"]);
 	$stmt->execute();
 
