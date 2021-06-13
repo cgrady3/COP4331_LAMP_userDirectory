@@ -38,6 +38,9 @@ $("#edit-user-Btn").on("click", function (event) {
       return;
     }
   }
+  else{
+    Password = "nopass";
+  }
 
   var user =
     '{"Email" : "' +
