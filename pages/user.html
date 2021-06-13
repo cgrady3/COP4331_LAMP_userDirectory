@@ -27,11 +27,6 @@
     <nav class="navbar fixed-top" id="navbar">
         <h3>Contactful Delivery</h3>
         <p id="numContacts">Number of Contacts: </p>
-        <form class="form-inline">
-            <button class="btn btn-custom my-2 my-sm-0" type="button" id="delete-user-Btn">Delete Account</button>
-            <button class="btn btn-custom mx-5" type="button" data-bs-toggle="modal" data-bs-target="#editUserModal"
-                id="update-userBtn">Update Account Information</button>
-        </form>
         <p id="userName"></p>
         <button class="btn btn-danger" type="button" id="signOut-Btn">Sign Out</button>
         <a id="toContactsPage" href="contact.html">View Contacts</a>
@@ -39,10 +34,16 @@
 
     <div id="navSpacer"></div>
 
-    <div class="container-fluid" id="users">
-
-        <div class="row" id="row-1">
-        </div>
+    <div id="update-acct">
+        <ul>
+            <li>
+                <button class="btn btn-custom my-2 my-sm-0" type="button" id="delete-user-Btn">Delete Account</button>
+            </li>
+            <li>
+                <button class="btn btn-custom mx-5" type="button" data-bs-toggle="modal" data-bs-target="#editUserModal"
+                id="update-userBtn">Update Account Information</button>
+            </li>
+        </ul>
     </div>
 
     <div class="modal fade" tabindex="-1" id="editUserModal">
@@ -68,6 +69,7 @@
                     <label for="edit-user-password">Password</label>
                     <input id="edit-user-password" type="text" name="password" class="form-control"
                         placeholder="Password" required>
+                    <p class="error-message" id="edit-error-message">Invalid field</p>
                 </div>
                 <div class="modal-footer">
                     <div class="container-fluid">
