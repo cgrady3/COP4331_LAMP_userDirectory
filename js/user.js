@@ -55,7 +55,7 @@ $("#edit-user-Btn").on("click", function (event) {
     '", "Password" : "' +
     Password +
     '"}';
-
+console.log("password: " + Password);
   var url = urlBase + "/UpdateUser" + extension;
   var xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
