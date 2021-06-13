@@ -5,10 +5,20 @@
 
 	$inData = getRequestInfo();
 		
-	$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=?, Password=?, WHERE UserID=?");
-	$stmt->bind_param("sssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"], $inData["UserID"]);
+	$stmt = $conn->prepare("SELECT * FROM Users WHERE Email=?");
+	$stmt->bind_param("s", $inData["Email"]);
 	$stmt->execute();
 
+	$result = $stmt->get_result();
+
+	if ($result->num_rows > 0){
+		returnWithError("User Email Already Registered");
+	}
+	else {
+		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=?, Password=? WHERE UserID=?");
+		$stmt->bind_param("sssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"], $inData["UserID"]);
+		$stmt->execute();
+	}
 	returnWithInfo($stmt->affected_rows);
 
 	$stmt->close();
