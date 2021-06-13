@@ -57,6 +57,8 @@ $("#searchAll").on("click", function (event) {
   var xhr = new XMLHttpRequest();
 
   var search = '{"UserID" : "' + UserID + '"}';
+  console.log(search);
+
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
@@ -157,6 +159,7 @@ $("#add-contact-btn").on("click", function (event) {
           $("#add-contact-number").val("");
           $("#add-contact-firstName").val("");
           $("#add-contact-lastName").val("");
+          $("#add-contact-notes").val("");
           $("#add-error-message").text("");
         }
       }
@@ -306,7 +309,14 @@ function addCard(contact) {
   var body = clone.querySelectorAll("li");
   body[0].textContent = "Email: " + contact.Email;
   body[1].textContent = "Phone #: " + contact.Phone;
-
+  if (contact.Notes === null)
+  {
+    body[2].textContent = "Notes: ";
+  }
+  else
+  {
+    body[2].textContent = "Notes: " + contact.Notes;
+  }
   var footer = clone.getElementsByClassName("card-footer");
   footer[0].innerText = "Date Created: " + contact.DateCreated;
   $(clone).attr("data-id", contact.ContactID);
@@ -322,6 +332,14 @@ function updateCard(contact, card) {
   var body = card.querySelectorAll("li");
   body[0].textContent = "Email: " + contact.Email;
   body[1].textContent = "Phone #: " + contact.Phone;
+  if (contact.Notes === null)
+  {
+    body[2].textContent = "Notes: ";
+  }
+  else
+  {
+    body[2].textContent = "Notes: " + contact.Notes;
+  }
 }
 
 function deleteCard(card) {
@@ -340,6 +358,7 @@ function selectContact() {
     LastName: name[1],
     Email: body[0].innerText.split(" ")[1],
     Phone: body[1].innerText.split(" ")[2],
+    Notes: body[2].innerText.split("Notes:")[1]
   };
   selectedCard = this;
 
@@ -347,6 +366,7 @@ function selectContact() {
   $("#edit-contact-lastName").val(selectedContact.LastName);
   $("#edit-contact-email").val(selectedContact.Email);
   $("#edit-contact-number").val(selectedContact.Phone);
+  $("#edit-contact-notes").val(selectedContact.Notes);
   $("#edit-error-message").text("");
 }
 
