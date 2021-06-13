@@ -14,11 +14,17 @@
 	if ($result->num_rows > 0){
 		returnWithError("User Email Already Registered");
 	}
-	else {
+	else if ($inData["Password"] == ""){
+		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=? WHERE UserID=?");
+		$stmt->bind_param("sssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["UserID"]);
+		$stmt->execute();
+	}
+	else{
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=?, Password=? WHERE UserID=?");
 		$stmt->bind_param("sssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"], $inData["UserID"]);
 		$stmt->execute();
 	}
+	
 	returnWithInfo($stmt->affected_rows);
 
 	$stmt->close();

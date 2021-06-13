@@ -74,7 +74,7 @@ function signUp() {
     errorMsg = "Invalid email";
   }
   else if (Password.length < 8 || Password.length > 15) {
-    errorMsg = "Invalid password";
+    errorMsg = "Invalid password length";
   }
   else{
     error = false;

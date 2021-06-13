@@ -1,4 +1,5 @@
 var UserID = 0;
+var updatePass = false;
 
 window.onload = function () {
   validateUser();
@@ -31,6 +32,13 @@ $("#edit-user-Btn").on("click", function (event) {
     return;
   }
 
+  if (updatePass){
+    if (Password.length < 8 || Password.length > 15){
+      $("#edit-error-message").append("<br><p>Invalid password length</p>");
+      return;
+    }
+  }
+
   var user =
     '{"Email" : "' +
     Email +
@@ -53,6 +61,7 @@ $("#edit-user-Btn").on("click", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         // something to let them know their info has been updated
         alert("Your Account Information has been Successfully Updated");
+        updatePass = false;
       }
     };
     xhr.send(user);
@@ -108,7 +117,7 @@ $("#update-userBtn").on("click", function (event) {
         $("#edit-user-firstName").val(jsonObject.FirstName);
         $("#edit-user-lastName").val(jsonObject.LastName);
         $("#edit-user-email").val(jsonObject.Email);
-        $("#edit-user-password").val(jsonObject.Password);
+        $("#edit-user-password").hide();
         $("#edit-error-message").text("");
       }
     };
@@ -117,6 +126,13 @@ $("#update-userBtn").on("click", function (event) {
   } catch (err) {
     console.log(err.message);
   }
+});
+
+$("#update-pass").on("click", function (event) {
+  event.preventDefault();
+  $("#update-pass").hide();
+  $("#edit-user-password").show();
+  updatePass = true;
 });
 
 function getNumContacts(){
