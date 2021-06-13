@@ -38,8 +38,13 @@ label{
     border: none;
 }
 
+.btn-custom{
+    color: white;
+    background-color: #6F9EFF;
+}
+
 /* inverts buttons colors */
-.btn-primary:hover{
+.btn-custom:hover{
     color: #007BFF;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);

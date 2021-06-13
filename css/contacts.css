@@ -93,7 +93,10 @@ body{
     color: #6F9EFF;
     background-color: #FFF;
     border-color: rgb(20, 20, 20);
+}
 
+.btn-outline-secondary{
+    border-color: rgb(20, 20, 20);
 }
 /* ----------------------------------------------*/
 
