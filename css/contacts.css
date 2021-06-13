@@ -10,6 +10,10 @@ body{
     background-color: #D09f74;
 }
 
+.searchbar{
+    margin-right: -100px;
+}
+
 #searchBox{
     width: 400px;
 }
@@ -24,6 +28,15 @@ body{
     font-weight: 500;
 }
 
+#toUserPage{
+    margin-right: 1.5rem;
+    text-decoration: none;
+}
+
+#toUserPage:hover{
+    color: white;
+}
+
 .error-message{
     color: red;
     margin: 5px 0px;
@@ -33,7 +46,6 @@ body{
 .btn-custom{
     color: white;
     background-color: #6F9EFF;
-    border: 2px dashed #FFF;
     border-radius: 5px;
 }
 

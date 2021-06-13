@@ -22,7 +22,7 @@
 <body>
     <nav class="navbar fixed-top" id="navbar">
         <h3>Contactful Delivery</h3>
-        <form class="form-inline">
+        <form class="form-inline searchbar">
             <input class="form-control mr-sm-2" type="search" placeholder="Search Contacts" id="searchBox">
             <button class="btn btn-custom my-2 my-sm-0" type="button" id="searchAll">View All Contacts</button>
             <button class="btn btn-custom mx-5" type="button" data-bs-toggle="modal" data-bs-target="#addModal"> 
@@ -32,9 +32,10 @@
                 </svg>
             </button>
         </form>
-        <p id="userName"></p>
-        <button class="btn btn-danger" type="button" id="signOut-Btn">Sign Out</button>
-        <a id="toUserPage" href="user.html">View Account</a>
+        <div>
+            <a id="toUserPage" href="user.html">View Account</a>
+            <button class="btn btn-danger" type="button" id="signOut-Btn">Sign Out</button>
+        </div>
     </nav>
 
     <div id="navSpacer"></div>

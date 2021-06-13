@@ -1,9 +1,9 @@
 var UserID = 0;
 
 window.onload = function () {
-  validateUser();
-  $("#add-error-message").text("");
-  $("#edit-error-message").text("");
+  // validateUser();
+  // $("#add-error-message").text("");
+  // $("#edit-error-message").text("");
 };
 
 function validateUser() {
