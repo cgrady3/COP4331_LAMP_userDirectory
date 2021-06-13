@@ -3,7 +3,7 @@ var UserID = 0;
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
-  if (UserId > 0)
+  if (UserID > 0)
     getNumContacts();
 };
 
@@ -133,7 +133,7 @@ function getNumContacts(){
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log(jsonObject);
+        console.log("num contacts " + jsonObject.length);
         if (jsonObject.length === undefined) {
           $("#numContacts").text("Number of Contacts: 0");
         } else {
