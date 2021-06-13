@@ -1,5 +1,6 @@
 var UserID = 0;
 var updatePass = false;
+var updateEmail = false;
 
 window.onload = function () {
   validateUser();
@@ -26,9 +27,13 @@ $("#edit-user-btn").on("click", function (event) {
   // validate email format
   var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
 
-  if (!regex.test(Email)) {
-    $("#edit-error-message").text("Please Enter Valid Email Address");
-    return;
+  if (updateEmail) {
+    if (!regex.test(Email)) {
+      $("#edit-error-message").text("Please Enter Valid Email Address");
+      return;
+    }
+  } else {
+    Email = "false";
   }
 
   if (updatePass) {
@@ -40,7 +45,7 @@ $("#edit-user-btn").on("click", function (event) {
       Password = md5(Password);
     }
   } else {
-    Password = "nopass";
+    Password = "false";
   }
 
   var user =
@@ -67,8 +72,9 @@ $("#edit-user-btn").on("click", function (event) {
         if (jsonObject.error != "") {
           $("#add-error-message").text("User email already exits");
           updatePass = false;
+          updateEmail = false;
           return;
-        } else if (jsonObject.results[0]) {
+        } else if (jsonObject.results) {
           $("#add-error-message").text(
             "Your Account Information has been Successfully Updated"
           );
@@ -76,6 +82,7 @@ $("#edit-user-btn").on("click", function (event) {
           $("#add-error-message").text("Could not update account");
         }
         updatePass = false;
+        updateEmail = false;
       }
     };
     xhr.send(user);
@@ -130,6 +137,8 @@ $("#update-userBtn").on("click", function (event) {
         $("#edit-user-firstName").val(jsonObject.FirstName);
         $("#edit-user-lastName").val(jsonObject.LastName);
         $("#edit-user-email").val(jsonObject.Email);
+        $("#update-email").show();
+        $("#edit-user-email").hide();
         $("#update-pass").show();
         $("#edit-user-password").hide();
         $("#edit-error-message").text("");
@@ -147,6 +156,13 @@ $("#update-pass").on("click", function (event) {
   $("#update-pass").hide();
   $("#edit-user-password").show();
   updatePass = true;
+});
+
+$("#update-email").on("click", function (event) {
+  event.preventDefault();
+  $("#update-email").hide();
+  $("#edit-user-email").show();
+  updateEmail = true;
 });
 
 function getNumContacts() {

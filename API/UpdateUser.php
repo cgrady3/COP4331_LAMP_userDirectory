@@ -11,21 +11,23 @@
 
 	$result = $stmt->get_result();
 
-	if ($result->num_rows > 0){
+	if (!strcmp($inData["Email"], "false") && $result->num_rows > 0){
 		returnWithError("User Email Already Registered");
 	}
-	else if (!strcmp($inData["Password"], "nopass")){
+	else if (!strcmp($inData["Password"], "false")){
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=? WHERE UserID=?");
 		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["UserID"]);
 		$stmt->execute();
+		returnWithInfo($stmt->affected_rows);
 	}
 	else{
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=?, Password=? WHERE UserID=?");
 		$stmt->bind_param("sssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"], $inData["UserID"]);
 		$stmt->execute();
+		returnWithInfo($stmt->affected_rows);
 	}
 	
-	returnWithInfo($stmt->affected_rows);
+	
 
 	$stmt->close();
 	$conn->close();
