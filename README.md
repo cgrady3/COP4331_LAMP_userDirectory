@@ -1,1 +1,0 @@
-# COP4331_LAMP_userDirectory
