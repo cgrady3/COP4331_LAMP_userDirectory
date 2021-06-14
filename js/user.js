@@ -91,7 +91,6 @@ $("#update-userBtn").on("click", function (event) {
   var xhr = new XMLHttpRequest();
 
   var search = '{"UserID" : "' + UserID + '"}';
-  console.log(search);
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -154,7 +153,6 @@ function getNumContacts() {
   var xhr = new XMLHttpRequest();
 
   var search = '{"UserID" : "' + UserID + '"}';
-  console.log(search);
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -162,7 +160,7 @@ function getNumContacts() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log("num contacts " + jsonObject.length);
+
         if (jsonObject.length === undefined) {
           $("#numContacts").text("Number of Contacts: 0");
         } else {
