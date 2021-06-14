@@ -5,7 +5,7 @@
 
 	$inData = getRequestInfo();
 
-	$stmt = $conn->prepare("SELECT Email FROM Users WHERE Email=?");
+	$stmt = $conn->prepare("SELECT * FROM Users WHERE Email=?");
 	$stmt->bind_param("s", $inData["Email"]);
 	$stmt->execute();
 
