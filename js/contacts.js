@@ -8,7 +8,7 @@ window.onload = function () {
 
 function validateUser() {
   readCookie();
-  if (UserID <= 0) doLogout();
+  if (UserID <= 0 || "NaN") doLogout();
 }
 
 var urlBase = "http://contactfulDelivery.club/API";

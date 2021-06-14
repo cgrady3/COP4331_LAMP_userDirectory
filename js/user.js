@@ -1,10 +1,13 @@
 var UserID = 0;
 var updatePass = false;
+var updateEmail = false;
+var updateFirst = false;
+var updateLast = false;
 
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
-  if (UserID > 0) getNumContacts();
+  if (UserID >= 0 || "NaN") getNumContacts();
 };
 
 function validateUser() {
@@ -26,52 +29,32 @@ $("#edit-user-btn").on("click", function (event) {
   // validate email format
   var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
 
-  if (!regex.test(Email)) {
+  if (updateEmail && !regex.test(Email)) {
     $("#edit-error-message").text("Please Enter Valid Email Address");
     return;
   }
 
   if (updatePass) {
     if (Password.length < 8 || Password.length > 15) {
-      $("#edit-error-message").append("<br><p>Invalid password length</p>");
+      $("#edit-error-message").text("Invalid password length");
       return;
     } else {
       // hashing password
       Password = md5(Password);
     }
-  } else {
-    Password = "nopass";
   }
 
-  var user =
-    '{"Email" : "' +
-    Email +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '", "UserID" : "' +
-    UserID +
-    '", "Password" : "' +
-    Password +
-    '"}';
-
-  var url = urlBase + "/UpdateUser" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        // something to let them know their info has been updated
-        alert("Your Account Information has been Successfully Updated");
-        updatePass = false;
-      }
-    };
-    xhr.send(user);
-  } catch (err) {
-    console.log(err.message);
+  if (updateFirst || updateLast) {
+    if (!FirstName.lenght || !LastName.length) {
+      $("#edit-error-message").text("Please enter a new name for your account");
+      return;
+    }
   }
+
+  if (updateEmail) updateUserEmail(Email);
+  if (updatePass) updateUserPass(Password);
+  if (updateFirst) updateUserFirst(FirstName);
+  if (updateLast) updateUserLast(LastName);
 });
 
 $("#delete-user-Btn").on("click", function (event) {
@@ -108,7 +91,6 @@ $("#update-userBtn").on("click", function (event) {
   var xhr = new XMLHttpRequest();
 
   var search = '{"UserID" : "' + UserID + '"}';
-  console.log(search);
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -116,11 +98,16 @@ $("#update-userBtn").on("click", function (event) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log(jsonObject);
 
         $("#edit-user-firstName").val(jsonObject.FirstName);
         $("#edit-user-lastName").val(jsonObject.LastName);
         $("#edit-user-email").val(jsonObject.Email);
+        $("#update-firstName").show();
+        $("#edit-user-firstName").hide();
+        $("#update-lastName").show();
+        $("#edit-user-lastName").hide();
+        $("#update-email").show();
+        $("#edit-user-email").hide();
         $("#update-pass").show();
         $("#edit-user-password").hide();
         $("#edit-error-message").text("");
@@ -140,12 +127,32 @@ $("#update-pass").on("click", function (event) {
   updatePass = true;
 });
 
+$("#update-email").on("click", function (event) {
+  event.preventDefault();
+  $("#update-email").hide();
+  $("#edit-user-email").show();
+  updateEmail = true;
+});
+
+$("#update-firstName").on("click", function (event) {
+  event.preventDefault();
+  $("#update-firstName").hide();
+  $("#edit-user-firstName").show();
+  updateFirst = true;
+});
+
+$("#update-lastName").on("click", function (event) {
+  event.preventDefault();
+  $("#update-lastName").hide();
+  $("#edit-user-lastName").show();
+  updateLast = true;
+});
+
 function getNumContacts() {
   var url = urlBase + "/SearchAllContacts" + extension;
   var xhr = new XMLHttpRequest();
 
   var search = '{"UserID" : "' + UserID + '"}';
-  console.log(search);
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -153,7 +160,7 @@ function getNumContacts() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log("num contacts " + jsonObject.length);
+
         if (jsonObject.length === undefined) {
           $("#numContacts").text("Number of Contacts: 0");
         } else {
@@ -163,6 +170,118 @@ function getNumContacts() {
     };
 
     xhr.send(search);
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+function updateUserEmail(Email) {
+  var user = '{"Email" : "' + Email + '", "UserID" : "' + UserID + '"}';
+
+  var url = urlBase + "/UpdateUserEmail" + extension;
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        var jsonObject = JSON.parse(xhr.responseText);
+        if (jsonObject.error != "") {
+          $("#add-error-message").text("User email already exits");
+          updateEmail = false;
+          return;
+        } else if (jsonObject.results) {
+          $("#add-error-message").text(
+            "Your Account Information has been Successfully Updated"
+          );
+        } else {
+          $("#add-error-message").text("Could not update account");
+        }
+        updateEmail = false;
+      }
+    };
+    xhr.send(user);
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+function updateUserPass(Password) {
+  var user = '{"UserID" : "' + UserID + '", "Password" : "' + Password + '"}';
+
+  var url = urlBase + "/UpdateUserPass" + extension;
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        var jsonObject = JSON.parse(xhr.responseText);
+        if (jsonObject.results) {
+          $("#add-error-message").text(
+            "Your Account Information has been Successfully Updated"
+          );
+        } else {
+          $("#add-error-message").text("Could not update account");
+        }
+        updatePass = false;
+      }
+    };
+    xhr.send(user);
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+function updateUserFirst(FirstName) {
+  var user = '{"FirstName" : "' + FirstName + '", "UserID" : "' + UserID + '"}';
+
+  var url = urlBase + "/UpdateUserFirst" + extension;
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        var jsonObject = JSON.parse(xhr.responseText);
+        if (jsonObject.results) {
+          $("#add-error-message").text(
+            "Your Account Information has been Successfully Updated"
+          );
+        } else {
+          $("#add-error-message").text("Could not update account");
+        }
+        updateFirst = false;
+      }
+    };
+    xhr.send(user);
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+function updateUserLast(LastName) {
+  var user = '{"LastName" : "' + LastName + '", "UserID" : "' + UserID + '"}';
+
+  var url = urlBase + "/UpdateUserLast" + extension;
+  var xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        var jsonObject = JSON.parse(xhr.responseText);
+        if (jsonObject.results) {
+          $("#add-error-message").text(
+            "Your Account Information has been Successfully Updated"
+          );
+        } else {
+          $("#add-error-message").text("Could not update account");
+        }
+        updateLast = false;
+      }
+    };
+    xhr.send(user);
   } catch (err) {
     console.log(err.message);
   }

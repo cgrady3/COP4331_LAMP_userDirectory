@@ -1,6 +1,5 @@
 var urlBase = "http://contactfulDelivery.club/API";
 var extension = ".php";
-var hrefBase = "";
 var UserID = 0;
 
 window.onload = function () {
@@ -10,8 +9,6 @@ window.onload = function () {
 
 function loginUser() {
   UserID = 0;
-  FirstName = "";
-  LastName = "";
 
   var form = document.getElementById("login-form");
   function handleForm(event) { event.preventDefault(); }
@@ -115,8 +112,8 @@ function signUp() {
           $("#signup-error").text("User already exists");
           return;
         }
-        UserID = jsonObject.UserID;
-
+        
+        UserID = jsonObject.results[0];
         saveCookie();
 
         window.location.href = "contact.html"
