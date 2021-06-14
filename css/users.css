@@ -31,12 +31,19 @@ h3{
 }
 
 #toContactsPage{
-    color: black;
+    margin-right: 1.5rem;
+    text-decoration: none;
+    color: #4a86ff;
 }
 
 #toContactsPage:hover{
     color: white;
-    text-decoration: underline;
+}
+
+#numContacts-container{
+    margin-right: 4.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 #navSpacer{

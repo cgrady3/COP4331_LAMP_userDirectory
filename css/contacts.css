@@ -31,15 +31,11 @@ body{
 #toUserPage{
     margin-right: 1.5rem;
     text-decoration: none;
-}
-
-#toUserPage{
-    color: black;
+    color: #4a86ff;
 }
 
 #toUserPage:hover{
     color: white;
-    text-decoration: underline;
 }
 
 .error-message{
