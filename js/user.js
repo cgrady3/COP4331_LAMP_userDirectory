@@ -3,7 +3,7 @@ var updatePass = false;
 var updateEmail = false;
 var updateFirst = false;
 var updateLast = false;
-var emailAvailable = false;
+var emailAvailable;
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
@@ -51,19 +51,11 @@ $("#edit-user-btn").on("click", function (event) {
     }
   }
 
-  if (updateEmail) {
-    checkEmail(Email)
-    if (emailAvailable) {
-      updateUserEmail(Email);
-    } else {
-      return;
-    }
-  }
 
+  if (updateEmail) updateUserEmail(Email);
   if (updatePass) updateUserPass(Password);
   if (updateFirst) updateUserFirst(FirstName);
   if (updateLast) updateUserLast(LastName);
-  emailAvailable = false;
 });
 
 $("#delete-user-Btn").on("click", function (event) {
@@ -184,33 +176,6 @@ function getNumContacts() {
   }
 }
 
-function checkEmail(Email) {
-  var email = '{"Email" : "' + Email + '"}';
-
-  var url = urlBase + "/CheckEmailExists" + extension;
-  var xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        var jsonObject = JSON.parse(xhr.responseText);
-        if (jsonObject != undefined) {
-          $("#edit-error-message").text(
-              "Email is already registed with Contactful Delivery"
-          );
-          emailAvailable = false;
-          return;
-        }
-        emailAvailable = true;
-      }
-    };
-    xhr.send(email);
-  } catch (err) {
-    console.log(err.message);
-  }
-}
-
 function updateUserEmail(Email) {
   var user = '{"Email" : "' + Email + '", "UserID" : "' + UserID + '"}';
 
@@ -222,10 +187,12 @@ function updateUserEmail(Email) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        if (jsonObject.results) {
-          $("#edit-error-message").text(
-              "Your Account Information has been Successfully Updated"
-          );
+        if (jsonObject == -1) {
+          $("#edit-error-message").text("Email is already registed with Contactful Delivery");
+        }
+        else
+        {
+          $("#edit-error-message").text("Your Account Information has been Successfully Updated");
         }
       }
     };
