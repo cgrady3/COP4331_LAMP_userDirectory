@@ -7,7 +7,7 @@ var updateLast = false;
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
-  if (UserID >= 0 || "NaN") getNumContacts();
+  if (UserID >= 0) getNumContacts();
 };
 
 function validateUser() {
