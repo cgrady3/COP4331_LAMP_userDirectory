@@ -21,7 +21,7 @@ function loginUser() {
   Password = md5(Password);
 
   var jsonPayload =
-    '{"Email" : "' + login + '", "Password" : "' + Password + '"}';
+      '{"Email" : "' + login + '", "Password" : "' + Password + '"}';
   var url = urlBase + "/Login" + extension;
 
   var xhr = new XMLHttpRequest();
@@ -85,15 +85,15 @@ function signUp() {
   Password = md5(Password);
 
   var jsonPayload =
-    '{"Email" : "' +
-    Email +
-    '", "Password" : "' +
-    Password +
-    '", "FirstName" : "' +
-    FirstName +
-    '", "LastName" : "' +
-    LastName +
-    '"}';
+      '{"Email" : "' +
+      Email +
+      '", "Password" : "' +
+      Password +
+      '", "FirstName" : "' +
+      FirstName +
+      '", "LastName" : "' +
+      LastName +
+      '"}';
 
   var url = urlBase + "/RegisterUser" + extension;
 
@@ -105,13 +105,13 @@ function signUp() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log(jsonObject);
-        if (jsonObject.error != "") {
+
+        if (jsonObject.error !== undefined) {
           $("#signup-error").text(jsonObject.error);
           return;
         }
 
-        UserID = jsonObject.results[0];
+        UserID = jsonObject.UserID;
         saveCookie();
 
         window.location.href = "contact.html";
