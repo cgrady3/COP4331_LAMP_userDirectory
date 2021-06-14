@@ -18,10 +18,15 @@
 		$stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Email, Password) VALUES(?, ?, ?, ?)");
 		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"]);
 		$stmt->execute();
-		
-		returnWithInfo($stmt->fetch_assoc());
+
+		$stmt = $conn->prepare("SELECT UserID FROM Users WHERE Email=?");
+		$stmt->bind_param("s", $inData["Email"]);
+		$stmt->execute();
+
+		$result = $stmt->get_result();
+		returnWithInfo($result->fetch_assoc());
 	}
-	
+
 	$stmt->close();
 	$conn->close();
 ?>
