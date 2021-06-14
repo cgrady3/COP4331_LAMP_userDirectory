@@ -36,7 +36,7 @@ $("#edit-user-btn").on("click", function (event) {
 
   if (updatePass) {
     if (Password.length < 8 || Password.length > 15) {
-      $("#edit-error-message").append("<br><p>Invalid password length</p>");
+      $("#edit-error-message").text("Invalid password length");
       return;
     } else {
       // hashing password
@@ -46,8 +46,7 @@ $("#edit-user-btn").on("click", function (event) {
 
   if (updateFirst || updateLast) {
     if (!FirstName.lenght || !LastName.length) {
-      $("#edit-error-message").append(
-        "<br><p>Please enter a new name for your account</p>"
+      $("#edit-error-message").text"(Please enter a new name for your account")
       );
       return;
     }
