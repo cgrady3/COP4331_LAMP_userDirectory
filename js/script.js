@@ -112,8 +112,8 @@ function signUp() {
           $("#signup-error").text("User already exists");
           return;
         }
-        UserID = jsonObject.UserID;
-
+        
+        UserID = jsonObject.results[0];
         saveCookie();
 
         window.location.href = "contact.html"
