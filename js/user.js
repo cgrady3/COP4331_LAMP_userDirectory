@@ -45,7 +45,7 @@ $("#edit-user-btn").on("click", function (event) {
   }
 
   if (updateFirst || updateLast) {
-    if (!FirstName.lenght || !LastName.length) {
+    if (!FirstName.length || !LastName.length) {
       $("#edit-error-message").text("Please enter a new name for your account");
       return;
     }
