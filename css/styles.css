@@ -50,12 +50,6 @@ label{
     border-color: rgb(20, 20, 20);
 }
 
-.btn-secondary:hover{
-    color: #5a6268;
-    background-color: #FFF;
-    border-color:rgb(20, 20, 20);
-}
-
 .btn-outline-secondary{
     border-color: rgb(20, 20, 20);
 }

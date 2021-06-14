@@ -31,6 +31,7 @@ body{
 #toUserPage{
     margin-right: 1.5rem;
     text-decoration: none;
+    color: #4a86ff;
 }
 
 #toUserPage:hover{
@@ -83,7 +84,7 @@ body{
     border-radius: 5px;
 }
 
-/*inverts button colors when hovering(if the id is set)*/
+/*inverts button colors when hovering*/
 .btn-danger:hover{
     color: #c82333;
     background-color: #FFF;

@@ -6,6 +6,10 @@ body{
     background-image: linear-gradient(150deg, #FCFCF0,  #f3f6d9, #cfca90);
 }
 
+h3{
+    margin-right: 15px;
+}
+
 #navbar{
     background-color: #D09f74;
 }
@@ -22,14 +26,32 @@ body{
     border-radius: 5px;
 }
 
-.btn-customPrimary{
+#signOut-Btn{
+    justify-content: end;
+}
+
+#toContactsPage{
+    margin-right: 1.5rem;
+    text-decoration: none;
+    color: #4a86ff;
+}
+
+#toContactsPage:hover{
     color: white;
-    background-color: #007BFF;
-    border-radius: 5px;
+}
+
+#numContacts-container{
+    margin-right: 4.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 #navSpacer{
-    margin: 6rem auto;
+    margin: 10rem auto;
+}
+
+#btnSpacer{
+    margin: 2.5rem auto;
 }
 
 .list-group-item, .card-footer{
@@ -62,19 +84,7 @@ body{
 
 }
 
-/*inverts button colors when hovering(if the id is set)*/
-.btn-primary:hover{
-    color: #007BFF;
-    background-color: #FFF;
-    border-color: rgb(20, 20, 20);
-}
-
-#secondaryBtn:hover{
-    color: #5a6268;
-    background-color: #FFF;
-    border-color:rgb(20, 20, 20);
-}
-
+/*inverts button colors when hovering*/
 .btn-danger:hover{
     color: #c82333;
     background-color: #FFF;
@@ -91,6 +101,7 @@ body{
 
 .modal-header{
     background-color: #D09f74;
+    border: none;
 }
 
 .modal-title{
@@ -100,4 +111,8 @@ body{
 .modal-body, .modal-footer{
     background-color: #f8e1c5;
     border: none;
+}
+
+.inputPad{
+    padding-top: 13px;
 }
