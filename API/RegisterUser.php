@@ -19,7 +19,7 @@
 		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["Email"], $inData["Password"]);
 		$stmt->execute();
 		
-		returnWithInfo($stmt->affected_rows);
+		returnWithInfo($stmt->fetch_assoc());
 	}
 	
 	$stmt->close();

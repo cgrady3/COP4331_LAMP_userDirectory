@@ -29,7 +29,7 @@ function loginUser() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-
+console.log(jsonObject);
         if (jsonObject.error !== "") {
           $("#login-error").text("Invalid username/password");
           return;
@@ -47,15 +47,12 @@ function loginUser() {
 }
 
 function signUp() {
-  FirstName = "";
-  LastName = "";
-  Email = "";
   var error = true;
 
   var Email = $("#user-email").val().trim().toLowerCase();
   var Password = $("#user-password").val().trim();
-  FirstName = $("#first-name").val().trim().toLowerCase();
-  LastName = $("#last-name").val().trim().toLowerCase();
+  var FirstName = $("#first-name").val().trim().toLowerCase();
+  var LastName = $("#last-name").val().trim().toLowerCase();
   var form = document.getElementById("login-form");
   function handleForm(event) { event.preventDefault(); }
   form.addEventListener('submit', handleForm);
@@ -65,9 +62,7 @@ function signUp() {
 
   var errorMsg = "";
   // validating password length
-  if (FirstName == "" || LastName == "" || Email == "" || Password == ""){
-    errorMsg = "";
-  }else if (!regex.test(Email)) {
+  if (!regex.test(Email)) {
     errorMsg = "Invalid email";
   }
   else if (Password.length < 8 || Password.length > 15) {
@@ -107,6 +102,7 @@ function signUp() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
+        console.log(jsonObject);
         if (jsonObject.error != "")
         {
           $("#signup-error").text("User already exists");
