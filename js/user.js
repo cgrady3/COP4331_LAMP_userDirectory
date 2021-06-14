@@ -3,7 +3,7 @@ var updatePass = false;
 var updateEmail = false;
 var updateFirst = false;
 var updateLast = false;
-var emailAvailable;
+
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
