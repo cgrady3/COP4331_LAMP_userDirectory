@@ -5,13 +5,20 @@
 
 	$inData = getRequestInfo();
 
-	$stmt = $conn->prepare("UPDATE Users SET Email=? WHERE UserID=?");
-	$stmt->bind_param("ss", $inData["Email"], $inData["UserID"]);
-
+	$stmt = $conn->prepare("SELECT * FROM Users WHERE Email=?");
+	$stmt->bind_param("s", $inData["Email"]);
 	$stmt->execute();
+	$result = $stmt->get_result();
+	if ($result->num_rows > 0){
+		returnWithInfo("-1");
+	} else if {
+		$stmt = $conn->prepare("UPDATE Users SET Email=? WHERE UserID=?");
+		$stmt->bind_param("ss", $inData["Email"], $inData["UserID"]);
 
-	returnWithInfo($stmt->affected_rows);
+		$stmt->execute();
 
+		returnWithInfo($stmt->affected_rows);
+	}
 	$stmt->close();
 	$conn->close();
 ?>
