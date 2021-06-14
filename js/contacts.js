@@ -25,7 +25,7 @@ $("#searchBox").on("input", function (event) {
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
 
-  var search = '{"search" : "' + input + '", "UserID" : "' + UserID + '", "Phone" : "' + phone + '"}';
+  var search = '{"Search" : "' + input + '", "UserID" : "' + UserID + '", "Phone" : "' + phone + '"}';
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
