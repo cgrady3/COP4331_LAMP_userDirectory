@@ -28,6 +28,12 @@
 		$stmt->execute();
 		returnWithInfo($stmt->affected_rows);
 	}
+	// if neither were updated
+	else if (!strcmp($inData["Password"], "false") && !strcmp($inData["Email"], "false")){
+		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=? WHERE UserID=?");
+		$stmt->bind_param("ssss", $inData["FirstName"], $inData["LastName"], $inData["UserID"]);
+		$stmt->execute();
+		returnWithInfo($stmt->affected_rows);
 	// if both were updated
 	else{
 		$stmt = $conn->prepare("UPDATE Users SET FirstName=?, LastName=?, Email=?, Password=? WHERE UserID=?");
