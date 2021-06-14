@@ -186,16 +186,14 @@ function updateUserEmail(Email) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        if (jsonObject.error != "") {
+        if (jsonObject.results == "-1") {
           $("#add-error-message").text("User email already exits");
           updateEmail = false;
           return;
-        } else if (jsonObject.results) {
+        } else {
           $("#add-error-message").text(
             "Your Account Information has been Successfully Updated"
           );
-        } else {
-          $("#add-error-message").text("Could not update account");
         }
         updateEmail = false;
       }
