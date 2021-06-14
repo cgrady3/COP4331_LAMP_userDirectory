@@ -3,7 +3,7 @@ var updatePass = false;
 var updateEmail = false;
 var updateFirst = false;
 var updateLast = false;
-
+var emailAvailable = false;
 window.onload = function () {
   validateUser();
   $("#edit-error-message").text("");
@@ -52,7 +52,8 @@ $("#edit-user-btn").on("click", function (event) {
   }
 
   if (updateEmail) {
-    if (checkEmail(Email)) {
+    checkEmail(Email)
+    if (emailAvailable) {
       updateUserEmail(Email);
     } else {
       return;
@@ -62,14 +63,15 @@ $("#edit-user-btn").on("click", function (event) {
   if (updatePass) updateUserPass(Password);
   if (updateFirst) updateUserFirst(FirstName);
   if (updateLast) updateUserLast(LastName);
+  emailAvailable = false;
 });
 
 $("#delete-user-Btn").on("click", function (event) {
   event.preventDefault();
   if (
-    confirm(
-      "Are you sure you want to delete your account with Contactful Delivery?"
-    )
+      confirm(
+          "Are you sure you want to delete your account with Contactful Delivery?"
+      )
   ) {
     // get contact info
     var payload = '{"UserID" : "' + UserID + '"}';
@@ -193,19 +195,20 @@ function checkEmail(Email) {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        if (jsonObject.results) {
-          $("#add-error-message").text(
-            "Email is already registed with Contactful Delivery"
+        if (jsonObject != undefined) {
+          $("#edit-error-message").text(
+              "Email is already registed with Contactful Delivery"
           );
-          return false;
+          emailAvailable = false;
+          return;
         }
+        emailAvailable = true;
       }
     };
     xhr.send(email);
   } catch (err) {
     console.log(err.message);
   }
-  return true;
 }
 
 function updateUserEmail(Email) {
@@ -220,8 +223,8 @@ function updateUserEmail(Email) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         if (jsonObject.results) {
-          $("#add-error-message").text(
-            "Your Account Information has been Successfully Updated"
+          $("#edit-error-message").text(
+              "Your Account Information has been Successfully Updated"
           );
         }
       }
@@ -244,11 +247,11 @@ function updateUserPass(Password) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         if (jsonObject.results) {
-          $("#add-error-message").text(
-            "Your Account Information has been Successfully Updated"
+          $("#edit-error-message").text(
+              "Your Account Information has been Successfully Updated"
           );
         } else {
-          $("#add-error-message").text("Could not update account");
+          $("#edit-error-message").text("Could not update account");
         }
         updatePass = false;
       }
@@ -271,11 +274,11 @@ function updateUserFirst(FirstName) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         if (jsonObject.results) {
-          $("#add-error-message").text(
-            "Your Account Information has been Successfully Updated"
+          $("#edit-error-message").text(
+              "Your Account Information has been Successfully Updated"
           );
         } else {
-          $("#add-error-message").text("Could not update account");
+          $("#edit-error-message").text("Could not update account");
         }
         updateFirst = false;
       }
@@ -298,11 +301,11 @@ function updateUserLast(LastName) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         if (jsonObject.results) {
-          $("#add-error-message").text(
-            "Your Account Information has been Successfully Updated"
+          $("#edit-error-message").text(
+              "Your Account Information has been Successfully Updated"
           );
         } else {
-          $("#add-error-message").text("Could not update account");
+          $("#edit-error-message").text("Could not update account");
         }
         updateLast = false;
       }
