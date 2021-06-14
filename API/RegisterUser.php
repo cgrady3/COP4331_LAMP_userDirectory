@@ -24,7 +24,7 @@
 		$stmt->execute();
 
 		$result = $stmt->get_result();
-		returnWithInfo($result->fetch_assoc());
+		echo json_encode($result->fetch_assoc());
 	}
 
 	$stmt->close();
