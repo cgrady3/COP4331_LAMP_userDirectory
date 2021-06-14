@@ -33,8 +33,13 @@ body{
     text-decoration: none;
 }
 
+#toUserPage{
+    color: black;
+}
+
 #toUserPage:hover{
     color: white;
+    text-decoration: underline;
 }
 
 .error-message{
@@ -83,7 +88,7 @@ body{
     border-radius: 5px;
 }
 
-/*inverts button colors when hovering(if the id is set)*/
+/*inverts button colors when hovering*/
 .btn-danger:hover{
     color: #c82333;
     background-color: #FFF;
