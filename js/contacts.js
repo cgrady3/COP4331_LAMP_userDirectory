@@ -1,7 +1,7 @@
 var UserID = 0;
 
 window.onload = function () {
-  validateUser();
+  //validateUser();
   $("#add-error-message").text("");
   $("#edit-error-message").text("");
 };
@@ -335,8 +335,7 @@ function addCard(contact) {
     body[2].textContent = "Notes: " + contact.Notes;
   }
   var footer = clone.getElementsByClassName("card-footer");
-  var today = new Date();
-  footer[0].innerText = "Date Created: " + today.toLocaleDateString();
+  footer[0].innerText = "Date Created: " + contact.DateCreated;
   $(clone).attr("data-id", contact.ContactID);
   clone.addEventListener("click", selectContact);
   row.appendChild(clone);
