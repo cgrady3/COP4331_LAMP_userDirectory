@@ -47,7 +47,11 @@ $("#searchBox").on("input", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         $("#row-1").empty();
-        if (jsonObject.length === undefined) {
+        if (input == ""){
+          $("#searchMsg").text("Search to find a contact");
+          return;
+        }
+        else if (jsonObject.length === undefined) {
           $("#searchMsg").text("No contacts found");
           return;
         } else {
@@ -167,6 +171,7 @@ $("#add-contact-btn").on("click", function (event) {
           $("#add-error-message").text("Contact already exists");
           return;
         } else {
+          addCard(JSON.parse(contact));
           $("#addModal").modal("hide");
           $("#add-contact-email").val("");
           $("#add-contact-number").val("");
