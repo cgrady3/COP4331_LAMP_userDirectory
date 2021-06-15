@@ -5,7 +5,7 @@ var updateFirst = false;
 var updateLast = false;
 
 window.onload = function () {
-  //validateUser();
+  validateUser();
   $("#edit-error-message").text("");
   if (UserID >= 0) getNumContacts();
 };
@@ -148,6 +148,18 @@ $("#update-lastName").on("click", function (event) {
   $("#edit-user-lastName").show();
   updateLast = true;
 });
+
+$("#editUserModal").on('hidden.bs.modal', function () {
+  $("#update-firstName").show();
+  $("#edit-user-firstName").hide();
+  $("#update-lastName").show();
+  $("#edit-user-lastName").hide();
+  $("#update-email").show();
+  $("#edit-user-email").hide();
+  $("#update-pass").show();
+  $("#edit-user-password").hide();
+  $("#edit-error-message").text("");
+})
 
 function getNumContacts() {
   var url = urlBase + "/SearchAllContacts" + extension;
