@@ -17,15 +17,28 @@ var extension = ".php";
 var selectedContact, selectedCard;
 const row = document.getElementById("row-1");
 
+
+$('form').on("submit", function(e){
+  e.preventDefault();
+});
+
 $("#searchBox").on("input", function (event) {
   event.preventDefault();
 
   var input = $(this).val().trim().toLowerCase();
-  var phone = input.replace(/[^0-9]/g,'');
+
+  let isnum = /^\d+$/.test(input);
+  if (isnum)
+  {
+    var phone = input.replace(/[^0-9]/g,'');
+    var search = '{"Search" : "' + input + '", "UserID" : "' + UserID + '", "Phone" : "' + phone + '"}';
+  }
+  else
+  {
+    var search = '{"Search" : "' + input + '", "UserID" : "' + UserID + '", "Phone" : "' + input + '"}';
+  }
   var url = urlBase + "/SearchContacts" + extension;
   var xhr = new XMLHttpRequest();
-
-  var search = '{"Search" : "' + input + '", "UserID" : "' + UserID + '", "Phone" : "' + phone + '"}';
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -57,7 +70,7 @@ $("#searchAll").on("click", function (event) {
   var xhr = new XMLHttpRequest();
 
   var search = '{"UserID" : "' + UserID + '"}';
-  console.log(search);
+
 
   xhr.open("PUT", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -66,7 +79,6 @@ $("#searchAll").on("click", function (event) {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
         $("#row-1").empty();
-        console.log(jsonObject);
         if (jsonObject.length === undefined) {
           $("#searchMsg").text("No contacts found");
           return;

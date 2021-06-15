@@ -31,7 +31,6 @@ function loginUser() {
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var jsonObject = JSON.parse(xhr.responseText);
-        console.log(jsonObject);
         if (jsonObject.error !== "") {
           $("#login-error").text("Invalid username/password");
           return;
