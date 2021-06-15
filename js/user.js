@@ -5,7 +5,7 @@ var updateFirst = false;
 var updateLast = false;
 
 window.onload = function () {
-  validateUser();
+  //validateUser();
   $("#edit-error-message").text("");
   if (UserID >= 0) getNumContacts();
 };

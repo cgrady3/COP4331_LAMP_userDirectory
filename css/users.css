@@ -10,6 +10,15 @@ h3{
     margin-right: 15px;
 }
 
+.hidden{
+    display: none;
+}
+
+.name-row{
+    margin: 0;
+    padding: 0;
+}
+
 #navbar{
     background-color: #D09f74;
 }

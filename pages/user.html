@@ -59,25 +59,27 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <label for="edit-user-firstName">Name</label>
                     <div class="row mx-auto">
-                        <div class="col-xs mr-5">
+                        <div class="col-xs">
+                            <label class="inputPad" for="edit-user-firstName">First</label>
                             <p id="update-firstName">Click here to update your first name</p>
-                            <input id="edit-user-firstName" type="text" name="firstName" class="form-control"
+                            <input id="edit-user-firstName" type="text" name="firstName" class="form-control hidden"
                                 placeholder="First" required>
                         </div>
-                        <div class="col-xs ml-3">
+                        <div class="col-xs">
+                            <label class="inputPad" for="edit-user-lastName">Last</label>
                             <p id="update-lastName">Click here to update your last name</p>
-                            <input id="edit-user-lastName" type="text" name="lastName" class="form-control"
+                            <input id="edit-user-lastName" type="text" name="lastName" class="form-control hidden"
                                 placeholder="Last" required>
                         </div>
                     </div>
                     <label class="inputPad" for="edit-user-email">Email</label>
-                    <input id="edit-user-email" type="email" name="email" class="form-control" placeholder="Email"
+                    <p id="update-email">Click here to update email</p>
+                    <input id="edit-user-email" type="email" name="email" class="form-control hidden" placeholder="Email"
                         required>
                     <label class="inputPad" for="edit-user-password">Password</label>
                     <p id="update-pass">Click here to update password</p>
-                    <input id="edit-user-password" type="text" name="password" class="form-control"
+                    <input id="edit-user-password" type="text" name="password" class="form-control hidden"
                         placeholder="Password" required>
                     <p class="error-message" id="edit-error-message"></p>
                 </div>
