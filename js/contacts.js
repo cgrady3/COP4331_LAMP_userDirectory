@@ -1,7 +1,7 @@
 var UserID = 0;
 
 window.onload = function () {
-  //validateUser();
+  validateUser();
   $("#add-error-message").text("");
   $("#edit-error-message").text("");
 };
