@@ -71,6 +71,7 @@ $("#searchAll").on("click", function (event) {
           $("#searchMsg").text("No contacts found");
           return;
         } else {
+          $("#searchMsg").text("");
           for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
         }
       }
@@ -154,6 +155,7 @@ $("#add-contact-btn").on("click", function (event) {
           $("#add-error-message").text("Contact already exists");
           return;
         } else {
+          addCard(contact);
           $("#addModal").modal("hide");
           $("#add-contact-email").val("");
           $("#add-contact-number").val("");
