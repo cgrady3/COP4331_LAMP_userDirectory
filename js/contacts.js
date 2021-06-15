@@ -155,7 +155,6 @@ $("#add-contact-btn").on("click", function (event) {
           $("#add-error-message").text("Contact already exists");
           return;
         } else {
-          addCard(contact);
           $("#addModal").modal("hide");
           $("#add-contact-email").val("");
           $("#add-contact-number").val("");
