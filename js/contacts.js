@@ -1,7 +1,7 @@
 var UserID = 0;
 
 window.onload = function () {
-  //validateUser();
+  validateUser();
   $("#add-error-message").text("");
   $("#edit-error-message").text("");
 };
@@ -171,7 +171,6 @@ $("#add-contact-btn").on("click", function (event) {
           $("#add-error-message").text("Contact already exists");
           return;
         } else {
-          addCard(JSON.parse(contact));
           $("#addModal").modal("hide");
           $("#add-contact-email").val("");
           $("#add-contact-number").val("");
