@@ -10,6 +10,10 @@ h3{
     margin-right: 15px;
 }
 
+.hidden{
+    display: none;
+}
+
 #navbar{
     background-color: #D09f74;
 }

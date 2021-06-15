@@ -83,6 +83,7 @@ $("#searchAll").on("click", function (event) {
           $("#searchMsg").text("No contacts found");
           return;
         } else {
+          $("#searchMsg").text("");
           for (var i = 0; i < jsonObject.length; i++) addCard(jsonObject[i]);
         }
       }

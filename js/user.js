@@ -149,6 +149,18 @@ $("#update-lastName").on("click", function (event) {
   updateLast = true;
 });
 
+$("#editUserModal").on('hidden.bs.modal', function () {
+  $("#update-firstName").show();
+  $("#edit-user-firstName").hide();
+  $("#update-lastName").show();
+  $("#edit-user-lastName").hide();
+  $("#update-email").show();
+  $("#edit-user-email").hide();
+  $("#update-pass").show();
+  $("#edit-user-password").hide();
+  $("#edit-error-message").text("");
+})
+
 function getNumContacts() {
   var url = urlBase + "/SearchAllContacts" + extension;
   var xhr = new XMLHttpRequest();
